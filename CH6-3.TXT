@@ -1,0 +1,605 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM E D L C R
+SQL> 
+SQL> REM D L C R
+SQL> 
+SQL> REM D L C R : NATURLA JOIN
+SQL> 
+SQL> REM D L C R : NATURAL JOIN
+SQL> 
+SQL> REM COMMON COLUMN NAME, DATA TYPE MATCHING, VALUES SIMILAR , MEANING SAME
+SQL> 
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                     
+------------- ------------------------------ ---------- -----------                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           50 Shiping                               124        1500                                                                                                                                     
+           60 IT                                    103        1400                                                                                                                                     
+           80 Sales                                 149        2500                                                                                                                                     
+           90 Executive                             100        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+          190 Contracting                                      1700                                                                                                                                     
+
+8 rows selected.
+
+SQL> SELECT * FROM LOCATIONS;
+
+LOCATION_ID STREET_ADRESS                            POSTAL_CODE  CITY                           STATE_PROVINCE            CO                                                                           
+----------- ---------------------------------------- ------------ ------------------------------ ------------------------- --                                                                           
+       1400 2014 Jabberwocky Rd                      26192        Southlake                      Texas                     US                                                                           
+       1500 2011 Interiors Blvd                      99236        South San Francisco            California                US                                                                           
+       1700 2004 Charade Rd                          98199        Seattle                        Washington                US                                                                           
+       1800 460 Bloor St. W.                         ON M5S 1X8   Toronto                        Ontario                   CA                                                                           
+       2500 Magdalen Centre, The Oxford Science Park OX9 9ZB      Oxford                         Oxford                    UK                                                                           
+
+SQL> DESC DEPARTMENTS
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ DEPARTMENT_ID                                                                                                     NOT NULL NUMBER(4)
+ DEPARTMENT_NAME                                                                                                   NOT NULL VARCHAR2(30)
+ MANAGER_ID                                                                                                                 NUMBER(6)
+ LOCATION_ID                                                                                                                NUMBER(4)
+
+SQL> DESC LOCATOINS
+ERROR:
+ORA-04043: object LOCATOINS does not exist 
+
+
+SQL> DESC LOCATIONS
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ LOCATION_ID                                                                                                       NOT NULL NUMBER(4)
+ STREET_ADRESS                                                                                                              VARCHAR2(40)
+ POSTAL_CODE                                                                                                                VARCHAR2(12)
+ CITY                                                                                                              NOT NULL VARCHAR2(30)
+ STATE_PROVINCE                                                                                                             VARCHAR2(25)
+ COUNTRY_ID                                                                                                                 CHAR(2)
+
+SQL> REM DEPARTMENT_NAME , CITY
+SQL> 
+SQL> SELECT DEPARTMENT_NAME , CITY
+  2  FROM DEPARTMENTS
+  3  NATURAL JOIN LOCATIONS;
+
+DEPARTMENT_NAME                CITY                                                                                                                                                                     
+------------------------------ ------------------------------                                                                                                                                           
+Administration                 Seattle                                                                                                                                                                  
+Marketing                      Toronto                                                                                                                                                                  
+Shiping                        South San Francisco                                                                                                                                                      
+IT                             Southlake                                                                                                                                                                
+Sales                          Oxford                                                                                                                                                                   
+Executive                      Seattle                                                                                                                                                                  
+Accounting                     Seattle                                                                                                                                                                  
+Contracting                    Seattle                                                                                                                                                                  
+
+8 rows selected.
+
+SQL> REM COUNTRY_NAME , REGION_NAME
+SQL> 
+SQL> SELECT COUNTRY_NAME , REGION_NAME
+  2  FROM COUNTRIES
+  3  NATURAL JOIN REGIONS;
+
+COUNTRY_NAME                             REGION_NAME                                                                                                                                                    
+---------------------------------------- -------------------------                                                                                                                                      
+Germany                                  Europe                                                                                                                                                         
+United Kingdom                           Europe                                                                                                                                                         
+Canada                                   AMERICAS                                                                                                                                                       
+United States of America                 AMERICAS                                                                                                                                                       
+
+SQL> REM DEPARTMENT_NAME , CITY , COUNTRY_NAME
+SQL> 
+SQL> SELECT DEPARTMENT_NAME , CITY , COUNTRY_NAME
+  2  FROM DEPARTMENTS
+  3  NATURAL JOIN LOCATIONS
+  4  NATURAL JOIN COUNTRIES;
+
+DEPARTMENT_NAME                CITY                           COUNTRY_NAME                                                                                                                              
+------------------------------ ------------------------------ ----------------------------------------                                                                                                  
+Administration                 Seattle                        United States of America                                                                                                                  
+Marketing                      Toronto                        Canada                                                                                                                                    
+Shiping                        South San Francisco            United States of America                                                                                                                  
+IT                             Southlake                      United States of America                                                                                                                  
+Sales                          Oxford                         United Kingdom                                                                                                                            
+Executive                      Seattle                        United States of America                                                                                                                  
+Accounting                     Seattle                        United States of America                                                                                                                  
+Contracting                    Seattle                        United States of America                                                                                                                  
+
+8 rows selected.
+
+SQL> REM DEPARTMENT_NAME , REGION_NAME
+SQL> 
+SQL> SELECT DEPARTMENT_NAME , REGION_NAME
+  2  FROM DEPARTMENTS
+  3  NATURAL JOIN LOCATIONS
+  4  NATURAL JOIN COUNTRIES
+  5  NATURAL JOIN REGIONS;
+
+DEPARTMENT_NAME                REGION_NAME                                                                                                                                                              
+------------------------------ -------------------------                                                                                                                                                
+Administration                 AMERICAS                                                                                                                                                                 
+Marketing                      AMERICAS                                                                                                                                                                 
+Shiping                        AMERICAS                                                                                                                                                                 
+IT                             AMERICAS                                                                                                                                                                 
+Sales                          Europe                                                                                                                                                                   
+Executive                      AMERICAS                                                                                                                                                                 
+Accounting                     AMERICAS                                                                                                                                                                 
+Contracting                    AMERICAS                                                                                                                                                                 
+
+8 rows selected.
+
+SQL> SELECT DEPARTMENT_NAME , REGION_NAME
+  2  FROM DEPARTMENTS
+  3  NATURAL JOIN COUNTRIES
+  4  NATURAL JOIN REGIONS
+  5  NATURAL JOIN LOCATIONS;
+
+DEPARTMENT_NAME                REGION_NAME                                                                                                                                                              
+------------------------------ -------------------------                                                                                                                                                
+Administration                 AMERICAS                                                                                                                                                                 
+Marketing                      AMERICAS                                                                                                                                                                 
+Shiping                        AMERICAS                                                                                                                                                                 
+IT                             AMERICAS                                                                                                                                                                 
+Sales                          Europe                                                                                                                                                                   
+Executive                      AMERICAS                                                                                                                                                                 
+Accounting                     AMERICAS                                                                                                                                                                 
+Contracting                    AMERICAS                                                                                                                                                                 
+
+8 rows selected.
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME LAST_NAME  EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- ---------- ---------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven     King       SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena      Kochhar    NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex        De Haan    LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander  Hunold     AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce      Ernst      BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana      Lorentz    DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin      Mourgos    KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna     Rajs                  650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis     Davies     CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall    Matos      RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter      Vargas     PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni      Zlotkey    EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen      Abel       EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon   Taylor     JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely   Grant      KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer   Whalen     JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael    Hartstein  MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat        Fay        PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley    Higgins    SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William    Gietz      WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> SELECT * FROM DEPARTMENTS;
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                     
+------------- ------------------------------ ---------- -----------                                                                                                                                     
+           10 Administration                        200        1700                                                                                                                                     
+           20 Marketing                             201        1800                                                                                                                                     
+           50 Shiping                               124        1500                                                                                                                                     
+           60 IT                                    103        1400                                                                                                                                     
+           80 Sales                                 149        2500                                                                                                                                     
+           90 Executive                             100        1700                                                                                                                                     
+          110 Accounting                            205        1700                                                                                                                                     
+          190 Contracting                                      1700                                                                                                                                     
+
+8 rows selected.
+
+SQL> SELECT FIRST_NAME , DEPARTMENT_NAME , DEPARTMENT_ID , MANAGER_ID
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN DEPARTMENTS;
+
+FIRST_NAME DEPARTMENT_NAME                DEPARTMENT_ID MANAGER_ID                                                                                                                                      
+---------- ------------------------------ ------------- ----------                                                                                                                                      
+Neena      Executive                                 90        100                                                                                                                                      
+Lex        Executive                                 90        100                                                                                                                                      
+Bruce      IT                                        60        103                                                                                                                                      
+Diana      IT                                        60        103                                                                                                                                      
+Trenna     Shiping                                   50        124                                                                                                                                      
+Curtis     Shiping                                   50        124                                                                                                                                      
+Randall    Shiping                                   50        124                                                                                                                                      
+Peter      Shiping                                   50        124                                                                                                                                      
+Ellen      Sales                                     80        149                                                                                                                                      
+Jonathon   Sales                                     80        149                                                                                                                                      
+Pat        Marketing                                 20        201                                                                                                                                      
+William    Accounting                               110        205                                                                                                                                      
+
+12 rows selected.
+
+SQL> REM INNER .. USING :  FROM TABLE1 INNER JOIN TABLE2 USING (COMMON COLUMN LIST, COMMA SEPARATED)
+SQL> 
+SQL> REM EXAMPLE        : FROM EMPLOYEES INNER JOIN DEPARTMENTS USING (DEPARTMENT_ID)
+SQL> 
+SQL> SELECT FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES
+  3  INNER JOIN DEPARTMENTS;
+INNER JOIN DEPARTMENTS
+                     *
+ERROR at line 3:
+ORA-00905: missing keyword 
+
+
+SQL> SELECT FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES
+  3  INNER JOIN DEPARTMENTS USING (DEPARTMENT_ID);
+
+FIRST_NAME DEPARTMENT_NAME                                                                                                                                                                              
+---------- ------------------------------                                                                                                                                                               
+Jennifer   Administration                                                                                                                                                                               
+Michael    Marketing                                                                                                                                                                                    
+Pat        Marketing                                                                                                                                                                                    
+Kevin      Shiping                                                                                                                                                                                      
+Peter      Shiping                                                                                                                                                                                      
+Randall    Shiping                                                                                                                                                                                      
+Curtis     Shiping                                                                                                                                                                                      
+Trenna     Shiping                                                                                                                                                                                      
+Diana      IT                                                                                                                                                                                           
+Bruce      IT                                                                                                                                                                                           
+Alexander  IT                                                                                                                                                                                           
+Ellen      Sales                                                                                                                                                                                        
+Eleni      Sales                                                                                                                                                                                        
+Jonathon   Sales                                                                                                                                                                                        
+Lex        Executive                                                                                                                                                                                    
+Steven     Executive                                                                                                                                                                                    
+Neena      Executive                                                                                                                                                                                    
+William    Accounting                                                                                                                                                                                   
+Shelley    Accounting                                                                                                                                                                                   
+
+19 rows selected.
+
+SQL> SELECT DEPARTMENT_NAME , CITY
+  2  FROM DEPARTMENTS
+  3  NATURAL JOIN LOCATIONS;
+
+DEPARTMENT_NAME                CITY                                                                                                                                                                     
+------------------------------ ------------------------------                                                                                                                                           
+Administration                 Seattle                                                                                                                                                                  
+Marketing                      Toronto                                                                                                                                                                  
+Shiping                        South San Francisco                                                                                                                                                      
+IT                             Southlake                                                                                                                                                                
+Sales                          Oxford                                                                                                                                                                   
+Executive                      Seattle                                                                                                                                                                  
+Accounting                     Seattle                                                                                                                                                                  
+Contracting                    Seattle                                                                                                                                                                  
+
+8 rows selected.
+
+SQL> SELECT DEPARTMENT_NAME , CITY
+  2  FROM DEPARTMENTS
+  3  JOIN LOCATIONS USING (LOCATION_ID);
+
+DEPARTMENT_NAME                CITY                                                                                                                                                                     
+------------------------------ ------------------------------                                                                                                                                           
+Administration                 Seattle                                                                                                                                                                  
+Marketing                      Toronto                                                                                                                                                                  
+Shiping                        South San Francisco                                                                                                                                                      
+IT                             Southlake                                                                                                                                                                
+Sales                          Oxford                                                                                                                                                                   
+Executive                      Seattle                                                                                                                                                                  
+Accounting                     Seattle                                                                                                                                                                  
+Contracting                    Seattle                                                                                                                                                                  
+
+8 rows selected.
+
+SQL> REM   EMPLOYEES    DEPARTMENTS    LOCATIONS    COUNTRIES     REGIONS
+SQL> 
+SQL> 
+SQL> REM        DEPARTMENTS    LOCATION_ID   COUNTRY_ID    REGION_ID
+SQL> 
+SQL> 
+SQL> REM         MANAGER_ID : MEANINGS ARE DIFFERENT
+SQL> 
+SQL> 
+SQL> REM CITY , COUNTRY_NAME , REGION_NAME
+SQL> 
+SQL> REM 1 NATURAL 2 INNER ... USING ...
+SQL> 
+SQL> SELECT CITY,COUNTRY_NAME,REGION FROM LOCATIONS NATURAL JOIN COUNTRIES INNER JOIN REGIONS USING (REGION_ID);
+SELECT CITY,COUNTRY_NAME,REGION FROM LOCATIONS NATURAL JOIN COUNTRIES INNER JOIN REGIONS USING (REGION_ID)
+                         *
+ERROR at line 1:
+ORA-00904: "REGION": invalid identifier 
+
+
+SQL> SELECT CITY,COUNTRY_NAME,REGION_NAME FROM LOCATIONS NATURAL JOIN COUNTRIES INNER JOIN REGIONS USING (REGION_ID);
+
+CITY                           COUNTRY_NAME                             REGION_NAME                                                                                                                     
+------------------------------ ---------------------------------------- -------------------------                                                                                                       
+Southlake                      United States of America                 AMERICAS                                                                                                                        
+South San Francisco            United States of America                 AMERICAS                                                                                                                        
+Seattle                        United States of America                 AMERICAS                                                                                                                        
+Toronto                        Canada                                   AMERICAS                                                                                                                        
+Oxford                         United Kingdom                           Europe                                                                                                                          
+
+SQL> SELECT CITY,COUNTRY_NAME,REGION_NAME
+  2  FROM LOCATIONS
+  3  INNER JOIN COUNTRIES USING (COUNTRY_ID)
+  4  INNER JOIN REGIONS   USING (REGION_ID);
+
+CITY                           COUNTRY_NAME                             REGION_NAME                                                                                                                     
+------------------------------ ---------------------------------------- -------------------------                                                                                                       
+Southlake                      United States of America                 AMERICAS                                                                                                                        
+South San Francisco            United States of America                 AMERICAS                                                                                                                        
+Seattle                        United States of America                 AMERICAS                                                                                                                        
+Toronto                        Canada                                   AMERICAS                                                                                                                        
+Oxford                         United Kingdom                           Europe                                                                                                                          
+
+SQL> REM DEPARTMENT_NAME , REGION_NAME
+SQL> 
+SQL> REM INNER JOIN .. USING
+SQL> 
+SQL> SELECT DEPARTMENT_NAME , REGION_NAME
+  2  FROM DEPARTMENTS
+  3  JOIN LOCATIONS   USING (LOCATION_ID)
+  4  JOIN COUNTRIES   USING (COUNTRY_ID)
+  5  JOIN REGIONS     USING (REGION_ID);
+
+DEPARTMENT_NAME                REGION_NAME                                                                                                                                                              
+------------------------------ -------------------------                                                                                                                                                
+Administration                 AMERICAS                                                                                                                                                                 
+Marketing                      AMERICAS                                                                                                                                                                 
+Shiping                        AMERICAS                                                                                                                                                                 
+IT                             AMERICAS                                                                                                                                                                 
+Sales                          Europe                                                                                                                                                                   
+Executive                      AMERICAS                                                                                                                                                                 
+Accounting                     AMERICAS                                                                                                                                                                 
+Contracting                    AMERICAS                                                                                                                                                                 
+
+8 rows selected.
+
+SQL> SELECT * FROM COUNTRIES;
+
+CO COUNTRY_NAME                              REGION_ID                                                                                                                                                  
+-- ---------------------------------------- ----------                                                                                                                                                  
+CA Canada                                            2                                                                                                                                                  
+DE Germany                                           1                                                                                                                                                  
+UK United Kingdom                                    1                                                                                                                                                  
+US United States of America                          2                                                                                                                                                  
+
+SQL> SELECT * FROM LOCATIONS;
+
+LOCATION_ID STREET_ADRESS                            POSTAL_CODE  CITY                           STATE_PROVINCE            CO                                                                           
+----------- ---------------------------------------- ------------ ------------------------------ ------------------------- --                                                                           
+       1400 2014 Jabberwocky Rd                      26192        Southlake                      Texas                     US                                                                           
+       1500 2011 Interiors Blvd                      99236        South San Francisco            California                US                                                                           
+       1700 2004 Charade Rd                          98199        Seattle                        Washington                US                                                                           
+       1800 460 Bloor St. W.                         ON M5S 1X8   Toronto                        Ontario                   CA                                                                           
+       2500 Magdalen Centre, The Oxford Science Park OX9 9ZB      Oxford                         Oxford                    UK                                                                           
+
+SQL> SELECT CITY , COUNTRY_NAME
+  2  FROM LOCATIONS
+  3  CROSS JOIN COUNTRIES;
+
+CITY                           COUNTRY_NAME                                                                                                                                                             
+------------------------------ ----------------------------------------                                                                                                                                 
+Southlake                      Canada                                                                                                                                                                   
+South San Francisco            Canada                                                                                                                                                                   
+Seattle                        Canada                                                                                                                                                                   
+Toronto                        Canada                                                                                                                                                                   
+Oxford                         Canada                                                                                                                                                                   
+Southlake                      Germany                                                                                                                                                                  
+South San Francisco            Germany                                                                                                                                                                  
+Seattle                        Germany                                                                                                                                                                  
+Toronto                        Germany                                                                                                                                                                  
+Oxford                         Germany                                                                                                                                                                  
+Southlake                      United Kingdom                                                                                                                                                           
+South San Francisco            United Kingdom                                                                                                                                                           
+Seattle                        United Kingdom                                                                                                                                                           
+Toronto                        United Kingdom                                                                                                                                                           
+Oxford                         United Kingdom                                                                                                                                                           
+Southlake                      United States of America                                                                                                                                                 
+South San Francisco            United States of America                                                                                                                                                 
+Seattle                        United States of America                                                                                                                                                 
+Toronto                        United States of America                                                                                                                                                 
+Oxford                         United States of America                                                                                                                                                 
+
+20 rows selected.
+
+SQL> REM NATURAL JOIN : DUPLICATION OF ALL COMMON COLUMNS IS REMOVED
+SQL> 
+SQL> SELECT * FROM EMPLOYEES
+  2  NATURAL JOIN DEPARTMENTS
+  3  
+SQL> 
+SQL> SET LINES 400
+SQL> 
+SQL> R
+  1  SELECT * FROM EMPLOYEES
+  2* NATURAL JOIN DEPARTMENTS
+
+MANAGER_ID DEPARTMENT_ID EMPLOYEE_ID FIRST_NAME LAST_NAME  EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT DEPARTMENT_NAME                LOCATION_ID                                                                                                                                                                                                                            
+---------- ------------- ----------- ---------- ---------- ---------- -------------------- --------- ---------- ---------- -------------- ------------------------------ -----------                                                                                                                                                                                                                            
+       100            90         101 Neena      Kochhar    NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                Executive                             1700                                                                                                                                                                                                                            
+       100            90         102 Lex        De Haan    LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                Executive                             1700                                                                                                                                                                                                                            
+       103            60         104 Bruce      Ernst      BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                IT                                    1400                                                                                                                                                                                                                            
+       103            60         107 Diana      Lorentz    DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                IT                                    1400                                                                                                                                                                                                                            
+       124            50         141 Trenna     Rajs                  650.121.8009         17-OCT-95 ST_CLERK         3500                Shiping                               1500                                                                                                                                                                                                                            
+       124            50         142 Curtis     Davies     CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                Shiping                               1500                                                                                                                                                                                                                            
+       124            50         143 Randall    Matos      RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                Shiping                               1500                                                                                                                                                                                                                            
+       124            50         144 Peter      Vargas     PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                Shiping                               1500                                                                                                                                                                                                                            
+       149            80         174 Ellen      Abel       EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3 Sales                                 2500                                                                                                                                                                                                                            
+       149            80         176 Jonathon   Taylor     JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3 Sales                                 2500                                                                                                                                                                                                                            
+       201            20         202 Pat        Fay        PFAY       603.123.6666         17-AUG-97 MK_REP           6000                Marketing                             1800                                                                                                                                                                                                                            
+       205           110         206 William    Gietz      WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                Accounting                            1700                                                                                                                                                                                                                            
+
+12 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , MANAGER_ID , FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN DEPARTMENTS;
+
+DEPARTMENT_ID MANAGER_ID FIRST_NAME DEPARTMENT_NAME                                                                                                                                                                                                                                                                                                                                                             
+------------- ---------- ---------- ------------------------------                                                                                                                                                                                                                                                                                                                                              
+           90        100 Neena      Executive                                                                                                                                                                                                                                                                                                                                                                   
+           90        100 Lex        Executive                                                                                                                                                                                                                                                                                                                                                                   
+           60        103 Bruce      IT                                                                                                                                                                                                                                                                                                                                                                          
+           60        103 Diana      IT                                                                                                                                                                                                                                                                                                                                                                          
+           50        124 Trenna     Shiping                                                                                                                                                                                                                                                                                                                                                                     
+           50        124 Curtis     Shiping                                                                                                                                                                                                                                                                                                                                                                     
+           50        124 Randall    Shiping                                                                                                                                                                                                                                                                                                                                                                     
+           50        124 Peter      Shiping                                                                                                                                                                                                                                                                                                                                                                     
+           80        149 Ellen      Sales                                                                                                                                                                                                                                                                                                                                                                       
+           80        149 Jonathon   Sales                                                                                                                                                                                                                                                                                                                                                                       
+           20        201 Pat        Marketing                                                                                                                                                                                                                                                                                                                                                                   
+          110        205 William    Accounting                                                                                                                                                                                                                                                                                                                                                                  
+
+12 rows selected.
+
+SQL> REM WE CAN'T QUALIFY COMMON COLUMNS WHEN WE USE NATURAL JOIN.
+SQL> 
+SQL> SELECT *
+  2  FROM EMPLOYEES
+  3  JOIN DEPARTMENTS USING (DEPARTMENT_ID);
+
+DEPARTMENT_ID EMPLOYEE_ID FIRST_NAME LAST_NAME  EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                                                                                                                 
+------------- ----------- ---------- ---------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- ------------------------------ ---------- -----------                                                                                                                                                                                                                 
+           10         200 Jennifer   Whalen     JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101 Administration                        200        1700                                                                                                                                                                                                                 
+           20         201 Michael    Hartstein  MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100 Marketing                             201        1800                                                                                                                                                                                                                 
+           20         202 Pat        Fay        PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201 Marketing                             201        1800                                                                                                                                                                                                                 
+           50         124 Kevin      Mourgos    KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100 Shiping                               124        1500                                                                                                                                                                                                                 
+           50         144 Peter      Vargas     PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124 Shiping                               124        1500                                                                                                                                                                                                                 
+           50         143 Randall    Matos      RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124 Shiping                               124        1500                                                                                                                                                                                                                 
+           50         142 Curtis     Davies     CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124 Shiping                               124        1500                                                                                                                                                                                                                 
+           50         141 Trenna     Rajs                  650.121.8009         17-OCT-95 ST_CLERK         3500                       124 Shiping                               124        1500                                                                                                                                                                                                                 
+           60         107 Diana      Lorentz    DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103 IT                                    103        1400                                                                                                                                                                                                                 
+           60         104 Bruce      Ernst      BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103 IT                                    103        1400                                                                                                                                                                                                                 
+           60         103 Alexander  Hunold     AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102 IT                                    103        1400                                                                                                                                                                                                                 
+           80         174 Ellen      Abel       EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149 Sales                                 149        2500                                                                                                                                                                                                                 
+           80         149 Eleni      Zlotkey    EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100 Sales                                 149        2500                                                                                                                                                                                                                 
+           80         176 Jonathon   Taylor     JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149 Sales                                 149        2500                                                                                                                                                                                                                 
+           90         102 Lex        De Haan    LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100 Executive                             100        1700                                                                                                                                                                                                                 
+           90         100 Steven     King       SKING      515.123.4567         17-JUL-87 AD_PRES         24000                           Executive                             100        1700                                                                                                                                                                                                                 
+           90         101 Neena      Kochhar    NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100 Executive                             100        1700                                                                                                                                                                                                                 
+          110         206 William    Gietz      WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205 Accounting                            205        1700                                                                                                                                                                                                                 
+          110         205 Shelley    Higgins    SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101 Accounting                            205        1700                                                                                                                                                                                                                 
+
+19 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , MANAGER_ID , FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES
+  3  INNER JOIN DEPARTMENTS USING (DEPARTMENT_ID);
+SELECT DEPARTMENT_ID , MANAGER_ID , FIRST_NAME , DEPARTMENT_NAME
+                       *
+ERROR at line 1:
+ORA-00918: column ambiguously defined 
+
+
+SQL> REM THE COMMON COLUMN WHICH IS PART OF 'USING' CLAUSE CAN'T BE QUALIFIED.
+SQL> 
+SQL> REM THE COMMON COLUMN WHICH IS NOT PART OF 'USING' CLAUSE MUST BE QUALIFIED.
+SQL> 
+SQL> REM WE CAN QUALIFY COLUMNS IN TWO WAYS : 1 TABLENAME.COLUMNNAME 2 TABLEALIAS.COLUMNNAME
+SQL> 
+SQL> SELECT DEPARTMENT_ID , EMPLOYEES.MANAGER_ID , FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES
+  3  INNER JOIN DEPARTMENTS USING (DEPARTMENT_ID);
+
+DEPARTMENT_ID MANAGER_ID FIRST_NAME DEPARTMENT_NAME                                                                                                                                                                                                                                                                                                                                                             
+------------- ---------- ---------- ------------------------------                                                                                                                                                                                                                                                                                                                                              
+           10        101 Jennifer   Administration                                                                                                                                                                                                                                                                                                                                                              
+           20        100 Michael    Marketing                                                                                                                                                                                                                                                                                                                                                                   
+           20        201 Pat        Marketing                                                                                                                                                                                                                                                                                                                                                                   
+           50        100 Kevin      Shiping                                                                                                                                                                                                                                                                                                                                                                     
+           50        124 Peter      Shiping                                                                                                                                                                                                                                                                                                                                                                     
+           50        124 Randall    Shiping                                                                                                                                                                                                                                                                                                                                                                     
+           50        124 Curtis     Shiping                                                                                                                                                                                                                                                                                                                                                                     
+           50        124 Trenna     Shiping                                                                                                                                                                                                                                                                                                                                                                     
+           60        103 Diana      IT                                                                                                                                                                                                                                                                                                                                                                          
+           60        103 Bruce      IT                                                                                                                                                                                                                                                                                                                                                                          
+           60        102 Alexander  IT                                                                                                                                                                                                                                                                                                                                                                          
+           80        149 Ellen      Sales                                                                                                                                                                                                                                                                                                                                                                       
+           80        100 Eleni      Sales                                                                                                                                                                                                                                                                                                                                                                       
+           80        149 Jonathon   Sales                                                                                                                                                                                                                                                                                                                                                                       
+           90        100 Lex        Executive                                                                                                                                                                                                                                                                                                                                                                   
+           90            Steven     Executive                                                                                                                                                                                                                                                                                                                                                                   
+           90        100 Neena      Executive                                                                                                                                                                                                                                                                                                                                                                   
+          110        205 William    Accounting                                                                                                                                                                                                                                                                                                                                                                  
+          110        101 Shelley    Accounting                                                                                                                                                                                                                                                                                                                                                                  
+
+19 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , EMPLOYEES.MANAGER_ID , D.MANAGER_ID , FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES
+  3  INNER JOIN DEPARTMENTS D USING (DEPARTMENT_ID);
+
+DEPARTMENT_ID MANAGER_ID MANAGER_ID FIRST_NAME DEPARTMENT_NAME                                                                                                                                                                                                                                                                                                                                                  
+------------- ---------- ---------- ---------- ------------------------------                                                                                                                                                                                                                                                                                                                                   
+           10        101        200 Jennifer   Administration                                                                                                                                                                                                                                                                                                                                                   
+           20        100        201 Michael    Marketing                                                                                                                                                                                                                                                                                                                                                        
+           20        201        201 Pat        Marketing                                                                                                                                                                                                                                                                                                                                                        
+           50        100        124 Kevin      Shiping                                                                                                                                                                                                                                                                                                                                                          
+           50        124        124 Peter      Shiping                                                                                                                                                                                                                                                                                                                                                          
+           50        124        124 Randall    Shiping                                                                                                                                                                                                                                                                                                                                                          
+           50        124        124 Curtis     Shiping                                                                                                                                                                                                                                                                                                                                                          
+           50        124        124 Trenna     Shiping                                                                                                                                                                                                                                                                                                                                                          
+           60        103        103 Diana      IT                                                                                                                                                                                                                                                                                                                                                               
+           60        103        103 Bruce      IT                                                                                                                                                                                                                                                                                                                                                               
+           60        102        103 Alexander  IT                                                                                                                                                                                                                                                                                                                                                               
+           80        149        149 Ellen      Sales                                                                                                                                                                                                                                                                                                                                                            
+           80        100        149 Eleni      Sales                                                                                                                                                                                                                                                                                                                                                            
+           80        149        149 Jonathon   Sales                                                                                                                                                                                                                                                                                                                                                            
+           90        100        100 Lex        Executive                                                                                                                                                                                                                                                                                                                                                        
+           90                   100 Steven     Executive                                                                                                                                                                                                                                                                                                                                                        
+           90        100        100 Neena      Executive                                                                                                                                                                                                                                                                                                                                                        
+          110        205        205 William    Accounting                                                                                                                                                                                                                                                                                                                                                       
+          110        101        205 Shelley    Accounting                                                                                                                                                                                                                                                                                                                                                       
+
+19 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , EMPLOYEES.MANAGER_ID EMP_MGR, D.MANAGER_ID DEPT_MGR, FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES
+  3  INNER JOIN DEPARTMENTS D USING (DEPARTMENT_ID);
+
+DEPARTMENT_ID    EMP_MGR   DEPT_MGR FIRST_NAME DEPARTMENT_NAME                                                                                                                                                                                                                                                                                                                                                  
+------------- ---------- ---------- ---------- ------------------------------                                                                                                                                                                                                                                                                                                                                   
+           10        101        200 Jennifer   Administration                                                                                                                                                                                                                                                                                                                                                   
+           20        100        201 Michael    Marketing                                                                                                                                                                                                                                                                                                                                                        
+           20        201        201 Pat        Marketing                                                                                                                                                                                                                                                                                                                                                        
+           50        100        124 Kevin      Shiping                                                                                                                                                                                                                                                                                                                                                          
+           50        124        124 Peter      Shiping                                                                                                                                                                                                                                                                                                                                                          
+           50        124        124 Randall    Shiping                                                                                                                                                                                                                                                                                                                                                          
+           50        124        124 Curtis     Shiping                                                                                                                                                                                                                                                                                                                                                          
+           50        124        124 Trenna     Shiping                                                                                                                                                                                                                                                                                                                                                          
+           60        103        103 Diana      IT                                                                                                                                                                                                                                                                                                                                                               
+           60        103        103 Bruce      IT                                                                                                                                                                                                                                                                                                                                                               
+           60        102        103 Alexander  IT                                                                                                                                                                                                                                                                                                                                                               
+           80        149        149 Ellen      Sales                                                                                                                                                                                                                                                                                                                                                            
+           80        100        149 Eleni      Sales                                                                                                                                                                                                                                                                                                                                                            
+           80        149        149 Jonathon   Sales                                                                                                                                                                                                                                                                                                                                                            
+           90        100        100 Lex        Executive                                                                                                                                                                                                                                                                                                                                                        
+           90                   100 Steven     Executive                                                                                                                                                                                                                                                                                                                                                        
+           90        100        100 Neena      Executive                                                                                                                                                                                                                                                                                                                                                        
+          110        205        205 William    Accounting                                                                                                                                                                                                                                                                                                                                                       
+          110        101        205 Shelley    Accounting                                                                                                                                                                                                                                                                                                                                                       
+
+19 rows selected.
+
+SQL> SELECT EMPLOYEES.DEPARTMENT_ID , EMPLOYEES.MANAGER_ID , D.MANAGER_ID , FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES
+  3  INNER JOIN DEPARTMENTS D USING (DEPARTMENT_ID);
+SELECT EMPLOYEES.DEPARTMENT_ID , EMPLOYEES.MANAGER_ID , D.MANAGER_ID , FIRST_NAME , DEPARTMENT_NAME
+       *
+ERROR at line 1:
+ORA-25154: column part of USING clause cannot have qualifier 
+
+
+SQL> SELECT D.DEPARTMENT_ID , EMPLOYEES.MANAGER_ID EMP_MGR, D.MANAGER_ID DEPT_MGR, FIRST_NAME , DEPARTMENT_NAME
+  2  FROM EMPLOYEES
+  3  INNER JOIN DEPARTMENTS D USING (DEPARTMENT_ID);
+SELECT D.DEPARTMENT_ID , EMPLOYEES.MANAGER_ID EMP_MGR, D.MANAGER_ID DEPT_MGR, FIRST_NAME , DEPARTMENT_NAME
+       *
+ERROR at line 1:
+ORA-25154: column part of USING clause cannot have qualifier 
+
+
+SQL> SPOOL
+currently spooling to D:\CH6-3.TXT
+SQL> SPOOL OFF

@@ -1,0 +1,144 @@
+SQL> 
+SQL> REM DISPLAY ALL OTHER THAN THOSE WHO GETS HIGHEST SALARY IN THEIR DEPARTMENT
+SQL> 
+SQL> 
+SQL> REM DISPLAY ALL THOSE WHO GETS HIGHEST SALARY IN THEIR DEPARTMENT
+SQL> 
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE SALARY = (SELECT MAX(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID);
+WHERE SALARY = (SELECT MAX(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID)
+                *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE SALARY IN (SELECT MAX(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID);
+
+FIRST_NAME DEPARTMENT_ID     SALARY                                                                                                                                                                     
+---------- ------------- ----------                                                                                                                                                                     
+Steven                90      24000                                                                                                                                                                     
+Alexander             60       9000                                                                                                                                                                     
+Kevin                 50       5800                                                                                                                                                                     
+Ellen                 80      11000                                                                                                                                                                     
+Kimerely                       7000                                                                                                                                                                     
+Jennifer              10       4400                                                                                                                                                                     
+Michael               20      13000                                                                                                                                                                     
+Shelley              110      12000                                                                                                                                                                     
+
+8 rows selected.
+
+SQL> REM DISPLAY ALL THOSE WHO GETS LOWEST SALARY IN THEIR DEPARTMENT
+SQL> 
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE SALARY IN (SELECT MIN(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID);
+
+FIRST_NAME DEPARTMENT_ID     SALARY                                                                                                                                                                     
+---------- ------------- ----------                                                                                                                                                                     
+Neena                 90      17000                                                                                                                                                                     
+Lex                   90      17000                                                                                                                                                                     
+Bruce                 60       6000                                                                                                                                                                     
+Diana                 60       4200                                                                                                                                                                     
+Peter                 50       2500                                                                                                                                                                     
+Jonathon              80       8600                                                                                                                                                                     
+Kimerely                       7000                                                                                                                                                                     
+Jennifer              10       4400                                                                                                                                                                     
+Pat                   20       6000                                                                                                                                                                     
+William              110       8300                                                                                                                                                                     
+
+10 rows selected.
+
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE (DEPARTMENT_ID , SALARY) IN (SELECT DEPARTMENT_ID , MIN(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID);
+
+FIRST_NAME DEPARTMENT_ID     SALARY                                                                                                                                                                     
+---------- ------------- ----------                                                                                                                                                                     
+Neena                 90      17000                                                                                                                                                                     
+Lex                   90      17000                                                                                                                                                                     
+Pat                   20       6000                                                                                                                                                                     
+William              110       8300                                                                                                                                                                     
+Peter                 50       2500                                                                                                                                                                     
+Jonathon              80       8600                                                                                                                                                                     
+Diana                 60       4200                                                                                                                                                                     
+Jennifer              10       4400                                                                                                                                                                     
+
+8 rows selected.
+
+SQL> WHERE SALARY IN (SELECT MIN(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID);
+SP2-0734: unknown command beginning "WHERE SALA..." - rest of line ignored.
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE (NVL(DEPARTMENT_ID,0) , SALARY) IN (SELECT NVL(DEPARTMENT_ID,0) , MIN(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID);
+
+FIRST_NAME DEPARTMENT_ID     SALARY                                                                                                                                                                     
+---------- ------------- ----------                                                                                                                                                                     
+Kimerely                       7000                                                                                                                                                                     
+Neena                 90      17000                                                                                                                                                                     
+Lex                   90      17000                                                                                                                                                                     
+Pat                   20       6000                                                                                                                                                                     
+William              110       8300                                                                                                                                                                     
+Peter                 50       2500                                                                                                                                                                     
+Jonathon              80       8600                                                                                                                                                                     
+Diana                 60       4200                                                                                                                                                                     
+Jennifer              10       4400                                                                                                                                                                     
+
+9 rows selected.
+
+SQL> REM DISPLAY THOSE WHO GETS HIGHEST SALARY FOR THEIR MANAGER
+SQL> 
+SQL> select first_name,MANAGER_ID,SALARY FROM EMPLOYEES WHERE (NVL(MANAGER_ID,0),SALARY) IN (SELECT NVL(MANAGER_ID,0),MAX(SALARY) FROM EMPLOYEES GROUP BY MANAGER_ID);
+
+FIRST_NAME MANAGER_ID     SALARY                                                                                                                                                                        
+---------- ---------- ----------                                                                                                                                                                        
+Steven                     24000                                                                                                                                                                        
+Neena             100      17000                                                                                                                                                                        
+Lex               100      17000                                                                                                                                                                        
+Ellen             149      11000                                                                                                                                                                        
+William           205       8300                                                                                                                                                                        
+Alexander         102       9000                                                                                                                                                                        
+Pat               201       6000                                                                                                                                                                        
+Shelley           101      12000                                                                                                                                                                        
+Trenna            124       3500                                                                                                                                                                        
+Bruce             103       6000                                                                                                                                                                        
+
+10 rows selected.
+
+SQL> SELECT MANAGER_ID FROM EMPLOYEES WHERE MANAGER_ID > 150;
+
+MANAGER_ID                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+       201                                                                                                                                                                                              
+       205                                                                                                                                                                                              
+
+SQL> SELECT MANAGER_ID FROM EMPLOYEES;
+
+MANAGER_ID                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+                                                                                                                                                                                                        
+       100                                                                                                                                                                                              
+       100                                                                                                                                                                                              
+       102                                                                                                                                                                                              
+       103                                                                                                                                                                                              
+       103                                                                                                                                                                                              
+       100                                                                                                                                                                                              
+       124                                                                                                                                                                                              
+       124                                                                                                                                                                                              
+       124                                                                                                                                                                                              
+       124                                                                                                                                                                                              
+       100                                                                                                                                                                                              
+       149                                                                                                                                                                                              
+       149                                                                                                                                                                                              
+       149                                                                                                                                                                                              
+       101                                                                                                                                                                                              
+       100                                                                                                                                                                                              
+       201                                                                                                                                                                                              
+       101                                                                                                                                                                                              
+       205                                                                                                                                                                                              
+
+20 rows selected.
+
+SQL> SPOOL OFF

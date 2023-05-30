@@ -1,0 +1,422 @@
+SQL> 
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                                                             
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                                                             
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                                                             
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                                                             
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                                                             
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                                                             
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                                                             
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                                                             
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                                                             
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                                                             
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                                                             
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                                                             
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                                                             
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                                                             
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                                                             
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                                                             
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                                                           
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                                                             
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                                                             
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                                                             
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                                                             
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                                                             
+
+20 rows selected.
+
+SQL> REM DISTINCT / UNIQUE , COLUMN ALIAS , DUAL TABLE
+SQL> 
+SQL> REM DISTINCT / UNIQUE : IT IS USED TO REMOVE DUPLICATES FROM THE OUTPUT
+SQL> 
+SQL> SELECT DEPARTMENT_ID FROM EMPLOYEES;
+
+DEPARTMENT_ID                                                                                                                                                                                                                                   
+-------------                                                                                                                                                                                                                                   
+           90                                                                                                                                                                                                                                   
+           90                                                                                                                                                                                                                                   
+           90                                                                                                                                                                                                                                   
+           60                                                                                                                                                                                                                                   
+           60                                                                                                                                                                                                                                   
+           60                                                                                                                                                                                                                                   
+           50                                                                                                                                                                                                                                   
+           50                                                                                                                                                                                                                                   
+           50                                                                                                                                                                                                                                   
+           50                                                                                                                                                                                                                                   
+           50                                                                                                                                                                                                                                   
+           80                                                                                                                                                                                                                                   
+           80                                                                                                                                                                                                                                   
+           80                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                
+           10                                                                                                                                                                                                                                   
+           20                                                                                                                                                                                                                                   
+           20                                                                                                                                                                                                                                   
+          110                                                                                                                                                                                                                                   
+          110                                                                                                                                                                                                                                   
+
+20 rows selected.
+
+SQL> SELECT UNIQUE DEPARTMENT_ID FROM EMPLOYEES;
+
+DEPARTMENT_ID                                                                                                                                                                                                                                   
+-------------                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                
+           90                                                                                                                                                                                                                                   
+           20                                                                                                                                                                                                                                   
+          110                                                                                                                                                                                                                                   
+           50                                                                                                                                                                                                                                   
+           80                                                                                                                                                                                                                                   
+           60                                                                                                                                                                                                                                   
+           10                                                                                                                                                                                                                                   
+
+8 rows selected.
+
+SQL> SELECT DISTINCT DEPARTMENT_ID FROM EMPLOYEES;
+
+DEPARTMENT_ID                                                                                                                                                                                                                                   
+-------------                                                                                                                                                                                                                                   
+                                                                                                                                                                                                                                                
+           90                                                                                                                                                                                                                                   
+           20                                                                                                                                                                                                                                   
+          110                                                                                                                                                                                                                                   
+           50                                                                                                                                                                                                                                   
+           80                                                                                                                                                                                                                                   
+           60                                                                                                                                                                                                                                   
+           10                                                                                                                                                                                                                                   
+
+8 rows selected.
+
+SQL> REM DUAL TABLE : IT IS TABLE WHICH IS GENERATED BY SYSTEM DEFAULT
+SQL> 
+SQL> 
+SQL> SELECT 5 * 7 FROM DUAL;
+
+       5*7                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        35                                                                                                                                                                                                                                      
+
+SQL> REM DUAL HAS ONE COLUMN AND ONE ROW
+SQL> 
+SQL> SELECT 5 * 7 ANS FROM DUAL;
+
+       ANS                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        35                                                                                                                                                                                                                                      
+
+SQL> SELECT 55 * 7 FROM DUAL;
+
+      55*7                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+       385                                                                                                                                                                                                                                      
+
+SQL> SELECT 55 + 7 FROM DUAL;
+
+      55+7                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        62                                                                                                                                                                                                                                      
+
+SQL> SELECT 55 / 7 FROM DUAL;
+
+      55/7                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+7.85714286                                                                                                                                                                                                                                      
+
+SQL> SELECT 55 - 7 FROM DUAL;
+
+      55-7                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        48                                                                                                                                                                                                                                      
+
+SQL> REM DISPLAY 90 ONE TIME WITHOUT USING DUAL TABLE
+SQL> 
+SQL> SELECT 90 FROM DUAL;
+
+        90                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+
+SQL> SELECT 90 FROM EMPLOYEES;
+
+        90                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+
+20 rows selected.
+
+SQL> SELECT DISTINCT 90 FROM EMPLOYEES;
+
+        90                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+
+SQL> SELECT UNIQUE 90 FROM EMPLOYEES;
+
+        90                                                                                                                                                                                                                                      
+----------                                                                                                                                                                                                                                      
+        90                                                                                                                                                                                                                                      
+
+SQL> REM COLUMN ALIAS : IT IS USED TO CHANGE THE COLUMN NAME
+SQL> 
+SQL> REM DISPLAY INCREMENTED SALARY : 1500
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY , SALARY + 1500 FROM EMPLOYEES;
+
+FIRST_NAME          SALARY SALARY+1500                                                                                                                                                                                                          
+--------------- ---------- -----------                                                                                                                                                                                                          
+Steven               24000       25500                                                                                                                                                                                                          
+Neena                17000       18500                                                                                                                                                                                                          
+Lex                  17000       18500                                                                                                                                                                                                          
+Alexander             9000       10500                                                                                                                                                                                                          
+Bruce                 6000        7500                                                                                                                                                                                                          
+Diana                 4200        5700                                                                                                                                                                                                          
+Kevin                 5800        7300                                                                                                                                                                                                          
+Trenna                3500        5000                                                                                                                                                                                                          
+Curtis                3100        4600                                                                                                                                                                                                          
+Randall               2600        4100                                                                                                                                                                                                          
+Peter                 2500        4000                                                                                                                                                                                                          
+Eleni                10500       12000                                                                                                                                                                                                          
+Ellen                11000       12500                                                                                                                                                                                                          
+Jonathon              8600       10100                                                                                                                                                                                                          
+Kimerely              7000        8500                                                                                                                                                                                                          
+Jennifer              4400        5900                                                                                                                                                                                                          
+Michael              13000       14500                                                                                                                                                                                                          
+Pat                   6000        7500                                                                                                                                                                                                          
+Shelley              12000       13500                                                                                                                                                                                                          
+William               8300        9800                                                                                                                                                                                                          
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY , SALARY + 1500 INCREMENTED_SALARY FROM EMPLOYEES;
+
+FIRST_NAME          SALARY INCREMENTED_SALARY                                                                                                                                                                                                   
+--------------- ---------- ------------------                                                                                                                                                                                                   
+Steven               24000              25500                                                                                                                                                                                                   
+Neena                17000              18500                                                                                                                                                                                                   
+Lex                  17000              18500                                                                                                                                                                                                   
+Alexander             9000              10500                                                                                                                                                                                                   
+Bruce                 6000               7500                                                                                                                                                                                                   
+Diana                 4200               5700                                                                                                                                                                                                   
+Kevin                 5800               7300                                                                                                                                                                                                   
+Trenna                3500               5000                                                                                                                                                                                                   
+Curtis                3100               4600                                                                                                                                                                                                   
+Randall               2600               4100                                                                                                                                                                                                   
+Peter                 2500               4000                                                                                                                                                                                                   
+Eleni                10500              12000                                                                                                                                                                                                   
+Ellen                11000              12500                                                                                                                                                                                                   
+Jonathon              8600              10100                                                                                                                                                                                                   
+Kimerely              7000               8500                                                                                                                                                                                                   
+Jennifer              4400               5900                                                                                                                                                                                                   
+Michael              13000              14500                                                                                                                                                                                                   
+Pat                   6000               7500                                                                                                                                                                                                   
+Shelley              12000              13500                                                                                                                                                                                                   
+William               8300               9800                                                                                                                                                                                                   
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY , SALARY + 1500 INCREMENTED SALARY FROM EMPLOYEES;
+SELECT FIRST_NAME , SALARY , SALARY + 1500 INCREMENTED SALARY FROM EMPLOYEES
+                                                       *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT FIRST_NAME , SALARY , SALARY + 1500 "INCREMENTED SALARY" FROM EMPLOYEES;
+
+FIRST_NAME          SALARY INCREMENTED SALARY                                                                                                                                                                                                   
+--------------- ---------- ------------------                                                                                                                                                                                                   
+Steven               24000              25500                                                                                                                                                                                                   
+Neena                17000              18500                                                                                                                                                                                                   
+Lex                  17000              18500                                                                                                                                                                                                   
+Alexander             9000              10500                                                                                                                                                                                                   
+Bruce                 6000               7500                                                                                                                                                                                                   
+Diana                 4200               5700                                                                                                                                                                                                   
+Kevin                 5800               7300                                                                                                                                                                                                   
+Trenna                3500               5000                                                                                                                                                                                                   
+Curtis                3100               4600                                                                                                                                                                                                   
+Randall               2600               4100                                                                                                                                                                                                   
+Peter                 2500               4000                                                                                                                                                                                                   
+Eleni                10500              12000                                                                                                                                                                                                   
+Ellen                11000              12500                                                                                                                                                                                                   
+Jonathon              8600              10100                                                                                                                                                                                                   
+Kimerely              7000               8500                                                                                                                                                                                                   
+Jennifer              4400               5900                                                                                                                                                                                                   
+Michael              13000              14500                                                                                                                                                                                                   
+Pat                   6000               7500                                                                                                                                                                                                   
+Shelley              12000              13500                                                                                                                                                                                                   
+William               8300               9800                                                                                                                                                                                                   
+
+20 rows selected.
+
+SQL> REM DUAL TABLE
+SQL> 
+SQL> SELECT OMNAMAHSHIVAY FROM DUAL;
+SELECT OMNAMAHSHIVAY FROM DUAL
+       *
+ERROR at line 1:
+ORA-00904: "OMNAMAHSHIVAY": invalid identifier 
+
+
+SQL> SELECT 'OMNAMAHSHIVAY' FROM DUAL;
+
+'OMNAMAHSHIVA                                                                                                                                                                                                                                   
+-------------                                                                                                                                                                                                                                   
+OMNAMAHSHIVAY                                                                                                                                                                                                                                   
+
+SQL> SELECT 'OMNAMAHSHIVAY' NAME FROM DUAL;
+
+NAME                                                                                                                                                                                                                                            
+-------------                                                                                                                                                                                                                                   
+OMNAMAHSHIVAY                                                                                                                                                                                                                                   
+
+SQL> REM Q / QUOTE OPERATOR
+SQL> 
+SQL> REM STEVEN SALARY IS RS.24000 /-.
+SQL> 
+SQL> SELECT FIRST_NAME || ' SALARY IS RS.' || SALARY || '/-.' FROM EMPLOYEES
+  2  ;
+
+FIRST_NAME||'SALARYISRS.'||SALARY||'/-.'                                                                                                                                                                                                        
+------------------------------------------------------------------------                                                                                                                                                                        
+Steven SALARY IS RS.24000/-.                                                                                                                                                                                                                    
+Neena SALARY IS RS.17000/-.                                                                                                                                                                                                                     
+Lex SALARY IS RS.17000/-.                                                                                                                                                                                                                       
+Alexander SALARY IS RS.9000/-.                                                                                                                                                                                                                  
+Bruce SALARY IS RS.6000/-.                                                                                                                                                                                                                      
+Diana SALARY IS RS.4200/-.                                                                                                                                                                                                                      
+Kevin SALARY IS RS.5800/-.                                                                                                                                                                                                                      
+Trenna SALARY IS RS.3500/-.                                                                                                                                                                                                                     
+Curtis SALARY IS RS.3100/-.                                                                                                                                                                                                                     
+Randall SALARY IS RS.2600/-.                                                                                                                                                                                                                    
+Peter SALARY IS RS.2500/-.                                                                                                                                                                                                                      
+Eleni SALARY IS RS.10500/-.                                                                                                                                                                                                                     
+Ellen SALARY IS RS.11000/-.                                                                                                                                                                                                                     
+Jonathon SALARY IS RS.8600/-.                                                                                                                                                                                                                   
+Kimerely SALARY IS RS.7000/-.                                                                                                                                                                                                                   
+Jennifer SALARY IS RS.4400/-.                                                                                                                                                                                                                   
+Michael SALARY IS RS.13000/-.                                                                                                                                                                                                                   
+Pat SALARY IS RS.6000/-.                                                                                                                                                                                                                        
+Shelley SALARY IS RS.12000/-.                                                                                                                                                                                                                   
+William SALARY IS RS.8300/-.                                                                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> REM STEVEN'S SALARY IS RS.24000 /-.
+SQL> 
+SQL> SELECT FIRST_NAME || '''s SALARY IS RS.' || SALARY || '/-.' FROM EMPLOYEES
+  2  ;
+
+FIRST_NAME||'''SSALARYISRS.'||SALARY||'/-.'                                                                                                                                                                                                     
+--------------------------------------------------------------------------                                                                                                                                                                      
+Steven's SALARY IS RS.24000/-.                                                                                                                                                                                                                  
+Neena's SALARY IS RS.17000/-.                                                                                                                                                                                                                   
+Lex's SALARY IS RS.17000/-.                                                                                                                                                                                                                     
+Alexander's SALARY IS RS.9000/-.                                                                                                                                                                                                                
+Bruce's SALARY IS RS.6000/-.                                                                                                                                                                                                                    
+Diana's SALARY IS RS.4200/-.                                                                                                                                                                                                                    
+Kevin's SALARY IS RS.5800/-.                                                                                                                                                                                                                    
+Trenna's SALARY IS RS.3500/-.                                                                                                                                                                                                                   
+Curtis's SALARY IS RS.3100/-.                                                                                                                                                                                                                   
+Randall's SALARY IS RS.2600/-.                                                                                                                                                                                                                  
+Peter's SALARY IS RS.2500/-.                                                                                                                                                                                                                    
+Eleni's SALARY IS RS.10500/-.                                                                                                                                                                                                                   
+Ellen's SALARY IS RS.11000/-.                                                                                                                                                                                                                   
+Jonathon's SALARY IS RS.8600/-.                                                                                                                                                                                                                 
+Kimerely's SALARY IS RS.7000/-.                                                                                                                                                                                                                 
+Jennifer's SALARY IS RS.4400/-.                                                                                                                                                                                                                 
+Michael's SALARY IS RS.13000/-.                                                                                                                                                                                                                 
+Pat's SALARY IS RS.6000/-.                                                                                                                                                                                                                      
+Shelley's SALARY IS RS.12000/-.                                                                                                                                                                                                                 
+William's SALARY IS RS.8300/-.                                                                                                                                                                                                                  
+
+20 rows selected.
+
+SQL> REM Q OPERATOR
+SQL> 
+SQL> 
+SQL> REM STEVEN SALARY IS RS.24000 /-.
+SQL> 
+SQL> SELECT FIRST_NAME || Q' SALARY IS RS.'' || SALARY || '/-.' FROM EMPLOYEES
+  2  ;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT FIRST_NAME || Q'' SALARY IS RS.'' || SALARY || '/-.' FROM EMPLOYEES;
+
+FIRST_NAME||Q''SALARYISRS.''||SALARY||'/-.'                                                                                                                                                                                                     
+------------------------------------------------------------------------                                                                                                                                                                        
+Steven SALARY IS RS.24000/-.                                                                                                                                                                                                                    
+Neena SALARY IS RS.17000/-.                                                                                                                                                                                                                     
+Lex SALARY IS RS.17000/-.                                                                                                                                                                                                                       
+Alexander SALARY IS RS.9000/-.                                                                                                                                                                                                                  
+Bruce SALARY IS RS.6000/-.                                                                                                                                                                                                                      
+Diana SALARY IS RS.4200/-.                                                                                                                                                                                                                      
+Kevin SALARY IS RS.5800/-.                                                                                                                                                                                                                      
+Trenna SALARY IS RS.3500/-.                                                                                                                                                                                                                     
+Curtis SALARY IS RS.3100/-.                                                                                                                                                                                                                     
+Randall SALARY IS RS.2600/-.                                                                                                                                                                                                                    
+Peter SALARY IS RS.2500/-.                                                                                                                                                                                                                      
+Eleni SALARY IS RS.10500/-.                                                                                                                                                                                                                     
+Ellen SALARY IS RS.11000/-.                                                                                                                                                                                                                     
+Jonathon SALARY IS RS.8600/-.                                                                                                                                                                                                                   
+Kimerely SALARY IS RS.7000/-.                                                                                                                                                                                                                   
+Jennifer SALARY IS RS.4400/-.                                                                                                                                                                                                                   
+Michael SALARY IS RS.13000/-.                                                                                                                                                                                                                   
+Pat SALARY IS RS.6000/-.                                                                                                                                                                                                                        
+Shelley SALARY IS RS.12000/-.                                                                                                                                                                                                                   
+William SALARY IS RS.8300/-.                                                                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> REM STEVEN'S SALARY IS RS.24000 /-.
+SQL> 
+SQL> 
+SQL> SELECT FIRST_NAME || Q'''s SALARY IS RS.'' || SALARY || '/-.' FROM EMPLOYEES
+  2  ;
+
+FIRST_NAME||Q'''SSALARYISRS.''||SALARY||'/-.'                                                                                                                                                                                                   
+--------------------------------------------------------------------------                                                                                                                                                                      
+Steven's SALARY IS RS.24000/-.                                                                                                                                                                                                                  
+Neena's SALARY IS RS.17000/-.                                                                                                                                                                                                                   
+Lex's SALARY IS RS.17000/-.                                                                                                                                                                                                                     
+Alexander's SALARY IS RS.9000/-.                                                                                                                                                                                                                
+Bruce's SALARY IS RS.6000/-.                                                                                                                                                                                                                    
+Diana's SALARY IS RS.4200/-.                                                                                                                                                                                                                    
+Kevin's SALARY IS RS.5800/-.                                                                                                                                                                                                                    
+Trenna's SALARY IS RS.3500/-.                                                                                                                                                                                                                   
+Curtis's SALARY IS RS.3100/-.                                                                                                                                                                                                                   
+Randall's SALARY IS RS.2600/-.                                                                                                                                                                                                                  
+Peter's SALARY IS RS.2500/-.                                                                                                                                                                                                                    
+Eleni's SALARY IS RS.10500/-.                                                                                                                                                                                                                   
+Ellen's SALARY IS RS.11000/-.                                                                                                                                                                                                                   
+Jonathon's SALARY IS RS.8600/-.                                                                                                                                                                                                                 
+Kimerely's SALARY IS RS.7000/-.                                                                                                                                                                                                                 
+Jennifer's SALARY IS RS.4400/-.                                                                                                                                                                                                                 
+Michael's SALARY IS RS.13000/-.                                                                                                                                                                                                                 
+Pat's SALARY IS RS.6000/-.                                                                                                                                                                                                                      
+Shelley's SALARY IS RS.12000/-.                                                                                                                                                                                                                 
+William's SALARY IS RS.8300/-.                                                                                                                                                                                                                  
+
+20 rows selected.
+
+SQL> SPOOL OFF

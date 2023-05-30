@@ -1,0 +1,333 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM FIRST_NAME , HIRE_DATE , SALARY , YEAR_MAX_SAL , QTR_MIN_SAL , YEAR_DIFF , QTR_DIFF
+SQL> 
+SQL> SELECT FIRST_NAME, HIRE_DATE, SALARY, YEAR_MAX_SAL, QTR_MIN_SAL, YEAR_MAX_SAL-SALARY YEAR_DIFF, SALARY-QTR_MIN_SAL QTR_DIFF
+  2  FROM (SELECT FIRST_NAME, HIRE_DATE, SALARY, TO_CHAR(HIRE_DATE,'RRRR') YEAR, TO_CHAR(HIRE_DATE,'Q') QTR FROM EMPLOYEES) E
+  3  JOIN (SELECT TO_CHAR(HIRE_DATE,'RRRR') YEAR , MAX(SALARY) YEAR_MAX_SAL FROM EMPLOYEES GROUP BY TO_CHAR(HIRE_DATE,'RRRR')) USING (YEAR)
+  4  JOIN (SELECT TO_CHAR(HIRE_DATE,'Q')QTR , MIN(SALARY) QTR_MIN_SAL  FROM EMPLOYEES GROUP BY TO_CHAR(HIRE_DATE,'Q')) Q ON E.QTR=Q.QTR;
+
+FIRST_NAME      HIRE_DATE     SALARY YEAR_MAX_SAL QTR_MIN_SAL  YEAR_DIFF   QTR_DIFF                                                                                                                     
+--------------- --------- ---------- ------------ ----------- ---------- ----------                                                                                                                     
+Lex             13-JAN-93      17000        17000        2600          0      14400                                                                                                                     
+Alexander       03-JAN-90       9000         9000        2600          0       6400                                                                                                                     
+Diana           07-FEB-99       4200         7000        2600       2800       1600                                                                                                                     
+Curtis          29-JAN-97       3100         6000        2600       2900        500                                                                                                                     
+Randall         15-MAR-98       2600         8600        2600       6000          0                                                                                                                     
+Eleni           29-JAN-00      10500        10500        2600          0       7900                                                                                                                     
+Jonathon        24-MAR-98       8600         8600        2600          0       6000                                                                                                                     
+Michael         17-FEB-96      13000        13000        2600          0      10400                                                                                                                     
+Steven          17-JUL-87      24000        24000        2500          0      21500                                                                                                                     
+Neena           21-SEP-89      17000        17000        2500          0      14500                                                                                                                     
+Peter           09-JUL-98       2500         8600        2500       6100          0                                                                                                                     
+Jennifer        17-SEP-87       4400        24000        2500      19600       1900                                                                                                                     
+Pat             17-AUG-97       6000         6000        2500          0       3500                                                                                                                     
+Bruce           21-MAY-91       6000         6000        6000          0          0                                                                                                                     
+Ellen           11-MAY-96      11000        13000        6000       2000       5000                                                                                                                     
+Kimerely        24-MAY-99       7000         7000        6000          0       1000                                                                                                                     
+Shelley         07-JUN-94      12000        12000        6000          0       6000                                                                                                                     
+William         07-JUN-94       8300        12000        6000       3700       2300                                                                                                                     
+Kevin           16-NOV-99       5800         7000        3500       1200       2300                                                                                                                     
+Trenna          17-OCT-95       3500         3500        3500          0          0                                                                                                                     
+
+20 rows selected.
+
+SQL> REM FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , MIN_SAL_JOB , MAX_SAL_JOB
+SQL> 
+SQL> SELECT * FROM JOBS;
+
+JOB_ID     JOB_TITLE                           MIN_SALARY MAX_SALARY                                                                                                                                    
+---------- ----------------------------------- ---------- ----------                                                                                                                                    
+AD_PRES    President                                20000      40000                                                                                                                                    
+AD_VP      Administration Vice President            15000      30000                                                                                                                                    
+AD_ASST    Administration Assistant                  3000       6000                                                                                                                                    
+AC_MGR     Accounting Manager                        8200      16000                                                                                                                                    
+AC_ACCOUNT Public Accountant                         4200       9000                                                                                                                                    
+SA_MAN     Sales Manager                            10000      20000                                                                                                                                    
+SA_REP     Sales Representative                      6000      12000                                                                                                                                    
+ST_MAN     Stock Manager                             5500       8500                                                                                                                                    
+ST_CLERK   Stock Clerk                               2000       5000                                                                                                                                    
+IT_PROG    Programmer                                4000      10000                                                                                                                                    
+MK_MAN     Marketing Manager                         9000      15000                                                                                                                                    
+MK_REP     Marketing Representative                  4000       9000                                                                                                                                    
+
+12 rows selected.
+
+SQL> REM FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+SQL> 
+SQL> SELECT FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN JOBS
+  4  NATURLL JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID);
+NATURLL JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID)
+                                                                                                              *
+ERROR at line 4:
+ORA-00905: missing keyword 
+
+
+SQL> SELECT FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN JOBS
+  4  NATURAL JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID);
+
+FIRST_NAME      JOB_ID     JOB_TITLE                               SALARY JOB_MIN_SAL JOB_MAX_SAL                                                                                                       
+--------------- ---------- ----------------------------------- ---------- ----------- -----------                                                                                                       
+Steven          AD_PRES    President                                24000       24000       24000                                                                                                       
+Neena           AD_VP      Administration Vice President            17000       17000       17000                                                                                                       
+Lex             AD_VP      Administration Vice President            17000       17000       17000                                                                                                       
+Alexander       IT_PROG    Programmer                                9000        4200        9000                                                                                                       
+Bruce           IT_PROG    Programmer                                6000        4200        9000                                                                                                       
+Diana           IT_PROG    Programmer                                4200        4200        9000                                                                                                       
+Kevin           ST_MAN     Stock Manager                             5800        5800        5800                                                                                                       
+Trenna          ST_CLERK   Stock Clerk                               3500        2500        3500                                                                                                       
+Curtis          ST_CLERK   Stock Clerk                               3100        2500        3500                                                                                                       
+Randall         ST_CLERK   Stock Clerk                               2600        2500        3500                                                                                                       
+Peter           ST_CLERK   Stock Clerk                               2500        2500        3500                                                                                                       
+Eleni           SA_MAN     Sales Manager                            10500       10500       10500                                                                                                       
+Ellen           SA_REP     Sales Representative                     11000        7000       11000                                                                                                       
+Jonathon        SA_REP     Sales Representative                      8600        7000       11000                                                                                                       
+Kimerely        SA_REP     Sales Representative                      7000        7000       11000                                                                                                       
+Jennifer        AD_ASST    Administration Assistant                  4400        4400        4400                                                                                                       
+Michael         MK_MAN     Marketing Manager                        13000       13000       13000                                                                                                       
+Pat             MK_REP     Marketing Representative                  6000        6000        6000                                                                                                       
+Shelley         AC_MGR     Accounting Manager                       12000       12000       12000                                                                                                       
+William         AC_ACCOUNT Public Accountant                         8300        8300        8300                                                                                                       
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES
+  3  JOIN JOBS USING (JOB_ID)
+  4  JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID) USING (JOB_ID);
+
+FIRST_NAME      JOB_ID     JOB_TITLE                               SALARY JOB_MIN_SAL JOB_MAX_SAL                                                                                                       
+--------------- ---------- ----------------------------------- ---------- ----------- -----------                                                                                                       
+Steven          AD_PRES    President                                24000       24000       24000                                                                                                       
+Neena           AD_VP      Administration Vice President            17000       17000       17000                                                                                                       
+Lex             AD_VP      Administration Vice President            17000       17000       17000                                                                                                       
+Alexander       IT_PROG    Programmer                                9000        4200        9000                                                                                                       
+Bruce           IT_PROG    Programmer                                6000        4200        9000                                                                                                       
+Diana           IT_PROG    Programmer                                4200        4200        9000                                                                                                       
+Kevin           ST_MAN     Stock Manager                             5800        5800        5800                                                                                                       
+Trenna          ST_CLERK   Stock Clerk                               3500        2500        3500                                                                                                       
+Curtis          ST_CLERK   Stock Clerk                               3100        2500        3500                                                                                                       
+Randall         ST_CLERK   Stock Clerk                               2600        2500        3500                                                                                                       
+Peter           ST_CLERK   Stock Clerk                               2500        2500        3500                                                                                                       
+Eleni           SA_MAN     Sales Manager                            10500       10500       10500                                                                                                       
+Ellen           SA_REP     Sales Representative                     11000        7000       11000                                                                                                       
+Jonathon        SA_REP     Sales Representative                      8600        7000       11000                                                                                                       
+Kimerely        SA_REP     Sales Representative                      7000        7000       11000                                                                                                       
+Jennifer        AD_ASST    Administration Assistant                  4400        4400        4400                                                                                                       
+Michael         MK_MAN     Marketing Manager                        13000       13000       13000                                                                                                       
+Pat             MK_REP     Marketing Representative                  6000        6000        6000                                                                                                       
+Shelley         AC_MGR     Accounting Manager                       12000       12000       12000                                                                                                       
+William         AC_ACCOUNT Public Accountant                         8300        8300        8300                                                                                                       
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES E
+  3  JOIN JOBS J ON E.JOB_ID = J.JOB_ID
+  4  JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID) JS ON J.JOB_ID = JS.JOB_ID;
+SELECT FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+                    *
+ERROR at line 1:
+ORA-00918: column ambiguously defined 
+
+
+SQL> SELECT FIRST_NAME , E.JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES E
+  3  JOIN JOBS J ON E.JOB_ID = J.JOB_ID
+  4  JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID) JS ON J.JOB_ID = JS.JOB_ID;
+
+FIRST_NAME      JOB_ID     JOB_TITLE                               SALARY JOB_MIN_SAL JOB_MAX_SAL                                                                                                       
+--------------- ---------- ----------------------------------- ---------- ----------- -----------                                                                                                       
+Steven          AD_PRES    President                                24000       24000       24000                                                                                                       
+Neena           AD_VP      Administration Vice President            17000       17000       17000                                                                                                       
+Lex             AD_VP      Administration Vice President            17000       17000       17000                                                                                                       
+Alexander       IT_PROG    Programmer                                9000        4200        9000                                                                                                       
+Bruce           IT_PROG    Programmer                                6000        4200        9000                                                                                                       
+Diana           IT_PROG    Programmer                                4200        4200        9000                                                                                                       
+Kevin           ST_MAN     Stock Manager                             5800        5800        5800                                                                                                       
+Trenna          ST_CLERK   Stock Clerk                               3500        2500        3500                                                                                                       
+Curtis          ST_CLERK   Stock Clerk                               3100        2500        3500                                                                                                       
+Randall         ST_CLERK   Stock Clerk                               2600        2500        3500                                                                                                       
+Peter           ST_CLERK   Stock Clerk                               2500        2500        3500                                                                                                       
+Eleni           SA_MAN     Sales Manager                            10500       10500       10500                                                                                                       
+Ellen           SA_REP     Sales Representative                     11000        7000       11000                                                                                                       
+Jonathon        SA_REP     Sales Representative                      8600        7000       11000                                                                                                       
+Kimerely        SA_REP     Sales Representative                      7000        7000       11000                                                                                                       
+Jennifer        AD_ASST    Administration Assistant                  4400        4400        4400                                                                                                       
+Michael         MK_MAN     Marketing Manager                        13000       13000       13000                                                                                                       
+Pat             MK_REP     Marketing Representative                  6000        6000        6000                                                                                                       
+Shelley         AC_MGR     Accounting Manager                       12000       12000       12000                                                                                                       
+William         AC_ACCOUNT Public Accountant                         8300        8300        8300                                                                                                       
+
+20 rows selected.
+
+SQL> REM FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+SQL> 
+SQL> SELECT FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN JOBS
+  4  JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID) J ON J.JOB_ID = JOBS.JOB_ID
+  5  
+SQL> 
+SQL> SELECT FIRST_NAME , J.JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN JOBS
+  4  JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID) J ON J.JOB_ID = JOBS.JOB_ID;
+JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID) J ON J.JOB_ID = JOBS.JOB_ID
+                                                                                                                        *
+ERROR at line 4:
+ORA-25155: column used in NATURAL join cannot have qualifier 
+
+
+SQL> SELECT FIRST_NAME , J.JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN JOBS
+  4  JOIN (SELECT JOB_ID JID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID) ON JID = JOB_ID;
+SELECT FIRST_NAME , J.JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+                    *
+ERROR at line 1:
+ORA-00904: "J"."JOB_ID": invalid identifier 
+
+
+SQL> SELECT FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN JOBS
+  4  JOIN (SELECT JOB_ID JID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID) ON JID = JOB_ID;
+
+FIRST_NAME      JOB_ID     JOB_TITLE                               SALARY JOB_MIN_SAL JOB_MAX_SAL                                                                                                       
+--------------- ---------- ----------------------------------- ---------- ----------- -----------                                                                                                       
+Steven          AD_PRES    President                                24000       24000       24000                                                                                                       
+Neena           AD_VP      Administration Vice President            17000       17000       17000                                                                                                       
+Lex             AD_VP      Administration Vice President            17000       17000       17000                                                                                                       
+Alexander       IT_PROG    Programmer                                9000        4200        9000                                                                                                       
+Bruce           IT_PROG    Programmer                                6000        4200        9000                                                                                                       
+Diana           IT_PROG    Programmer                                4200        4200        9000                                                                                                       
+Kevin           ST_MAN     Stock Manager                             5800        5800        5800                                                                                                       
+Trenna          ST_CLERK   Stock Clerk                               3500        2500        3500                                                                                                       
+Curtis          ST_CLERK   Stock Clerk                               3100        2500        3500                                                                                                       
+Randall         ST_CLERK   Stock Clerk                               2600        2500        3500                                                                                                       
+Peter           ST_CLERK   Stock Clerk                               2500        2500        3500                                                                                                       
+Eleni           SA_MAN     Sales Manager                            10500       10500       10500                                                                                                       
+Ellen           SA_REP     Sales Representative                     11000        7000       11000                                                                                                       
+Jonathon        SA_REP     Sales Representative                      8600        7000       11000                                                                                                       
+Kimerely        SA_REP     Sales Representative                      7000        7000       11000                                                                                                       
+Jennifer        AD_ASST    Administration Assistant                  4400        4400        4400                                                                                                       
+Michael         MK_MAN     Marketing Manager                        13000       13000       13000                                                                                                       
+Pat             MK_REP     Marketing Representative                  6000        6000        6000                                                                                                       
+Shelley         AC_MGR     Accounting Manager                       12000       12000       12000                                                                                                       
+William         AC_ACCOUNT Public Accountant                         8300        8300        8300                                                                                                       
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES
+  3  JOIN JOBS USING (JOB_ID)
+  4  JOIN (SELECT JOB_ID JID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID) ON JID = JOB_ID;
+
+FIRST_NAME      JOB_ID     JOB_TITLE                               SALARY JOB_MIN_SAL JOB_MAX_SAL                                                                                                       
+--------------- ---------- ----------------------------------- ---------- ----------- -----------                                                                                                       
+Steven          AD_PRES    President                                24000       24000       24000                                                                                                       
+Neena           AD_VP      Administration Vice President            17000       17000       17000                                                                                                       
+Lex             AD_VP      Administration Vice President            17000       17000       17000                                                                                                       
+Alexander       IT_PROG    Programmer                                9000        4200        9000                                                                                                       
+Bruce           IT_PROG    Programmer                                6000        4200        9000                                                                                                       
+Diana           IT_PROG    Programmer                                4200        4200        9000                                                                                                       
+Kevin           ST_MAN     Stock Manager                             5800        5800        5800                                                                                                       
+Trenna          ST_CLERK   Stock Clerk                               3500        2500        3500                                                                                                       
+Curtis          ST_CLERK   Stock Clerk                               3100        2500        3500                                                                                                       
+Randall         ST_CLERK   Stock Clerk                               2600        2500        3500                                                                                                       
+Peter           ST_CLERK   Stock Clerk                               2500        2500        3500                                                                                                       
+Eleni           SA_MAN     Sales Manager                            10500       10500       10500                                                                                                       
+Ellen           SA_REP     Sales Representative                     11000        7000       11000                                                                                                       
+Jonathon        SA_REP     Sales Representative                      8600        7000       11000                                                                                                       
+Kimerely        SA_REP     Sales Representative                      7000        7000       11000                                                                                                       
+Jennifer        AD_ASST    Administration Assistant                  4400        4400        4400                                                                                                       
+Michael         MK_MAN     Marketing Manager                        13000       13000       13000                                                                                                       
+Pat             MK_REP     Marketing Representative                  6000        6000        6000                                                                                                       
+Shelley         AC_MGR     Accounting Manager                       12000       12000       12000                                                                                                       
+William         AC_ACCOUNT Public Accountant                         8300        8300        8300                                                                                                       
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , JOB_ID , JOB_TITLE , SALARY , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES
+  3  JOIN JOBS USING (JOB_ID)
+  4  JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID) J ON J.JOB_ID = JOB_ID;
+JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID) J ON J.JOB_ID = JOB_ID
+                                                                                                                        *
+ERROR at line 4:
+ORA-00918: column ambiguously defined 
+
+
+SQL> REM FIRST_NAME , DEPARTMENT_ID , DEPARTMENT_NAME , SALARY , JOB_ID , JOB_MIN_SAL , JOB_MAX_SAL
+SQL> 
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , DEPARTMENT_NAME , SALARY , JOB_ID , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES
+  3  NATURAL JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID)
+  4  JOIN DEPARTMENTS USING (DEPARTMENT_ID);
+
+FIRST_NAME      DEPARTMENT_ID DEPARTMENT_NAME                    SALARY JOB_ID     JOB_MIN_SAL JOB_MAX_SAL                                                                                              
+--------------- ------------- ------------------------------ ---------- ---------- ----------- -----------                                                                                              
+Diana                      60 IT                                   4200 IT_PROG           4200        9000                                                                                              
+Bruce                      60 IT                                   6000 IT_PROG           4200        9000                                                                                              
+Alexander                  60 IT                                   9000 IT_PROG           4200        9000                                                                                              
+Shelley                   110 Accounting                          12000 AC_MGR           12000       12000                                                                                              
+William                   110 Accounting                           8300 AC_ACCOUNT        8300        8300                                                                                              
+Kevin                      50 Shiping                              5800 ST_MAN            5800        5800                                                                                              
+Jennifer                   10 Administration                       4400 AD_ASST           4400        4400                                                                                              
+Lex                        90 Executive                           17000 AD_VP            17000       17000                                                                                              
+Neena                      90 Executive                           17000 AD_VP            17000       17000                                                                                              
+Eleni                      80 Sales                               10500 SA_MAN           10500       10500                                                                                              
+Michael                    20 Marketing                           13000 MK_MAN           13000       13000                                                                                              
+Steven                     90 Executive                           24000 AD_PRES          24000       24000                                                                                              
+Ellen                      80 Sales                               11000 SA_REP            7000       11000                                                                                              
+Jonathon                   80 Sales                                8600 SA_REP            7000       11000                                                                                              
+Pat                        20 Marketing                            6000 MK_REP            6000        6000                                                                                              
+Peter                      50 Shiping                              2500 ST_CLERK          2500        3500                                                                                              
+Randall                    50 Shiping                              2600 ST_CLERK          2500        3500                                                                                              
+Curtis                     50 Shiping                              3100 ST_CLERK          2500        3500                                                                                              
+Trenna                     50 Shiping                              3500 ST_CLERK          2500        3500                                                                                              
+
+19 rows selected.
+
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , DEPARTMENT_NAME , SALARY , JOB_ID , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES E
+  3  NATURAL JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID)
+  4  JOIN DEPARTMENTS D ON E.DEPARTMENT_ID = D.DEPARTMENT_ID
+  5  
+SQL> 
+SQL> SELECT FIRST_NAME , D.DEPARTMENT_ID , DEPARTMENT_NAME , SALARY , JOB_ID , JOB_MIN_SAL , JOB_MAX_SAL
+  2  FROM EMPLOYEES E
+  3  NATURAL JOIN (SELECT JOB_ID , MIN(SALARY) JOB_MIN_SAL , MAX(SALARY) JOB_MAX_SAL FROM EMPLOYEES GROUP BY JOB_ID)
+  4  JOIN DEPARTMENTS D ON E.DEPARTMENT_ID = D.DEPARTMENT_ID;
+
+FIRST_NAME      DEPARTMENT_ID DEPARTMENT_NAME                    SALARY JOB_ID     JOB_MIN_SAL JOB_MAX_SAL                                                                                              
+--------------- ------------- ------------------------------ ---------- ---------- ----------- -----------                                                                                              
+Diana                      60 IT                                   4200 IT_PROG           4200        9000                                                                                              
+Bruce                      60 IT                                   6000 IT_PROG           4200        9000                                                                                              
+Alexander                  60 IT                                   9000 IT_PROG           4200        9000                                                                                              
+Shelley                   110 Accounting                          12000 AC_MGR           12000       12000                                                                                              
+William                   110 Accounting                           8300 AC_ACCOUNT        8300        8300                                                                                              
+Kevin                      50 Shiping                              5800 ST_MAN            5800        5800                                                                                              
+Jennifer                   10 Administration                       4400 AD_ASST           4400        4400                                                                                              
+Lex                        90 Executive                           17000 AD_VP            17000       17000                                                                                              
+Neena                      90 Executive                           17000 AD_VP            17000       17000                                                                                              
+Eleni                      80 Sales                               10500 SA_MAN           10500       10500                                                                                              
+Michael                    20 Marketing                           13000 MK_MAN           13000       13000                                                                                              
+Steven                     90 Executive                           24000 AD_PRES          24000       24000                                                                                              
+Ellen                      80 Sales                               11000 SA_REP            7000       11000                                                                                              
+Jonathon                   80 Sales                                8600 SA_REP            7000       11000                                                                                              
+Pat                        20 Marketing                            6000 MK_REP            6000        6000                                                                                              
+Peter                      50 Shiping                              2500 ST_CLERK          2500        3500                                                                                              
+Randall                    50 Shiping                              2600 ST_CLERK          2500        3500                                                                                              
+Curtis                     50 Shiping                              3100 ST_CLERK          2500        3500                                                                                              
+Trenna                     50 Shiping                              3500 ST_CLERK          2500        3500                                                                                              
+
+19 rows selected.
+
+SQL> SPOOL OFF

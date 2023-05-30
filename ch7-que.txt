@@ -1,0 +1,268 @@
+(1)REM DISPLAY INFO. ABOUT EMPLOYEE WHO GETS HIGHEST SALARY IN COMPANY.
+=>SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES WHERE SALARY = (SELECT MAX(SALARY) FROM EMPLOYEES);
+
+(2) DISPLAY INFO. ABOUT EMPLOYEE WHO WERE HIRED LAST IN COMPANY.
+=> SELECT * FROM EMPLOYEES WHERE HIRE_DATE = (SELECT MAX(HIRE_DATE) FROM EMPLOYEES);
+
+(3)DISPLAY INFO. ABOUT EMPLOYEES WHO GETS LOWEST COMMISSION PCT.
+=>SELECT * FROM EMPLOYEES WHERE COMMISSION_PCT=(SELECT MIN(COMMISSION_PCT) FROM EMPLOYEES);
+
+(4)DISPLAY INFO. ABOUT EMPLOYEE WHO GETS HIGHEST COMMISSION AMOUNT.
+=>SELECT * FROM EMPLOYEES WHERE SALARY*COMMISSION_PCT =(SELECT MAX(COMMISSION_PCT*SALARY) FROM EMPLOYEES);
+
+(5) DISPLAY THOSE WHO GETS EITHER LOWEST OR HIGHEST SALARY IN COMPANY.
+=> SELECT FIRST_NAME,SALARY FROM EMPLOYEES WHERE SALARY=(SELECT  MIN(SALARY)  FROM EMPLOYEES)OR SALARY=(SELECT  MAX(SALARY)  FROM EMPLOYEES);
+
+FIRST_NAME     SALARY                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+Steven          24000                                                                                                                                                                                   
+Peter            2500                                                                                                                                                                                   
+
+=> SELECT FIRST_NAME,SALARY FROM EMPLOYEES WHERE SALARY = ANY ((SELECT  MIN(SALARY)  FROM EMPLOYEES) , (SELECT  MAX(SALARY)  FROM EMPLOYEES));
+=> SELECT FIRST_NAME,SALARY FROM EMPLOYEES WHERE SALARY = SOME ((SELECT  MIN(SALARY)  FROM EMPLOYEES) , (SELECT  MAX(SALARY)  FROM EMPLOYEES));
+=> SELECT FIRST_NAME,SALARY FROM EMPLOYEES WHERE SALARY IN ((SELECT  MIN(SALARY)  FROM EMPLOYEES) , (SELECT  MAX(SALARY)  FROM EMPLOYEES));
+=> SELECT FIRST_NAME,SALARY FROM EMPLOYEES WHERE SALARY LIKE (SELECT  MIN(SALARY)  FROM EMPLOYEES) OR SALARY LIKE (SELECT  MAX(SALARY)  FROM EMPLOYEES);
+
+(6) DISPLAY ALL OTHER THAN THOSE WHO GETS EITHER LOWEST OR HIGHEST SALARY.
+
+SQL> SELECT FIRST_NAME , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE SALARY NOT IN ((SELECT MIN(SALARY) FROM EMPLOYEES),
+  4                       (SELECT MAX
+(SALARY) FROM EMPLOYEES));
+
+FIRST_NAME     SALARY                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+Steven          24000                                                                                                                                                                                   
+Neena           17000                                                                                                                                                                                   
+Lex             17000                                                                                                                                                                                   
+Alexander        9000                                                                                                                                                                                   
+Bruce            6000                                                                                                                                                                                   
+Diana            4200                                                                                                                                                                                   
+Kevin            5800                                                                                                                                                                                   
+Trenna           3500                                                                                                                                                                                   
+Curtis           3100                                                                                                                                                                                   
+Randall          2600                                                                                                                                                                                   
+Eleni           10500                                                                                                                                                                                   
+Ellen           11000                                                                                                                                                                                   
+Jonathon         8600                                                                                                                                                                                   
+Kimerely         7000                                                                                                                                                                                   
+Jennifer         4400                                                                                                                                                                                   
+Michael         13000                                                                                                                                                                                   
+Pat              6000                                                                                                                                                                                   
+Shelley         12000                                                                                                                                                                                   
+William          8300                                                                                                                                                                                   
+
+19 rows selected.
+
+=> SELECT FIRST_NAME , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE SALARY BETWEEN (SELECT MIN(SALARY)+1 FROM EMPLOYEES)
+  4                  AND  (SELECT MAX(SALARY)-1 FROM EMPLOYEES);
+
+=>SELECT FIRST_NAME , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE SALARY BETWEEN (SELECT MIN(SALARY) FROM EMPLOYEES) + 1
+  4                  AND  (SELECT MAX(SALARY) FROM EMPLOYEES) - 1;
+
+=>SELECT FIRST_NAME , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE SALARY > (SELECT MIN(SALARY) FROM EMPLOYEES)
+  4  AND   SALARY < (SELECT MAX(SALARY) FROM EMPLOYEES);
+
+(7)DISPLAY INFO. ABOUT EMPLOYEES WHO GETS HIGHER SALARY THAN AVERAGE SALARY PAID TO DEPARTMENT 80
+=>SELECT FIRST_NAME , SALARY , DEPARTMENT_ID
+  2  FROM EMPLOYEES
+  3  WHERE SALARY > (SELECT AVG(SALARY) FROM EMPLOYEES WHERE DEPARTMENT_ID = 80);
+
+FIRST_NAME     SALARY DEPARTMENT_ID                                                                                                                                                                     
+---------- ---------- -------------                                                                                                                                                                     
+Steven          24000            90                                                                                                                                                                     
+Neena           17000            90                                                                                                                                                                     
+Lex             17000            90                                                                                                                                                                     
+Eleni           10500            80                                                                                                                                                                     
+Ellen           11000            80                                                                                                                                                                     
+Michael         13000            20                                                                                                                                                                     
+Shelley         12000           110                                                                                                                                                                     
+
+7 rows selected.
+
+(8)REM DISPLAY THOSE WHO GETS LOWER SALARY THAN AVERAGE SALARY PAID WHO WERE HIRED IN YEAR 99.
+ 
+=>SELECT FIRST_NAME , SALARY , HIRE_DATE
+  2  FROM EMPLOYEES
+  3  WHERE SALARY < (SELECT AVG(SALARY) FROM EMPLOYEES WHERE HIRE_DATE LIKE '%99');
+
+FIRST_NAME     SALARY HIRE_DATE                                                                                                                                                                         
+---------- ---------- ---------                                                                                                                                                                         
+Diana            4200 07-FEB-99                                                                                                                                                                         
+Trenna           3500 17-OCT-95                                                                                                                                                                         
+Curtis           3100 29-JAN-97                                                                                                                                                                         
+Randall          2600 15-MAR-98                                                                                                                                                                         
+Peter            2500 09-JUL-98                                                                                                                                                                         
+Jennifer         4400 17-SEP-87                                                                                                                                                                         
+
+6 rows selected.
+
+(9)REM DISPLAY INFO. ABOUT EMPLOYEES OF DEPARTMENT 110 WHO GETS HIGHER SALARY THAN AVERAGE SALARY PAID BY COMPANY.
+=>SELECT FIRST_NAME , SALARY , DEPARTMENT_ID
+  FROM EMPLOYEES
+  WHERE DEPARTMENT_ID = 110 AND SALARY > (SELECT AVG(SALARY) FROM EMPLOYEES);
+
+FIRST_NAME     SALARY DEPARTMENT_ID                                                                                                                                                                     
+---------- ---------- -------------                                                                                                                                                                     
+Shelley         12000           110                                                                                                                                                                     
+
+(10)REM DISPLAY INFO. ABOUT IT_PROG WHO GETS HIGHER SALARY THAN AVERAGE SALARY PAID BY COMPANY.
+
+=> SELECT FIRST_NAME , SALARY , JOB_ID
+   FROM EMPLOYEES
+   WHERE JOB_ID = 'IT_PROG' AND SALARY > (SELECT AVG(SALARY) FROM EMPLOYEES);
+
+FIRST_NAME     SALARY JOB_ID                                                                                                                                                                            
+---------- ---------- ----------                                                                                                                                                                        
+Alexander        9000 IT_PROG                                                                                                                                                                           
+
+
+(11) REM DISPLAY THOSE WHO REPORTS TO MANAGER 100 AND GET SALARY HIGHER THAN AVERAGE SALARY PAID TO IT_PROG.
+=>  SELECT FIRST_NAME , SALARY , MANAGER_ID , JOB_ID
+    FROM EMPLOYEES
+    WHERE MANAGER_ID = 100 AND SALARY > (SELECT AVG(SALARY) FROM EMPLOYEES WHERE JOB_ID = 'IT_PROG');
+
+FIRST_NAME     SALARY MANAGER_ID JOB_ID                                                                                                                                                                 
+---------- ---------- ---------- ----------                                                                                                                                                             
+Neena           17000        100 AD_VP                                                                                                                                                                  
+Lex             17000        100 AD_VP                                                                                                                                                                  
+Eleni           10500        100 SA_MAN                                                                                                                                                                 
+Michael         13000        100 MK_MAN        
+
+(12)DISPLAY ALL THOSE WHO GETS LOWEST SALARY IN THEIR DEPARTMENT
+=> SELECT FIRST_NAME , DEPARTMENT_ID , SALARY
+   FROM EMPLOYEES
+   WHERE (NVL(DEPARTMENT_ID,0) , SALARY) IN (SELECT NVL(DEPARTMENT_ID,0) , MIN(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID);
+
+FIRST_NAME DEPARTMENT_ID     SALARY                                                                                                                                                                     
+---------- ------------- ----------                                                                                                                                                                     
+Kimerely                       7000                                                                                                                                                                     
+Neena                 90      17000                                                                                                                                                                     
+Lex                   90      17000                                                                                                                                                                     
+Pat                   20       6000                                                                                                                                                                     
+William              110       8300                                                                                                                                                                     
+Peter                 50       2500                                                                                                                                                                     
+Jonathon              80       8600                                                                                                                                                                     
+Diana                 60       4200                                                                                                                                                                     
+Jennifer              10       4400                                                                                                                                                                     
+
+9 rows selected.
+
+(13)DISPLAY THOSE WHO GETS HIGHEST SALARY FOR THEIR MANAGER
+=>SELECT FIRST_NAME,MANAGER_ID,SALARY 
+  FROM EMPLOYEES WHERE (NVL(MANAGER_ID,0),SALARY) IN (SELECT NVL(MANAGER_ID,0),MAX(SALARY) FROM EMPLOYEES GROUP BY MANAGER_ID);
+
+FIRST_NAME MANAGER_ID     SALARY                                                                                                                                                                        
+---------- ---------- ----------                                                                                                                                                                        
+Steven                     24000                                                                                                                                                                        
+Neena             100      17000                                                                                                                                                                        
+Lex               100      17000                                                                                                                                                                        
+Ellen             149      11000                                                                                                                                                                        
+William           205       8300                                                                                                                                                                        
+Alexander         102       9000                                                                                                                                                                        
+Pat               201       6000                                                                                                                                                                        
+Shelley           101      12000                                                                                                                                                                        
+Trenna            124       3500                                                                                                                                                                        
+Bruce             103       6000                                                                                                                                                                        
+
+10 rows selected.
+
+(14)REM DISPLAY ALL WHO GETS HIGHEST SALARY FOR THEIR GRADE_LEVEL.
+=>SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+  WHERE SALARY IN
+  (SELECT MAX(SALARY) FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL GROUP BY GRADE_LEVEL);
+
+FIRST_NAME     SALARY                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+Steven          24000                                                                                                                                                                                   
+Alexander        9000                                                                                                                                                                                   
+Kevin            5800                                                                                                                                                                                   
+Randall          2600                                                                                                                                                                                   
+Michael         13000                                                                                                                                                                                   
+=============================================================================part 2======================================================
+
+(15) REM DISPLAY THOSE WHO GETS HIGHER SALARY THAN Abel
+=> SELECT LAST_NAME , SALARY FROM EMPLOYEES WHERE SALARY > (SELECT SALARY FROM EMPLOYEES WHERE LAST_NAME = 'Abel');
+
+LAST_NAME      SALARY                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+King            24000                                                                                                                                                                                   
+Kochhar         17000                                                                                                                                                                                   
+De Haan         17000                                                                                                                                                                                   
+Hartstein       13000                                                                                                                                                                                   
+Higgins         12000                                                                                                                                                                                   
+
+(16) REM DISPLAY THOSE WHO WERE HIRED BEFORE Hartstein
+=>SELECT FIRST_NAME,HIRE_DATE FROM EMPLOYEES WHERE HIRE_DATE<(SELECT HIRE_DATE FROM EMPLOYEES WHERE LAST_NAME LIKE '%Hartstein');
+
+FIRST_NAME HIRE_DATE                                                                                                                                                                                    
+---------- ---------                                                                                                                                                                                    
+Steven     17-JUL-87                                                                                                                                                                                    
+Neena      21-SEP-89                                                                                                                                                                                    
+Lex        13-JAN-93                                                                                                                                                                                    
+Alexander  03-JAN-90                                                                                                                                                                                    
+Bruce      21-MAY-91                                                                                                                                                                                    
+Trenna     17-OCT-95                                                                                                                                                                                    
+Jennifer   17-SEP-87                                                                                                                                                                                    
+Shelley    07-JUN-94                                                                                                                                                                                    
+William    07-JUN-94                                                                                                                                                                                    
+
+(17) REM DISPLAY INFO. ABOUT THOSE WHO REPORTS TO Kevin
+=> SELECT FIRST_NAME , MANAGER_ID FROM EMPLOYEES WHERE MANAGER_ID = (SELECT EMPLOYEE_ID FROM EMPLOYEES WHERE FIRST_NAME = 'Kevin');
+
+FIRST_NAME MANAGER_ID                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+Trenna            124                                                                                                                                                                                   
+Curtis            124                                                                                                                                                                                   
+Randall           124                                                                                                                                                                                   
+Peter             124                                                                                                                                                                                   
+                                                                                                                                                         
+(18)REM DISPLAY THOSE WHO REPORTS TO Jonathon's MANAGER.
+=>SELECT FIRST_NAME , MANAGER_ID FROM EMPLOYEES WHERE MANAGER_ID =(SELECT MANAGER_ID FROM EMPLOYEES WHERE FIRST_NAME ='Jonathon');
+
+FIRST_NAME MANAGER_ID                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+Ellen             149                                                                                                                                                                                   
+Jonathon          149                                                                                                                                                                                   
+Kimerely          149                                                                                                                                                                                   
+
+(19)REM DISPLAY THOSE WHO GETS HIGHER COMMISSION AMOUNT THAN Zlotkey
+=>SELECT FIRST_NAME FROM EMPLOYEES WHERE COMMISSION_PCT*SALARY>(SELECT COMMISSION_PCT*SALARY  FROM EMPLOYEES WHERE LAST_NAME='Zlotkey');
+
+FIRST_NAME                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+Ellen                                                                                                                                                                                                   
+Jonathon                                                                                                                                                                                                
+
+
+(20)REM DISPLAY THOSE WHO DOES SAME JOB WHICH Curtis DOES. EXCLUDE Curtis.
+=>SELECT FIRST_NAME FROM EMPLOYEES WHERE JOB_ID = (SELECT JOB_ID FROM EMPLOYEES WHERE FIRST_NAME = 'Curtis') AND FIRST_NAME <> 'Curtis';
+
+FIRST_NAME                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+Trenna                                                                                                                                                                                                  
+Randall                                                                                                                                                                                                 
+Peter                                                                                                                                                                                                   
+
+(21)REM DISPLAY THOSE WHO GETS SALARY IN THE RANGE OF Alexander and Kevin.
+=>SELECT FIRST_NAME FROM EMPLOYEES WHERE SALARY BETWEEN (SELECT MIN(SALARY) FROM EMPLOYEES WHERE FIRST_NAME IN ('Kevin','Alexander')) AND
+                                                        (SELECT MAX(SALARY) FROM EMPLOYEES WHERE FIRST_NAME=ANY ('Alexander','Kevin'));
+
+FIRST_NAME                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+Alexander                                                                                                                                                                                               
+Bruce                                                                                                                                                                                                   
+Kevin                                                                                                                                                                                                   
+Jonathon                                                                                                                                                                                                
+Kimerely                                                                                                                                                                                                
+Pat                                                                                                                                                                                                     
+William                                                                                                                                                                                                 
+
+7 rows selected.

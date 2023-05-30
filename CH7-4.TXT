@@ -1,0 +1,463 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM DISPLAY THOSE WHO GETS LOWEST SALARY FOR THEIR DEPARTMENT
+SQL> 
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE SALARY = (SELECT MIN(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID);
+WHERE SALARY = (SELECT MIN(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID)
+                *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE SALARY IN (SELECT MIN(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID)
+  4  ORDER BY 2;
+
+FIRST_NAME DEPARTMENT_ID     SALARY                                                                                                                                                                     
+---------- ------------- ----------                                                                                                                                                                     
+Jennifer              10       4400                                                                                                                                                                     
+Pat                   20       6000                                                                                                                                                                     
+Peter                 50       2500                                                                                                                                                                     
+Bruce                 60       6000                                                                                                                                                                     
+Diana                 60       4200                                                                                                                                                                     
+Jonathon              80       8600                                                                                                                                                                     
+Lex                   90      17000                                                                                                                                                                     
+Neena                 90      17000                                                                                                                                                                     
+William              110       8300                                                                                                                                                                     
+Kimerely                       7000                                                                                                                                                                     
+
+10 rows selected.
+
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE (DEPARTMENT_ID , SALARY) IN (SELECT DEPARTMENT_ID , MIN(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID)
+  4  ORDER BY 2;
+
+FIRST_NAME DEPARTMENT_ID     SALARY                                                                                                                                                                     
+---------- ------------- ----------                                                                                                                                                                     
+Jennifer              10       4400                                                                                                                                                                     
+Pat                   20       6000                                                                                                                                                                     
+Peter                 50       2500                                                                                                                                                                     
+Diana                 60       4200                                                                                                                                                                     
+Jonathon              80       8600                                                                                                                                                                     
+Neena                 90      17000                                                                                                                                                                     
+Lex                   90      17000                                                                                                                                                                     
+William              110       8300                                                                                                                                                                     
+
+8 rows selected.
+
+SQL> SELECT FIRST_NAME , DEPARTMENT_ID , SALARY
+  2  FROM EMPLOYEES
+  3  WHERE (NVL(DEPARTMENT_ID,0) , SALARY) IN (SELECT NVL(DEPARTMENT_ID,0) , MIN(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID)
+  4  ORDER BY 2;
+
+FIRST_NAME DEPARTMENT_ID     SALARY                                                                                                                                                                     
+---------- ------------- ----------                                                                                                                                                                     
+Jennifer              10       4400                                                                                                                                                                     
+Pat                   20       6000                                                                                                                                                                     
+Peter                 50       2500                                                                                                                                                                     
+Diana                 60       4200                                                                                                                                                                     
+Jonathon              80       8600                                                                                                                                                                     
+Neena                 90      17000                                                                                                                                                                     
+Lex                   90      17000                                                                                                                                                                     
+William              110       8300                                                                                                                                                                     
+Kimerely                       7000                                                                                                                                                                     
+
+9 rows selected.
+
+SQL> REM DISPLAY ALL WHO GETS HIGHEST SALARY FOR THEIR GRADE_LEVEL.
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY , GRADE_LEVEL FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL;
+
+FIRST_NAME     SALARY GRA                                                                                                                                                                               
+---------- ---------- ---                                                                                                                                                                               
+Peter            2500 A                                                                                                                                                                                 
+Randall          2600 A                                                                                                                                                                                 
+Curtis           3100 B                                                                                                                                                                                 
+Trenna           3500 B                                                                                                                                                                                 
+Diana            4200 B                                                                                                                                                                                 
+Jennifer         4400 B                                                                                                                                                                                 
+Kevin            5800 B                                                                                                                                                                                 
+Bruce            6000 C                                                                                                                                                                                 
+Pat              6000 C                                                                                                                                                                                 
+Kimerely         7000 C                                                                                                                                                                                 
+William          8300 C                                                                                                                                                                                 
+Jonathon         8600 C                                                                                                                                                                                 
+Alexander        9000 C                                                                                                                                                                                 
+Eleni           10500 D                                                                                                                                                                                 
+Ellen           11000 D                                                                                                                                                                                 
+Shelley         12000 D                                                                                                                                                                                 
+Michael         13000 D                                                                                                                                                                                 
+Neena           17000 E                                                                                                                                                                                 
+Lex             17000 E                                                                                                                                                                                 
+Steven          24000 E                                                                                                                                                                                 
+
+20 rows selected.
+
+SQL> SELECT MAX(SALARY) , GRADE_LEVEL FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL GROUP BY GRADE_LEVEL;
+
+MAX(SALARY) GRA                                                                                                                                                                                         
+----------- ---                                                                                                                                                                                         
+      13000 D                                                                                                                                                                                           
+       2600 A                                                                                                                                                                                           
+       5800 B                                                                                                                                                                                           
+       9000 C                                                                                                                                                                                           
+      24000 E                                                                                                                                                                                           
+
+SQL> SELECT * FROM JOB_GRADES;
+
+GRA LOWEST_SAL HIGHEST_SAL                                                                                                                                                                              
+--- ---------- -----------                                                                                                                                                                              
+A         1000        2999                                                                                                                                                                              
+B         3000        5999                                                                                                                                                                              
+C         6000        9999                                                                                                                                                                              
+D        10000       14999                                                                                                                                                                              
+E        15000       24999                                                                                                                                                                              
+F        25000       40000                                                                                                                                                                              
+
+6 rows selected.
+
+SQL> SELECT MAX(SALARY) FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL GROUP BY GRADE_LEVEL;
+
+MAX(SALARY)                                                                                                                                                                                             
+-----------                                                                                                                                                                                             
+      13000                                                                                                                                                                                             
+       2600                                                                                                                                                                                             
+       5800                                                                                                                                                                                             
+       9000                                                                                                                                                                                             
+      24000                                                                                                                                                                                             
+
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+  2  WHERE SALARY IN
+  3  (SELECT MAX(SALARY) FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL GROUP BY GRADE_LEVEL);
+
+FIRST_NAME     SALARY                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+Steven          24000                                                                                                                                                                                   
+Alexander        9000                                                                                                                                                                                   
+Kevin            5800                                                                                                                                                                                   
+Randall          2600                                                                                                                                                                                   
+Michael         13000                                                                                                                                                                                   
+
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+  2  WHERE SALARY IN
+  3  (SELECT MAX(SALARY) FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL GROUP BY GRADE_LEVEL)
+  4  ORDER BY 2;
+
+FIRST_NAME     SALARY                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+Randall          2600                                                                                                                                                                                   
+Kevin            5800                                                                                                                                                                                   
+Alexander        9000                                                                                                                                                                                   
+Michael         13000                                                                                                                                                                                   
+Steven          24000                                                                                                                                                                                   
+
+SQL> SELECT * FROM JOB_GRADES;
+
+GRA LOWEST_SAL HIGHEST_SAL                                                                                                                                                                              
+--- ---------- -----------                                                                                                                                                                              
+A         1000        2999                                                                                                                                                                              
+B         3000        5999                                                                                                                                                                              
+C         6000        9999                                                                                                                                                                              
+D        10000       14999                                                                                                                                                                              
+E        15000       24999                                                                                                                                                                              
+F        25000       40000                                                                                                                                                                              
+
+6 rows selected.
+
+SQL> SELECT FIRST_NAME, SALARY
+  2  FROM EMPLOYEES WHERE SALARY IN
+  3  (SELECT MAX(SALARY) FROM EMPLOYEES JOIN JOB_GRADES ON SALARY BETWEEN LOWEST_SAL AND HIGHEST_SAL GROUP BY GRADE_LEVEL)
+  4  ORDER BY 2;
+
+FIRST_NAME     SALARY                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+Randall          2600                                                                                                                                                                                   
+Kevin            5800                                                                                                                                                                                   
+Alexander        9000                                                                                                                                                                                   
+Michael         13000                                                                                                                                                                                   
+Steven          24000                                                                                                                                                                                   
+
+SQL> SELECT E.FIRST_NAME EMP_NAME , C.FIRST_NAME COLL_NAME
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES C ON E.DEPARTMENT_ID = C.DEPARTMENT_ID;
+
+EMP_NAME   COLL_NAME                                                                                                                                                                                    
+---------- ----------                                                                                                                                                                                   
+Steven     Steven                                                                                                                                                                                       
+Neena      Steven                                                                                                                                                                                       
+Lex        Steven                                                                                                                                                                                       
+Steven     Neena                                                                                                                                                                                        
+Neena      Neena                                                                                                                                                                                        
+Lex        Neena                                                                                                                                                                                        
+Steven     Lex                                                                                                                                                                                          
+Neena      Lex                                                                                                                                                                                          
+Lex        Lex                                                                                                                                                                                          
+Alexander  Alexander                                                                                                                                                                                    
+Bruce      Alexander                                                                                                                                                                                    
+Diana      Alexander                                                                                                                                                                                    
+Alexander  Bruce                                                                                                                                                                                        
+Bruce      Bruce                                                                                                                                                                                        
+Diana      Bruce                                                                                                                                                                                        
+Alexander  Diana                                                                                                                                                                                        
+Bruce      Diana                                                                                                                                                                                        
+Diana      Diana                                                                                                                                                                                        
+Kevin      Kevin                                                                                                                                                                                        
+Trenna     Kevin                                                                                                                                                                                        
+Curtis     Kevin                                                                                                                                                                                        
+
+EMP_NAME   COLL_NAME                                                                                                                                                                                    
+---------- ----------                                                                                                                                                                                   
+Randall    Kevin                                                                                                                                                                                        
+Peter      Kevin                                                                                                                                                                                        
+Kevin      Trenna                                                                                                                                                                                       
+Trenna     Trenna                                                                                                                                                                                       
+Curtis     Trenna                                                                                                                                                                                       
+Randall    Trenna                                                                                                                                                                                       
+Peter      Trenna                                                                                                                                                                                       
+Kevin      Curtis                                                                                                                                                                                       
+Trenna     Curtis                                                                                                                                                                                       
+Curtis     Curtis                                                                                                                                                                                       
+Randall    Curtis                                                                                                                                                                                       
+Peter      Curtis                                                                                                                                                                                       
+Kevin      Randall                                                                                                                                                                                      
+Trenna     Randall                                                                                                                                                                                      
+Curtis     Randall                                                                                                                                                                                      
+Randall    Randall                                                                                                                                                                                      
+Peter      Randall                                                                                                                                                                                      
+Kevin      Peter                                                                                                                                                                                        
+Trenna     Peter                                                                                                                                                                                        
+Curtis     Peter                                                                                                                                                                                        
+Randall    Peter                                                                                                                                                                                        
+
+EMP_NAME   COLL_NAME                                                                                                                                                                                    
+---------- ----------                                                                                                                                                                                   
+Peter      Peter                                                                                                                                                                                        
+Eleni      Eleni                                                                                                                                                                                        
+Ellen      Eleni                                                                                                                                                                                        
+Jonathon   Eleni                                                                                                                                                                                        
+Eleni      Ellen                                                                                                                                                                                        
+Ellen      Ellen                                                                                                                                                                                        
+Jonathon   Ellen                                                                                                                                                                                        
+Eleni      Jonathon                                                                                                                                                                                     
+Ellen      Jonathon                                                                                                                                                                                     
+Jonathon   Jonathon                                                                                                                                                                                     
+Jennifer   Jennifer                                                                                                                                                                                     
+Michael    Michael                                                                                                                                                                                      
+Pat        Michael                                                                                                                                                                                      
+Michael    Pat                                                                                                                                                                                          
+Pat        Pat                                                                                                                                                                                          
+Shelley    Shelley                                                                                                                                                                                      
+William    Shelley                                                                                                                                                                                      
+Shelley    William                                                                                                                                                                                      
+William    William                                                                                                                                                                                      
+
+61 rows selected.
+
+SQL> SELECT E.FIRST_NAME EMP_NAME , C.FIRST_NAME COLL_NAME
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES C ON E.DEPARTMENT_ID = C.DEPARTMENT_ID AND E.EMPLOYEE_ID <> C.EMPLOYEE_ID;
+
+EMP_NAME   COLL_NAME                                                                                                                                                                                    
+---------- ----------                                                                                                                                                                                   
+Neena      Steven                                                                                                                                                                                       
+Lex        Steven                                                                                                                                                                                       
+Steven     Neena                                                                                                                                                                                        
+Lex        Neena                                                                                                                                                                                        
+Steven     Lex                                                                                                                                                                                          
+Neena      Lex                                                                                                                                                                                          
+Bruce      Alexander                                                                                                                                                                                    
+Diana      Alexander                                                                                                                                                                                    
+Alexander  Bruce                                                                                                                                                                                        
+Diana      Bruce                                                                                                                                                                                        
+Alexander  Diana                                                                                                                                                                                        
+Bruce      Diana                                                                                                                                                                                        
+Trenna     Kevin                                                                                                                                                                                        
+Curtis     Kevin                                                                                                                                                                                        
+Randall    Kevin                                                                                                                                                                                        
+Peter      Kevin                                                                                                                                                                                        
+Kevin      Trenna                                                                                                                                                                                       
+Curtis     Trenna                                                                                                                                                                                       
+Randall    Trenna                                                                                                                                                                                       
+Peter      Trenna                                                                                                                                                                                       
+Kevin      Curtis                                                                                                                                                                                       
+
+EMP_NAME   COLL_NAME                                                                                                                                                                                    
+---------- ----------                                                                                                                                                                                   
+Trenna     Curtis                                                                                                                                                                                       
+Randall    Curtis                                                                                                                                                                                       
+Peter      Curtis                                                                                                                                                                                       
+Kevin      Randall                                                                                                                                                                                      
+Trenna     Randall                                                                                                                                                                                      
+Curtis     Randall                                                                                                                                                                                      
+Peter      Randall                                                                                                                                                                                      
+Kevin      Peter                                                                                                                                                                                        
+Trenna     Peter                                                                                                                                                                                        
+Curtis     Peter                                                                                                                                                                                        
+Randall    Peter                                                                                                                                                                                        
+Ellen      Eleni                                                                                                                                                                                        
+Jonathon   Eleni                                                                                                                                                                                        
+Eleni      Ellen                                                                                                                                                                                        
+Jonathon   Ellen                                                                                                                                                                                        
+Eleni      Jonathon                                                                                                                                                                                     
+Ellen      Jonathon                                                                                                                                                                                     
+Pat        Michael                                                                                                                                                                                      
+Michael    Pat                                                                                                                                                                                          
+William    Shelley                                                                                                                                                                                      
+Shelley    William                                                                                                                                                                                      
+
+42 rows selected.
+
+SQL> SELECT E.FIRST_NAME EMP_NAME , E.EMPLOYEE_ID EMP_ID , C.EMPLOYEE_ID COLL_ID , C.FIRST_NAME COLL_NAME
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES C ON E.DEPARTMENT_ID = C.DEPARTMENT_ID AND E.EMPLOYEE_ID <> C.EMPLOYEE_ID;
+
+EMP_NAME       EMP_ID    COLL_ID COLL_NAME                                                                                                                                                              
+---------- ---------- ---------- ----------                                                                                                                                                             
+Neena             101        100 Steven                                                                                                                                                                 
+Lex               102        100 Steven                                                                                                                                                                 
+Steven            100        101 Neena                                                                                                                                                                  
+Lex               102        101 Neena                                                                                                                                                                  
+Steven            100        102 Lex                                                                                                                                                                    
+Neena             101        102 Lex                                                                                                                                                                    
+Bruce             104        103 Alexander                                                                                                                                                              
+Diana             107        103 Alexander                                                                                                                                                              
+Alexander         103        104 Bruce                                                                                                                                                                  
+Diana             107        104 Bruce                                                                                                                                                                  
+Alexander         103        107 Diana                                                                                                                                                                  
+Bruce             104        107 Diana                                                                                                                                                                  
+Trenna            141        124 Kevin                                                                                                                                                                  
+Curtis            142        124 Kevin                                                                                                                                                                  
+Randall           143        124 Kevin                                                                                                                                                                  
+Peter             144        124 Kevin                                                                                                                                                                  
+Kevin             124        141 Trenna                                                                                                                                                                 
+Curtis            142        141 Trenna                                                                                                                                                                 
+Randall           143        141 Trenna                                                                                                                                                                 
+Peter             144        141 Trenna                                                                                                                                                                 
+Kevin             124        142 Curtis                                                                                                                                                                 
+
+EMP_NAME       EMP_ID    COLL_ID COLL_NAME                                                                                                                                                              
+---------- ---------- ---------- ----------                                                                                                                                                             
+Trenna            141        142 Curtis                                                                                                                                                                 
+Randall           143        142 Curtis                                                                                                                                                                 
+Peter             144        142 Curtis                                                                                                                                                                 
+Kevin             124        143 Randall                                                                                                                                                                
+Trenna            141        143 Randall                                                                                                                                                                
+Curtis            142        143 Randall                                                                                                                                                                
+Peter             144        143 Randall                                                                                                                                                                
+Kevin             124        144 Peter                                                                                                                                                                  
+Trenna            141        144 Peter                                                                                                                                                                  
+Curtis            142        144 Peter                                                                                                                                                                  
+Randall           143        144 Peter                                                                                                                                                                  
+Ellen             174        149 Eleni                                                                                                                                                                  
+Jonathon          176        149 Eleni                                                                                                                                                                  
+Eleni             149        174 Ellen                                                                                                                                                                  
+Jonathon          176        174 Ellen                                                                                                                                                                  
+Eleni             149        176 Jonathon                                                                                                                                                               
+Ellen             174        176 Jonathon                                                                                                                                                               
+Pat               202        201 Michael                                                                                                                                                                
+Michael           201        202 Pat                                                                                                                                                                    
+William           206        205 Shelley                                                                                                                                                                
+Shelley           205        206 William                                                                                                                                                                
+
+42 rows selected.
+
+SQL> SELECT E.FIRST_NAME EMP_NAME , E.EMPLOYEE_ID EMP_ID , C.EMPLOYEE_ID COLL_ID , C.FIRST_NAME COLL_NAME
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES C ON E.DEPARTMENT_ID = C.DEPARTMENT_ID AND E.EMPLOYEE_ID < C.EMPLOYEE_ID;
+
+EMP_NAME       EMP_ID    COLL_ID COLL_NAME                                                                                                                                                              
+---------- ---------- ---------- ----------                                                                                                                                                             
+Steven            100        101 Neena                                                                                                                                                                  
+Steven            100        102 Lex                                                                                                                                                                    
+Neena             101        102 Lex                                                                                                                                                                    
+Alexander         103        104 Bruce                                                                                                                                                                  
+Alexander         103        107 Diana                                                                                                                                                                  
+Bruce             104        107 Diana                                                                                                                                                                  
+Kevin             124        141 Trenna                                                                                                                                                                 
+Kevin             124        142 Curtis                                                                                                                                                                 
+Trenna            141        142 Curtis                                                                                                                                                                 
+Kevin             124        143 Randall                                                                                                                                                                
+Trenna            141        143 Randall                                                                                                                                                                
+Curtis            142        143 Randall                                                                                                                                                                
+Kevin             124        144 Peter                                                                                                                                                                  
+Trenna            141        144 Peter                                                                                                                                                                  
+Curtis            142        144 Peter                                                                                                                                                                  
+Randall           143        144 Peter                                                                                                                                                                  
+Eleni             149        174 Ellen                                                                                                                                                                  
+Eleni             149        176 Jonathon                                                                                                                                                               
+Ellen             174        176 Jonathon                                                                                                                                                               
+Michael           201        202 Pat                                                                                                                                                                    
+Shelley           205        206 William                                                                                                                                                                
+
+21 rows selected.
+
+SQL> SELECT E.FIRST_NAME EMP_NAME , C.FIRST_NAME COLL_NAME
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES C ON E.DEPARTMENT_ID = C.DEPARTMENT_ID AND E.EMPLOYEE_ID < C.EMPLOYEE_ID;
+
+EMP_NAME   COLL_NAME                                                                                                                                                                                    
+---------- ----------                                                                                                                                                                                   
+Steven     Neena                                                                                                                                                                                        
+Steven     Lex                                                                                                                                                                                          
+Neena      Lex                                                                                                                                                                                          
+Alexander  Bruce                                                                                                                                                                                        
+Alexander  Diana                                                                                                                                                                                        
+Bruce      Diana                                                                                                                                                                                        
+Kevin      Trenna                                                                                                                                                                                       
+Kevin      Curtis                                                                                                                                                                                       
+Trenna     Curtis                                                                                                                                                                                       
+Kevin      Randall                                                                                                                                                                                      
+Trenna     Randall                                                                                                                                                                                      
+Curtis     Randall                                                                                                                                                                                      
+Kevin      Peter                                                                                                                                                                                        
+Trenna     Peter                                                                                                                                                                                        
+Curtis     Peter                                                                                                                                                                                        
+Randall    Peter                                                                                                                                                                                        
+Eleni      Ellen                                                                                                                                                                                        
+Eleni      Jonathon                                                                                                                                                                                     
+Ellen      Jonathon                                                                                                                                                                                     
+Michael    Pat                                                                                                                                                                                          
+Shelley    William                                                                                                                                                                                      
+
+21 rows selected.
+
+SQL> SELECT FIRST_NAME , JOB_ID , SALARY FROM EMPLOYEES;
+
+FIRST_NAME JOB_ID         SALARY                                                                                                                                                                        
+---------- ---------- ----------                                                                                                                                                                        
+Steven     AD_PRES         24000                                                                                                                                                                        
+Neena      AD_VP           17000                                                                                                                                                                        
+Lex        AD_VP           17000                                                                                                                                                                        
+Alexander  IT_PROG          9000                                                                                                                                                                        
+Bruce      IT_PROG          6000                                                                                                                                                                        
+Diana      IT_PROG          4200                                                                                                                                                                        
+Kevin      ST_MAN           5800                                                                                                                                                                        
+Trenna     ST_CLERK         3500                                                                                                                                                                        
+Curtis     ST_CLERK         3100                                                                                                                                                                        
+Randall    ST_CLERK         2600                                                                                                                                                                        
+Peter      ST_CLERK         2500                                                                                                                                                                        
+Eleni      SA_MAN          10500                                                                                                                                                                        
+Ellen      SA_REP          11000                                                                                                                                                                        
+Jonathon   SA_REP           8600                                                                                                                                                                        
+Kimerely   SA_REP           7000                                                                                                                                                                        
+Jennifer   AD_ASST          4400                                                                                                                                                                        
+Michael    MK_MAN          13000                                                                                                                                                                        
+Pat        MK_REP           6000                                                                                                                                                                        
+Shelley    AC_MGR          12000                                                                                                                                                                        
+William    AC_ACCOUNT       8300                                                                                                                                                                        
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , JOB_ID , SALARY FROM EMPLOYEES WHERE JOB_ID = 'IT_PROG' AND NOT SALARY > 8000;
+
+FIRST_NAME JOB_ID         SALARY                                                                                                                                                                        
+---------- ---------- ----------                                                                                                                                                                        
+Bruce      IT_PROG          6000                                                                                                                                                                        
+Diana      IT_PROG          4200                                                                                                                                                                        
+
+SQL> SPOOL OFF

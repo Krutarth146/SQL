@@ -1,0 +1,1058 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM * META CHARACTER
+SQL> 
+SQL> REM PROJECTION
+SQL> 
+SQL> REM ARITHMETIC OPERATORS
+SQL> 
+SQL> REM CONCATENATION OPERATOR
+SQL> 
+SQL> REM PRECEDENCE
+SQL> 
+SQL> REM COLUMN ALIAS DOUBLE QUOTE
+SQL> 
+SQL> REM DISTINCT/UNIQUE
+SQL> 
+SQL> REM DUAL
+SQL> 
+SQL> REM POWER
+SQL> 
+SQL> REM Q/QUOTE
+SQL> 
+SQL> REM NVL FUNCTION
+SQL> 
+SQL> REM DESC/DESCRIBE
+SQL> 
+SQL> SELECT POWER(5,2) FROM DUAL;
+
+POWER(5,2)                                                                      
+----------                                                                      
+        25                                                                      
+
+SQL> SELECT 5 * 5 FROM DUAL;
+
+       5*5                                                                      
+----------                                                                      
+        25                                                                      
+
+SQL> SELECT 5 * 5 * 5 FROM DUAL;
+
+     5*5*5                                                                      
+----------                                                                      
+       125                                                                      
+
+SQL> SELECT 5 * 5 * 5 * 5 FROM DUAL;
+
+   5*5*5*5                                                                      
+----------                                                                      
+       625                                                                      
+
+SQL> SELECT POWER(5,4) FROM DUAL;
+
+POWER(5,4)                                                                      
+----------                                                                      
+       625                                                                      
+
+SQL> SELECT POWER(5,10) FROM DUAL;
+
+POWER(5,10)                                                                     
+-----------                                                                     
+    9765625                                                                     
+
+SQL> SELECT POWER(25,1/2) FROM DUAL;
+
+POWER(25,1/2)                                                                   
+-------------                                                                   
+            5                                                                   
+
+SQL> SELECT POWER(125,1/3) FROM DUAL;
+
+POWER(125,1/3)                                                                  
+--------------                                                                  
+             5                                                                  
+
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES;
+
+FIRST_NAME          SALARY                                                      
+--------------- ----------                                                      
+Steven               24000                                                      
+Neena                17000                                                      
+Lex                  17000                                                      
+Alexander             9000                                                      
+Bruce                 6000                                                      
+Diana                 4200                                                      
+Kevin                 5800                                                      
+Trenna                3500                                                      
+Curtis                3100                                                      
+Randall               2600                                                      
+Peter                 2500                                                      
+
+FIRST_NAME          SALARY                                                      
+--------------- ----------                                                      
+Eleni                10500                                                      
+Ellen                11000                                                      
+Jonathon              8600                                                      
+Kimerely              7000                                                      
+Jennifer              4400                                                      
+Michael              13000                                                      
+Pat                   6000                                                      
+Shelley              12000                                                      
+William               8300                                                      
+
+20 rows selected.
+
+SQL> SET LINES 200 PAGES 24
+SQL> 
+SQL> R
+  1* SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+
+FIRST_NAME          SALARY                                                                                                                                                                              
+--------------- ----------                                                                                                                                                                              
+Steven               24000                                                                                                                                                                              
+Neena                17000                                                                                                                                                                              
+Lex                  17000                                                                                                                                                                              
+Alexander             9000                                                                                                                                                                              
+Bruce                 6000                                                                                                                                                                              
+Diana                 4200                                                                                                                                                                              
+Kevin                 5800                                                                                                                                                                              
+Trenna                3500                                                                                                                                                                              
+Curtis                3100                                                                                                                                                                              
+Randall               2600                                                                                                                                                                              
+Peter                 2500                                                                                                                                                                              
+Eleni                10500                                                                                                                                                                              
+Ellen                11000                                                                                                                                                                              
+Jonathon              8600                                                                                                                                                                              
+Kimerely              7000                                                                                                                                                                              
+Jennifer              4400                                                                                                                                                                              
+Michael              13000                                                                                                                                                                              
+Pat                   6000                                                                                                                                                                              
+Shelley              12000                                                                                                                                                                              
+William               8300                                                                                                                                                                              
+
+20 rows selected.
+
+SQL> REM Steven gets Rs.24000 as monthly salary.
+SQL> 
+SQL> SELECT FIRST_NAME || ' gets RS.' || SALARY || ' as monthly salary.' FROM EMPLOYEES;
+
+FIRST_NAME||'GETSRS.'||SALARY||'ASMONTHLYSALARY.'                                                                                                                                                       
+-----------------------------------------------------------------------------------                                                                                                                     
+Steven gets RS.24000 as monthly salary.                                                                                                                                                                 
+Neena gets RS.17000 as monthly salary.                                                                                                                                                                  
+Lex gets RS.17000 as monthly salary.                                                                                                                                                                    
+Alexander gets RS.9000 as monthly salary.                                                                                                                                                               
+Bruce gets RS.6000 as monthly salary.                                                                                                                                                                   
+Diana gets RS.4200 as monthly salary.                                                                                                                                                                   
+Kevin gets RS.5800 as monthly salary.                                                                                                                                                                   
+Trenna gets RS.3500 as monthly salary.                                                                                                                                                                  
+Curtis gets RS.3100 as monthly salary.                                                                                                                                                                  
+Randall gets RS.2600 as monthly salary.                                                                                                                                                                 
+Peter gets RS.2500 as monthly salary.                                                                                                                                                                   
+Eleni gets RS.10500 as monthly salary.                                                                                                                                                                  
+Ellen gets RS.11000 as monthly salary.                                                                                                                                                                  
+Jonathon gets RS.8600 as monthly salary.                                                                                                                                                                
+Kimerely gets RS.7000 as monthly salary.                                                                                                                                                                
+Jennifer gets RS.4400 as monthly salary.                                                                                                                                                                
+Michael gets RS.13000 as monthly salary.                                                                                                                                                                
+Pat gets RS.6000 as monthly salary.                                                                                                                                                                     
+Shelley gets RS.12000 as monthly salary.                                                                                                                                                                
+William gets RS.8300 as monthly salary.                                                                                                                                                                 
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME || ' gets RS.' || SALARY || ' as monthly salary.' "EMPLOYEE INFO." FROM EMPLOYEES;
+
+EMPLOYEE INFO.                                                                                                                                                                                          
+-----------------------------------------------------------------------------------                                                                                                                     
+Steven gets RS.24000 as monthly salary.                                                                                                                                                                 
+Neena gets RS.17000 as monthly salary.                                                                                                                                                                  
+Lex gets RS.17000 as monthly salary.                                                                                                                                                                    
+Alexander gets RS.9000 as monthly salary.                                                                                                                                                               
+Bruce gets RS.6000 as monthly salary.                                                                                                                                                                   
+Diana gets RS.4200 as monthly salary.                                                                                                                                                                   
+Kevin gets RS.5800 as monthly salary.                                                                                                                                                                   
+Trenna gets RS.3500 as monthly salary.                                                                                                                                                                  
+Curtis gets RS.3100 as monthly salary.                                                                                                                                                                  
+Randall gets RS.2600 as monthly salary.                                                                                                                                                                 
+Peter gets RS.2500 as monthly salary.                                                                                                                                                                   
+Eleni gets RS.10500 as monthly salary.                                                                                                                                                                  
+Ellen gets RS.11000 as monthly salary.                                                                                                                                                                  
+Jonathon gets RS.8600 as monthly salary.                                                                                                                                                                
+Kimerely gets RS.7000 as monthly salary.                                                                                                                                                                
+Jennifer gets RS.4400 as monthly salary.                                                                                                                                                                
+Michael gets RS.13000 as monthly salary.                                                                                                                                                                
+Pat gets RS.6000 as monthly salary.                                                                                                                                                                     
+Shelley gets RS.12000 as monthly salary.                                                                                                                                                                
+William gets RS.8300 as monthly salary.                                                                                                                                                                 
+
+20 rows selected.
+
+SQL> REM Steven's monthly salary is Rs.24000.
+SQL> 
+SQL> SELECT FIRST_NAME || 's monthly salary is Rs.' || SALARY || '.
+  2  '
+  3  
+SQL> SELECT FIRST_NAME || 's monthly salary is Rs.' || SALARY || '.' "Employee Info.
+  2  
+SQL> 
+SQL> SELECT FIRST_NAME || 's monthly salary is Rs.' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+-------------------------------------------------------------------------------                                                                                                                         
+Stevens monthly salary is Rs.24000.                                                                                                                                                                     
+Neenas monthly salary is Rs.17000.                                                                                                                                                                      
+Lexs monthly salary is Rs.17000.                                                                                                                                                                        
+Alexanders monthly salary is Rs.9000.                                                                                                                                                                   
+Bruces monthly salary is Rs.6000.                                                                                                                                                                       
+Dianas monthly salary is Rs.4200.                                                                                                                                                                       
+Kevins monthly salary is Rs.5800.                                                                                                                                                                       
+Trennas monthly salary is Rs.3500.                                                                                                                                                                      
+Curtiss monthly salary is Rs.3100.                                                                                                                                                                      
+Randalls monthly salary is Rs.2600.                                                                                                                                                                     
+Peters monthly salary is Rs.2500.                                                                                                                                                                       
+Elenis monthly salary is Rs.10500.                                                                                                                                                                      
+Ellens monthly salary is Rs.11000.                                                                                                                                                                      
+Jonathons monthly salary is Rs.8600.                                                                                                                                                                    
+Kimerelys monthly salary is Rs.7000.                                                                                                                                                                    
+Jennifers monthly salary is Rs.4400.                                                                                                                                                                    
+Michaels monthly salary is Rs.13000.                                                                                                                                                                    
+Pats monthly salary is Rs.6000.                                                                                                                                                                         
+Shelleys monthly salary is Rs.12000.                                                                                                                                                                    
+Williams monthly salary is Rs.8300.                                                                                                                                                                     
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME || ''s monthly salary is Rs.' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT FIRST_NAME || '''s monthly salary is Rs.' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+--------------------------------------------------------------------------------                                                                                                                        
+Steven's monthly salary is Rs.24000.                                                                                                                                                                    
+Neena's monthly salary is Rs.17000.                                                                                                                                                                     
+Lex's monthly salary is Rs.17000.                                                                                                                                                                       
+Alexander's monthly salary is Rs.9000.                                                                                                                                                                  
+Bruce's monthly salary is Rs.6000.                                                                                                                                                                      
+Diana's monthly salary is Rs.4200.                                                                                                                                                                      
+Kevin's monthly salary is Rs.5800.                                                                                                                                                                      
+Trenna's monthly salary is Rs.3500.                                                                                                                                                                     
+Curtis's monthly salary is Rs.3100.                                                                                                                                                                     
+Randall's monthly salary is Rs.2600.                                                                                                                                                                    
+Peter's monthly salary is Rs.2500.                                                                                                                                                                      
+Eleni's monthly salary is Rs.10500.                                                                                                                                                                     
+Ellen's monthly salary is Rs.11000.                                                                                                                                                                     
+Jonathon's monthly salary is Rs.8600.                                                                                                                                                                   
+Kimerely's monthly salary is Rs.7000.                                                                                                                                                                   
+Jennifer's monthly salary is Rs.4400.                                                                                                                                                                   
+Michael's monthly salary is Rs.13000.                                                                                                                                                                   
+Pat's monthly salary is Rs.6000.                                                                                                                                                                        
+Shelley's monthly salary is Rs.12000.                                                                                                                                                                   
+William's monthly salary is Rs.8300.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> REM Q/QUOTE OPERATOR : IS USED TO CHANGE QUOTATION CHARACTER/DELIMITER
+SQL> 
+SQL> SELECT FIRST_NAME || Q'"s monthly salary is Rs."' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+-------------------------------------------------------------------------------                                                                                                                         
+Stevens monthly salary is Rs.24000.                                                                                                                                                                     
+Neenas monthly salary is Rs.17000.                                                                                                                                                                      
+Lexs monthly salary is Rs.17000.                                                                                                                                                                        
+Alexanders monthly salary is Rs.9000.                                                                                                                                                                   
+Bruces monthly salary is Rs.6000.                                                                                                                                                                       
+Dianas monthly salary is Rs.4200.                                                                                                                                                                       
+Kevins monthly salary is Rs.5800.                                                                                                                                                                       
+Trennas monthly salary is Rs.3500.                                                                                                                                                                      
+Curtiss monthly salary is Rs.3100.                                                                                                                                                                      
+Randalls monthly salary is Rs.2600.                                                                                                                                                                     
+Peters monthly salary is Rs.2500.                                                                                                                                                                       
+Elenis monthly salary is Rs.10500.                                                                                                                                                                      
+Ellens monthly salary is Rs.11000.                                                                                                                                                                      
+Jonathons monthly salary is Rs.8600.                                                                                                                                                                    
+Kimerelys monthly salary is Rs.7000.                                                                                                                                                                    
+Jennifers monthly salary is Rs.4400.                                                                                                                                                                    
+Michaels monthly salary is Rs.13000.                                                                                                                                                                    
+Pats monthly salary is Rs.6000.                                                                                                                                                                         
+Shelleys monthly salary is Rs.12000.                                                                                                                                                                    
+Williams monthly salary is Rs.8300.                                                                                                                                                                     
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME || "s monthly salary is Rs." || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+SELECT FIRST_NAME || "s monthly salary is Rs." || SALARY || '.' "Employee Info." FROM EMPLOYEES
+                     *
+ERROR at line 1:
+ORA-00904: "s monthly salary is Rs.": invalid identifier 
+
+
+SQL> SELECT FIRST_NAME || Q'"s monthly salary is Rs."' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+-------------------------------------------------------------------------------                                                                                                                         
+Stevens monthly salary is Rs.24000.                                                                                                                                                                     
+Neenas monthly salary is Rs.17000.                                                                                                                                                                      
+Lexs monthly salary is Rs.17000.                                                                                                                                                                        
+Alexanders monthly salary is Rs.9000.                                                                                                                                                                   
+Bruces monthly salary is Rs.6000.                                                                                                                                                                       
+Dianas monthly salary is Rs.4200.                                                                                                                                                                       
+Kevins monthly salary is Rs.5800.                                                                                                                                                                       
+Trennas monthly salary is Rs.3500.                                                                                                                                                                      
+Curtiss monthly salary is Rs.3100.                                                                                                                                                                      
+Randalls monthly salary is Rs.2600.                                                                                                                                                                     
+Peters monthly salary is Rs.2500.                                                                                                                                                                       
+Elenis monthly salary is Rs.10500.                                                                                                                                                                      
+Ellens monthly salary is Rs.11000.                                                                                                                                                                      
+Jonathons monthly salary is Rs.8600.                                                                                                                                                                    
+Kimerelys monthly salary is Rs.7000.                                                                                                                                                                    
+Jennifers monthly salary is Rs.4400.                                                                                                                                                                    
+Michaels monthly salary is Rs.13000.                                                                                                                                                                    
+Pats monthly salary is Rs.6000.                                                                                                                                                                         
+Shelleys monthly salary is Rs.12000.                                                                                                                                                                    
+Williams monthly salary is Rs.8300.                                                                                                                                                                     
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME || Q'"'s monthly salary is Rs."' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+--------------------------------------------------------------------------------                                                                                                                        
+Steven's monthly salary is Rs.24000.                                                                                                                                                                    
+Neena's monthly salary is Rs.17000.                                                                                                                                                                     
+Lex's monthly salary is Rs.17000.                                                                                                                                                                       
+Alexander's monthly salary is Rs.9000.                                                                                                                                                                  
+Bruce's monthly salary is Rs.6000.                                                                                                                                                                      
+Diana's monthly salary is Rs.4200.                                                                                                                                                                      
+Kevin's monthly salary is Rs.5800.                                                                                                                                                                      
+Trenna's monthly salary is Rs.3500.                                                                                                                                                                     
+Curtis's monthly salary is Rs.3100.                                                                                                                                                                     
+Randall's monthly salary is Rs.2600.                                                                                                                                                                    
+Peter's monthly salary is Rs.2500.                                                                                                                                                                      
+Eleni's monthly salary is Rs.10500.                                                                                                                                                                     
+Ellen's monthly salary is Rs.11000.                                                                                                                                                                     
+Jonathon's monthly salary is Rs.8600.                                                                                                                                                                   
+Kimerely's monthly salary is Rs.7000.                                                                                                                                                                   
+Jennifer's monthly salary is Rs.4400.                                                                                                                                                                   
+Michael's monthly salary is Rs.13000.                                                                                                                                                                   
+Pat's monthly salary is Rs.6000.                                                                                                                                                                        
+Shelley's monthly salary is Rs.12000.                                                                                                                                                                   
+William's monthly salary is Rs.8300.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME || Q'|'s monthly salary is Rs.|' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+--------------------------------------------------------------------------------                                                                                                                        
+Steven's monthly salary is Rs.24000.                                                                                                                                                                    
+Neena's monthly salary is Rs.17000.                                                                                                                                                                     
+Lex's monthly salary is Rs.17000.                                                                                                                                                                       
+Alexander's monthly salary is Rs.9000.                                                                                                                                                                  
+Bruce's monthly salary is Rs.6000.                                                                                                                                                                      
+Diana's monthly salary is Rs.4200.                                                                                                                                                                      
+Kevin's monthly salary is Rs.5800.                                                                                                                                                                      
+Trenna's monthly salary is Rs.3500.                                                                                                                                                                     
+Curtis's monthly salary is Rs.3100.                                                                                                                                                                     
+Randall's monthly salary is Rs.2600.                                                                                                                                                                    
+Peter's monthly salary is Rs.2500.                                                                                                                                                                      
+Eleni's monthly salary is Rs.10500.                                                                                                                                                                     
+Ellen's monthly salary is Rs.11000.                                                                                                                                                                     
+Jonathon's monthly salary is Rs.8600.                                                                                                                                                                   
+Kimerely's monthly salary is Rs.7000.                                                                                                                                                                   
+Jennifer's monthly salary is Rs.4400.                                                                                                                                                                   
+Michael's monthly salary is Rs.13000.                                                                                                                                                                   
+Pat's monthly salary is Rs.6000.                                                                                                                                                                        
+Shelley's monthly salary is Rs.12000.                                                                                                                                                                   
+William's monthly salary is Rs.8300.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME || Q'A's monthly salary is Rs.A' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+--------------------------------------------------------------------------------                                                                                                                        
+Steven's monthly salary is Rs.24000.                                                                                                                                                                    
+Neena's monthly salary is Rs.17000.                                                                                                                                                                     
+Lex's monthly salary is Rs.17000.                                                                                                                                                                       
+Alexander's monthly salary is Rs.9000.                                                                                                                                                                  
+Bruce's monthly salary is Rs.6000.                                                                                                                                                                      
+Diana's monthly salary is Rs.4200.                                                                                                                                                                      
+Kevin's monthly salary is Rs.5800.                                                                                                                                                                      
+Trenna's monthly salary is Rs.3500.                                                                                                                                                                     
+Curtis's monthly salary is Rs.3100.                                                                                                                                                                     
+Randall's monthly salary is Rs.2600.                                                                                                                                                                    
+Peter's monthly salary is Rs.2500.                                                                                                                                                                      
+Eleni's monthly salary is Rs.10500.                                                                                                                                                                     
+Ellen's monthly salary is Rs.11000.                                                                                                                                                                     
+Jonathon's monthly salary is Rs.8600.                                                                                                                                                                   
+Kimerely's monthly salary is Rs.7000.                                                                                                                                                                   
+Jennifer's monthly salary is Rs.4400.                                                                                                                                                                   
+Michael's monthly salary is Rs.13000.                                                                                                                                                                   
+Pat's monthly salary is Rs.6000.                                                                                                                                                                        
+Shelley's monthly salary is Rs.12000.                                                                                                                                                                   
+William's monthly salary is Rs.8300.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME || Q'3's monthly salary is Rs.3' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+--------------------------------------------------------------------------------                                                                                                                        
+Steven's monthly salary is Rs.24000.                                                                                                                                                                    
+Neena's monthly salary is Rs.17000.                                                                                                                                                                     
+Lex's monthly salary is Rs.17000.                                                                                                                                                                       
+Alexander's monthly salary is Rs.9000.                                                                                                                                                                  
+Bruce's monthly salary is Rs.6000.                                                                                                                                                                      
+Diana's monthly salary is Rs.4200.                                                                                                                                                                      
+Kevin's monthly salary is Rs.5800.                                                                                                                                                                      
+Trenna's monthly salary is Rs.3500.                                                                                                                                                                     
+Curtis's monthly salary is Rs.3100.                                                                                                                                                                     
+Randall's monthly salary is Rs.2600.                                                                                                                                                                    
+Peter's monthly salary is Rs.2500.                                                                                                                                                                      
+Eleni's monthly salary is Rs.10500.                                                                                                                                                                     
+Ellen's monthly salary is Rs.11000.                                                                                                                                                                     
+Jonathon's monthly salary is Rs.8600.                                                                                                                                                                   
+Kimerely's monthly salary is Rs.7000.                                                                                                                                                                   
+Jennifer's monthly salary is Rs.4400.                                                                                                                                                                   
+Michael's monthly salary is Rs.13000.                                                                                                                                                                   
+Pat's monthly salary is Rs.6000.                                                                                                                                                                        
+Shelley's monthly salary is Rs.12000.                                                                                                                                                                   
+William's monthly salary is Rs.8300.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME || Q'''s monthly salary is Rs.'' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+--------------------------------------------------------------------------------                                                                                                                        
+Steven's monthly salary is Rs.24000.                                                                                                                                                                    
+Neena's monthly salary is Rs.17000.                                                                                                                                                                     
+Lex's monthly salary is Rs.17000.                                                                                                                                                                       
+Alexander's monthly salary is Rs.9000.                                                                                                                                                                  
+Bruce's monthly salary is Rs.6000.                                                                                                                                                                      
+Diana's monthly salary is Rs.4200.                                                                                                                                                                      
+Kevin's monthly salary is Rs.5800.                                                                                                                                                                      
+Trenna's monthly salary is Rs.3500.                                                                                                                                                                     
+Curtis's monthly salary is Rs.3100.                                                                                                                                                                     
+Randall's monthly salary is Rs.2600.                                                                                                                                                                    
+Peter's monthly salary is Rs.2500.                                                                                                                                                                      
+Eleni's monthly salary is Rs.10500.                                                                                                                                                                     
+Ellen's monthly salary is Rs.11000.                                                                                                                                                                     
+Jonathon's monthly salary is Rs.8600.                                                                                                                                                                   
+Kimerely's monthly salary is Rs.7000.                                                                                                                                                                   
+Jennifer's monthly salary is Rs.4400.                                                                                                                                                                   
+Michael's monthly salary is Rs.13000.                                                                                                                                                                   
+Pat's monthly salary is Rs.6000.                                                                                                                                                                        
+Shelley's monthly salary is Rs.12000.                                                                                                                                                                   
+William's monthly salary is Rs.8300.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME || Q'['s monthly salary is Rs.]' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+--------------------------------------------------------------------------------                                                                                                                        
+Steven's monthly salary is Rs.24000.                                                                                                                                                                    
+Neena's monthly salary is Rs.17000.                                                                                                                                                                     
+Lex's monthly salary is Rs.17000.                                                                                                                                                                       
+Alexander's monthly salary is Rs.9000.                                                                                                                                                                  
+Bruce's monthly salary is Rs.6000.                                                                                                                                                                      
+Diana's monthly salary is Rs.4200.                                                                                                                                                                      
+Kevin's monthly salary is Rs.5800.                                                                                                                                                                      
+Trenna's monthly salary is Rs.3500.                                                                                                                                                                     
+Curtis's monthly salary is Rs.3100.                                                                                                                                                                     
+Randall's monthly salary is Rs.2600.                                                                                                                                                                    
+Peter's monthly salary is Rs.2500.                                                                                                                                                                      
+Eleni's monthly salary is Rs.10500.                                                                                                                                                                     
+Ellen's monthly salary is Rs.11000.                                                                                                                                                                     
+Jonathon's monthly salary is Rs.8600.                                                                                                                                                                   
+Kimerely's monthly salary is Rs.7000.                                                                                                                                                                   
+Jennifer's monthly salary is Rs.4400.                                                                                                                                                                   
+Michael's monthly salary is Rs.13000.                                                                                                                                                                   
+Pat's monthly salary is Rs.6000.                                                                                                                                                                        
+Shelley's monthly salary is Rs.12000.                                                                                                                                                                   
+William's monthly salary is Rs.8300.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME || Q']'s monthly salary is Rs.]' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+
+Employee Info.                                                                                                                                                                                          
+--------------------------------------------------------------------------------                                                                                                                        
+Steven's monthly salary is Rs.24000.                                                                                                                                                                    
+Neena's monthly salary is Rs.17000.                                                                                                                                                                     
+Lex's monthly salary is Rs.17000.                                                                                                                                                                       
+Alexander's monthly salary is Rs.9000.                                                                                                                                                                  
+Bruce's monthly salary is Rs.6000.                                                                                                                                                                      
+Diana's monthly salary is Rs.4200.                                                                                                                                                                      
+Kevin's monthly salary is Rs.5800.                                                                                                                                                                      
+Trenna's monthly salary is Rs.3500.                                                                                                                                                                     
+Curtis's monthly salary is Rs.3100.                                                                                                                                                                     
+Randall's monthly salary is Rs.2600.                                                                                                                                                                    
+Peter's monthly salary is Rs.2500.                                                                                                                                                                      
+Eleni's monthly salary is Rs.10500.                                                                                                                                                                     
+Ellen's monthly salary is Rs.11000.                                                                                                                                                                     
+Jonathon's monthly salary is Rs.8600.                                                                                                                                                                   
+Kimerely's monthly salary is Rs.7000.                                                                                                                                                                   
+Jennifer's monthly salary is Rs.4400.                                                                                                                                                                   
+Michael's monthly salary is Rs.13000.                                                                                                                                                                   
+Pat's monthly salary is Rs.6000.                                                                                                                                                                        
+Shelley's monthly salary is Rs.12000.                                                                                                                                                                   
+William's monthly salary is Rs.8300.                                                                                                                                                                    
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME || Q']'s monthly salary is Rs.[' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT FIRST_NAME || Q'['s monthly salary is Rs.[' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT FIRST_NAME || Q'['s monthly salary is Rs.}' || SALARY || '.' "Employee Info." FROM EMPLOYEES;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> REM () {} [] <>
+SQL> 
+SQL> REM AS LEFT QUOTATION CHARACTER WE CAN USE OPENING OR CLOSING BRACKET BUT AS RIGHT QUOTATION WE MUST USE CLOSING BRACKET.
+SQL> 
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                     
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                     
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                     
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                     
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                     
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                     
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                     
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                     
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                     
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                     
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                     
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                     
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                     
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                     
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                     
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                     
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                   
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                     
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                     
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                     
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                     
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                     
+
+20 rows selected.
+
+SQL> REM King was hired on 17-JUL-87.
+SQL> 
+SQL> REM King's hire date is 17-JUL-87.
+SQL> 
+SQL> REM 1 WITHOUT USING Q OPERATOR 2 USING Q OPERATOR
+SQL> 
+SQL> SELECT LAST_NAME || '''s hire date is ' || HIRE_DATE || '.' "NAME AND JOINDATE" FROM EMPLOYEES;
+
+NAME AND JOINDATE                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+King's hire date is 17-JUL-87.                                                                                                                                                                          
+Kochhar's hire date is 21-SEP-89.                                                                                                                                                                       
+De Haan's hire date is 13-JAN-93.                                                                                                                                                                       
+Hunold's hire date is 03-JAN-90.                                                                                                                                                                        
+Ernst's hire date is 21-MAY-91.                                                                                                                                                                         
+Lorentz's hire date is 07-FEB-99.                                                                                                                                                                       
+Mourgos's hire date is 16-NOV-99.                                                                                                                                                                       
+Rajs's hire date is 17-OCT-95.                                                                                                                                                                          
+Davies's hire date is 29-JAN-97.                                                                                                                                                                        
+Matos's hire date is 15-MAR-98.                                                                                                                                                                         
+Vargas's hire date is 09-JUL-98.                                                                                                                                                                        
+Zlotkey's hire date is 29-JAN-00.                                                                                                                                                                       
+Abel's hire date is 11-MAY-96.                                                                                                                                                                          
+Taylor's hire date is 24-MAR-98.                                                                                                                                                                        
+Grant's hire date is 24-MAY-99.                                                                                                                                                                         
+Whalen's hire date is 17-SEP-87.                                                                                                                                                                        
+Hartstein's hire date is 17-FEB-96.                                                                                                                                                                     
+Fay's hire date is 17-AUG-97.                                                                                                                                                                           
+Higgins's hire date is 07-JUN-94.                                                                                                                                                                       
+Gietz's hire date is 07-JUN-94.                                                                                                                                                                         
+
+20 rows selected.
+
+SQL> SELECT LAST_NAME || Q'''s hire date is '' || HIRE_DATE || '.' "NAME AND JOINDATE" FROM EMPLOYEES;
+
+NAME AND JOINDATE                                                                                                                                                                                       
+--------------------------------------------------                                                                                                                                                      
+King's hire date is 17-JUL-87.                                                                                                                                                                          
+Kochhar's hire date is 21-SEP-89.                                                                                                                                                                       
+De Haan's hire date is 13-JAN-93.                                                                                                                                                                       
+Hunold's hire date is 03-JAN-90.                                                                                                                                                                        
+Ernst's hire date is 21-MAY-91.                                                                                                                                                                         
+Lorentz's hire date is 07-FEB-99.                                                                                                                                                                       
+Mourgos's hire date is 16-NOV-99.                                                                                                                                                                       
+Rajs's hire date is 17-OCT-95.                                                                                                                                                                          
+Davies's hire date is 29-JAN-97.                                                                                                                                                                        
+Matos's hire date is 15-MAR-98.                                                                                                                                                                         
+Vargas's hire date is 09-JUL-98.                                                                                                                                                                        
+Zlotkey's hire date is 29-JAN-00.                                                                                                                                                                       
+Abel's hire date is 11-MAY-96.                                                                                                                                                                          
+Taylor's hire date is 24-MAR-98.                                                                                                                                                                        
+Grant's hire date is 24-MAY-99.                                                                                                                                                                         
+Whalen's hire date is 17-SEP-87.                                                                                                                                                                        
+Hartstein's hire date is 17-FEB-96.                                                                                                                                                                     
+Fay's hire date is 17-AUG-97.                                                                                                                                                                           
+Higgins's hire date is 07-JUN-94.                                                                                                                                                                       
+Gietz's hire date is 07-JUN-94.                                                                                                                                                                         
+
+20 rows selected.
+
+SQL> REM ROWNUM , ROWID
+SQL> 
+SQL> REM ALL COLUMNS + YEARLY_SALARY
+SQL> 
+SQL> SELECT * , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES;
+SELECT * , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> REM WHEN WE USE ONLY * BETWEEN SELECT AND FROM KEY WORDS, IT IS USED AS META CHARACTER.
+SQL> 
+SQL> REM BUT IF WE USE ANYTHING ELSE WITH * BETWEEN SELECT AND FROM KEY WORDS, IT WILL BE USED AS MULTIPLICATION OPERATOR.
+SQL> 
+SQL> REM IF WE WANT TO USE * AS META CHARACTER WE NEED TO QUALIFY IT.
+SQL> 
+SQL> REM WE CAN QUALIFY * IN TWO WAYS : 1 TABLENAME.* 2 TABLEALIAS.*
+SQL> 
+SQL> SELECT * , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES;
+SELECT * , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT EMPLOYEES.* , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID YEARLY_SALARY                                       
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- ------------- -------------                                       
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90        288000                                       
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90        204000                                       
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90        204000                                       
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60        108000                                       
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60         72000                                       
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60         50400                                       
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50         69600                                       
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50         42000                                       
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50         37200                                       
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50         31200                                       
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50         30000                                       
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80        126000                                       
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80        132000                                       
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80        103200                                       
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                       84000                                       
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10         52800                                       
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20        156000                                       
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20         72000                                       
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110        144000                                       
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110         99600                                       
+
+20 rows selected.
+
+SQL> SELECT E.* , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES E;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID YEARLY_SALARY                                       
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- ------------- -------------                                       
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90        288000                                       
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90        204000                                       
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90        204000                                       
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60        108000                                       
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60         72000                                       
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60         50400                                       
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50         69600                                       
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50         42000                                       
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50         37200                                       
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50         31200                                       
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50         30000                                       
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80        126000                                       
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80        132000                                       
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80        103200                                       
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                       84000                                       
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10         52800                                       
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20        156000                                       
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20         72000                                       
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110        144000                                       
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110         99600                                       
+
+20 rows selected.
+
+SQL> SELECT EMPLOYEES.* , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES E;
+SELECT EMPLOYEES.* , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES E
+                 *
+ERROR at line 1:
+ORA-00904: "EMPLOYEES": invalid identifier 
+
+
+SQL> SELECT E.* , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES;
+SELECT E.* , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES
+         *
+ERROR at line 1:
+ORA-00904: "E": invalid identifier 
+
+
+SQL> REM ROWNUM , ROWID
+SQL> 
+SQL> REM ROWNUM : IS USED FOR GENERATING SERIAL NUMBER.
+SQL> 
+SQL> SELECT ROWNUM , * FROM DEPARTMENTS
+  2  
+SQL> REM WHEN WE USE ONLY * BETWEEN SELECT AND FROM KEY WORDS, IT IS USED AS META CHARACTER.
+SQL> 
+SQL> REM BUT IF WE USE ANYTHING ELSE WITH * BETWEEN SELECT AND FROM KEY WORDS, IT WILL BE USED AS MULTIPLICATION OPERATOR.
+SQL> 
+SQL> REM IF WE WANT TO USE * AS META CHARACTER WE NEED TO QUALIFY IT.
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT * , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES;
+SELECT * , SALARY * 12 YEARLY_SALARY FROM EMPLOYEES
+         *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT ROWNUM , * FROM DEPARTMENTS;
+SELECT ROWNUM , * FROM DEPARTMENTS
+                *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT ROWNUM , DEPARMENTS.* FROM DEPARTMENTS;
+SELECT ROWNUM , DEPARMENTS.* FROM DEPARTMENTS
+                           *
+ERROR at line 1:
+ORA-00904: "DEPARMENTS": invalid identifier 
+
+
+SQL> SELECT ROWNUM , DEPARTMENTS.* FROM DEPARTMENTS;
+
+    ROWNUM DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                          
+---------- ------------- ------------------------------ ---------- -----------                                                                                                                          
+         1            10 Administration                        200        1700                                                                                                                          
+         2            20 Marketing                             201        1800                                                                                                                          
+         3            50 Shiping                               124        1500                                                                                                                          
+         4            60 IT                                    103        1400                                                                                                                          
+         5            80 Sales                                 149        2500                                                                                                                          
+         6            90 Executive                             100        1700                                                                                                                          
+         7           110 Accounting                            205        1700                                                                                                                          
+         8           190 Contracting                                      1700                                                                                                                          
+
+8 rows selected.
+
+SQL> SELECT ROWNUM , D.* FROM DEPARTMENTS D;
+
+    ROWNUM DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                          
+---------- ------------- ------------------------------ ---------- -----------                                                                                                                          
+         1            10 Administration                        200        1700                                                                                                                          
+         2            20 Marketing                             201        1800                                                                                                                          
+         3            50 Shiping                               124        1500                                                                                                                          
+         4            60 IT                                    103        1400                                                                                                                          
+         5            80 Sales                                 149        2500                                                                                                                          
+         6            90 Executive                             100        1700                                                                                                                          
+         7           110 Accounting                            205        1700                                                                                                                          
+         8           190 Contracting                                      1700                                                                                                                          
+
+8 rows selected.
+
+SQL> REM ROWID : IT IS NOTHING BUT PHYSICAL ROW ADDRESS WHICH IS ALWAYS UNIQUE.
+SQL> 
+SQL> SELECT ROWID , * FROM DEPARTMENTS;
+SELECT ROWID , * FROM DEPARTMENTS
+               *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> SELECT ROWID , DEPARTMENTS.* FROM DEPARTMENTS;
+
+ROWID              DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                  
+------------------ ------------- ------------------------------ ---------- -----------                                                                                                                  
+AAAR7GAAHAAAAFtAAA            10 Administration                        200        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAB            20 Marketing                             201        1800                                                                                                                  
+AAAR7GAAHAAAAFtAAC            50 Shiping                               124        1500                                                                                                                  
+AAAR7GAAHAAAAFtAAD            60 IT                                    103        1400                                                                                                                  
+AAAR7GAAHAAAAFtAAE            80 Sales                                 149        2500                                                                                                                  
+AAAR7GAAHAAAAFtAAF            90 Executive                             100        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAG           110 Accounting                            205        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAH           190 Contracting                                      1700                                                                                                                  
+
+8 rows selected.
+
+SQL> SELECT ROWID , X.* FROM DEPARTMENTS X;
+
+ROWID              DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                  
+------------------ ------------- ------------------------------ ---------- -----------                                                                                                                  
+AAAR7GAAHAAAAFtAAA            10 Administration                        200        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAB            20 Marketing                             201        1800                                                                                                                  
+AAAR7GAAHAAAAFtAAC            50 Shiping                               124        1500                                                                                                                  
+AAAR7GAAHAAAAFtAAD            60 IT                                    103        1400                                                                                                                  
+AAAR7GAAHAAAAFtAAE            80 Sales                                 149        2500                                                                                                                  
+AAAR7GAAHAAAAFtAAF            90 Executive                             100        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAG           110 Accounting                            205        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAH           190 Contracting                                      1700                                                                                                                  
+
+8 rows selected.
+
+SQL> SELECT ROWID , XYZ.* FROM DEPARTMENTS XYZ;
+
+ROWID              DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                  
+------------------ ------------- ------------------------------ ---------- -----------                                                                                                                  
+AAAR7GAAHAAAAFtAAA            10 Administration                        200        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAB            20 Marketing                             201        1800                                                                                                                  
+AAAR7GAAHAAAAFtAAC            50 Shiping                               124        1500                                                                                                                  
+AAAR7GAAHAAAAFtAAD            60 IT                                    103        1400                                                                                                                  
+AAAR7GAAHAAAAFtAAE            80 Sales                                 149        2500                                                                                                                  
+AAAR7GAAHAAAAFtAAF            90 Executive                             100        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAG           110 Accounting                            205        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAH           190 Contracting                                      1700                                                                                                                  
+
+8 rows selected.
+
+SQL> SELECT ROWID , DEPARTMENTS.* FROM DEPARTMENTS XYZ;
+SELECT ROWID , DEPARTMENTS.* FROM DEPARTMENTS XYZ
+                           *
+ERROR at line 1:
+ORA-00904: "DEPARTMENTS": invalid identifier 
+
+
+SQL> SELECT ROWID , DEPARTMENTS.* FROM DEPARTMENTS;
+
+ROWID              DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID                                                                                                                  
+------------------ ------------- ------------------------------ ---------- -----------                                                                                                                  
+AAAR7GAAHAAAAFtAAA            10 Administration                        200        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAB            20 Marketing                             201        1800                                                                                                                  
+AAAR7GAAHAAAAFtAAC            50 Shiping                               124        1500                                                                                                                  
+AAAR7GAAHAAAAFtAAD            60 IT                                    103        1400                                                                                                                  
+AAAR7GAAHAAAAFtAAE            80 Sales                                 149        2500                                                                                                                  
+AAAR7GAAHAAAAFtAAF            90 Executive                             100        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAG           110 Accounting                            205        1700                                                                                                                  
+AAAR7GAAHAAAAFtAAH           190 Contracting                                      1700                                                                                                                  
+
+8 rows selected.
+
+SQL> SELECT ROWID , XYZ.* FROM DEPARTMENTS;
+SELECT ROWID , XYZ.* FROM DEPARTMENTS
+                   *
+ERROR at line 1:
+ORA-00904: "XYZ": invalid identifier 
+
+
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT FROM EMPLOYEES;
+
+FIRST_NAME          SALARY COMMISSION_PCT                                                                                                                                                               
+--------------- ---------- --------------                                                                                                                                                               
+Steven               24000                                                                                                                                                                              
+Neena                17000                                                                                                                                                                              
+Lex                  17000                                                                                                                                                                              
+Alexander             9000                                                                                                                                                                              
+Bruce                 6000                                                                                                                                                                              
+Diana                 4200                                                                                                                                                                              
+Kevin                 5800                                                                                                                                                                              
+Trenna                3500                                                                                                                                                                              
+Curtis                3100                                                                                                                                                                              
+Randall               2600                                                                                                                                                                              
+Peter                 2500                                                                                                                                                                              
+Eleni                10500             .2                                                                                                                                                               
+Ellen                11000             .3                                                                                                                                                               
+Jonathon              8600             .3                                                                                                                                                               
+Kimerely              7000            .15                                                                                                                                                               
+Jennifer              4400                                                                                                                                                                              
+Michael              13000                                                                                                                                                                              
+Pat                   6000                                                                                                                                                                              
+Shelley              12000                                                                                                                                                                              
+William               8300                                                                                                                                                                              
+
+20 rows selected.
+
+SQL> REM FIRST_NAME , SALARY , COMMISSION_PCT , COMM_AMOUNT
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT COMM_AMOUNT FROM EMPLOYEES;
+
+FIRST_NAME          SALARY COMMISSION_PCT COMM_AMOUNT                                                                                                                                                   
+--------------- ---------- -------------- -----------                                                                                                                                                   
+Steven               24000                                                                                                                                                                              
+Neena                17000                                                                                                                                                                              
+Lex                  17000                                                                                                                                                                              
+Alexander             9000                                                                                                                                                                              
+Bruce                 6000                                                                                                                                                                              
+Diana                 4200                                                                                                                                                                              
+Kevin                 5800                                                                                                                                                                              
+Trenna                3500                                                                                                                                                                              
+Curtis                3100                                                                                                                                                                              
+Randall               2600                                                                                                                                                                              
+Peter                 2500                                                                                                                                                                              
+Eleni                10500             .2        2100                                                                                                                                                   
+Ellen                11000             .3        3300                                                                                                                                                   
+Jonathon              8600             .3        2580                                                                                                                                                   
+Kimerely              7000            .15        1050                                                                                                                                                   
+Jennifer              4400                                                                                                                                                                              
+Michael              13000                                                                                                                                                                              
+Pat                   6000                                                                                                                                                                              
+Shelley              12000                                                                                                                                                                              
+William               8300                                                                                                                                                                              
+
+20 rows selected.
+
+SQL> REM FIRST_NAME , SALARY , COMMISSION_PCT , COMM_AMOUNT , TOTAL_PAYMENT
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT COMM_AMOUNT , SALARY + COMM_AMOUNT FROM EMPLOYEES;
+SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT COMM_AMOUNT , SALARY + COMM_AMOUNT FROM EMPLOYEES
+                                                                                             *
+ERROR at line 1:
+ORA-00904: "COMM_AMOUNT": invalid identifier 
+
+
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT COMM_AMOUNT , SALARY + SALARY * COMMISSION_PCT TOTAL_PAYMENT FROM EMPLOYEES;
+
+FIRST_NAME          SALARY COMMISSION_PCT COMM_AMOUNT TOTAL_PAYMENT                                                                                                                                     
+--------------- ---------- -------------- ----------- -------------                                                                                                                                     
+Steven               24000                                                                                                                                                                              
+Neena                17000                                                                                                                                                                              
+Lex                  17000                                                                                                                                                                              
+Alexander             9000                                                                                                                                                                              
+Bruce                 6000                                                                                                                                                                              
+Diana                 4200                                                                                                                                                                              
+Kevin                 5800                                                                                                                                                                              
+Trenna                3500                                                                                                                                                                              
+Curtis                3100                                                                                                                                                                              
+Randall               2600                                                                                                                                                                              
+Peter                 2500                                                                                                                                                                              
+Eleni                10500             .2        2100         12600                                                                                                                                     
+Ellen                11000             .3        3300         14300                                                                                                                                     
+Jonathon              8600             .3        2580         11180                                                                                                                                     
+Kimerely              7000            .15        1050          8050                                                                                                                                     
+Jennifer              4400                                                                                                                                                                              
+Michael              13000                                                                                                                                                                              
+Pat                   6000                                                                                                                                                                              
+Shelley              12000                                                                                                                                                                              
+William               8300                                                                                                                                                                              
+
+20 rows selected.
+
+SQL> REM ANY ARITHMETIC OPERATION WITH NULL WILL RESULT INTO NULL.
+SQL> 
+SQL> SELECT 5 + NULL FROM DUAL;
+
+    5+NULL                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+                                                                                                                                                                                                        
+
+SQL> SELECT 5 - NULL FROM DUAL;
+
+    5-NULL                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+                                                                                                                                                                                                        
+
+SQL> SELECT 5 * NULL FROM DUAL;
+
+    5*NULL                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+                                                                                                                                                                                                        
+
+SQL> SELECT 5 / NULL FROM DUAL;
+
+    5/NULL                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+                                                                                                                                                                                                        
+
+SQL> SELECT 5 || NULL FROM DUAL;
+
+5                                                                                                                                                                                                       
+-                                                                                                                                                                                                       
+5                                                                                                                                                                                                       
+
+SQL> REM NVL : NVL IS A FUNCTION WHICH IS USED TO REPLACE NULL VALUE WITH OTHER VALUE.
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY , COMMISSION_PCT , SALARY * COMMISSION_PCT COMM_AMOUNT , SALARY + SALARY * NVL(COMMISSION_PCT,0) TOTAL_PAYMENT FROM EMPLOYEES;
+
+FIRST_NAME          SALARY COMMISSION_PCT COMM_AMOUNT TOTAL_PAYMENT                                                                                                                                     
+--------------- ---------- -------------- ----------- -------------                                                                                                                                     
+Steven               24000                                    24000                                                                                                                                     
+Neena                17000                                    17000                                                                                                                                     
+Lex                  17000                                    17000                                                                                                                                     
+Alexander             9000                                     9000                                                                                                                                     
+Bruce                 6000                                     6000                                                                                                                                     
+Diana                 4200                                     4200                                                                                                                                     
+Kevin                 5800                                     5800                                                                                                                                     
+Trenna                3500                                     3500                                                                                                                                     
+Curtis                3100                                     3100                                                                                                                                     
+Randall               2600                                     2600                                                                                                                                     
+Peter                 2500                                     2500                                                                                                                                     
+Eleni                10500             .2        2100         12600                                                                                                                                     
+Ellen                11000             .3        3300         14300                                                                                                                                     
+Jonathon              8600             .3        2580         11180                                                                                                                                     
+Kimerely              7000            .15        1050          8050                                                                                                                                     
+Jennifer              4400                                     4400                                                                                                                                     
+Michael              13000                                    13000                                                                                                                                     
+Pat                   6000                                     6000                                                                                                                                     
+Shelley              12000                                    12000                                                                                                                                     
+William               8300                                     8300                                                                                                                                     
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY , NVL(COMMISSION_PCT,0) , SALARY * NVL(COMMISSION_PCT,0) COMM_AMOUNT , SALARY + SALARY * NVL(COMMISSION_PCT,0) TOTAL_PAYMENT FROM EMPLOYEES;
+
+FIRST_NAME          SALARY NVL(COMMISSION_PCT,0) COMM_AMOUNT TOTAL_PAYMENT                                                                                                                              
+--------------- ---------- --------------------- ----------- -------------                                                                                                                              
+Steven               24000                     0           0         24000                                                                                                                              
+Neena                17000                     0           0         17000                                                                                                                              
+Lex                  17000                     0           0         17000                                                                                                                              
+Alexander             9000                     0           0          9000                                                                                                                              
+Bruce                 6000                     0           0          6000                                                                                                                              
+Diana                 4200                     0           0          4200                                                                                                                              
+Kevin                 5800                     0           0          5800                                                                                                                              
+Trenna                3500                     0           0          3500                                                                                                                              
+Curtis                3100                     0           0          3100                                                                                                                              
+Randall               2600                     0           0          2600                                                                                                                              
+Peter                 2500                     0           0          2500                                                                                                                              
+Eleni                10500                    .2        2100         12600                                                                                                                              
+Ellen                11000                    .3        3300         14300                                                                                                                              
+Jonathon              8600                    .3        2580         11180                                                                                                                              
+Kimerely              7000                   .15        1050          8050                                                                                                                              
+Jennifer              4400                     0           0          4400                                                                                                                              
+Michael              13000                     0           0         13000                                                                                                                              
+Pat                   6000                     0           0          6000                                                                                                                              
+Shelley              12000                     0           0         12000                                                                                                                              
+William               8300                     0           0          8300                                                                                                                              
+
+20 rows selected.
+
+SQL> REM DESC/DESCRIBE : TO DISPLAY TABLE'S DEFINITION
+SQL> 
+SQL> REM SELECT : TO DISPLAY TABLE'S DATA
+SQL> 
+SQL> DESC EMPLOYEES
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ EMPLOYEE_ID                                                                                                       NOT NULL NUMBER(6)
+ FIRST_NAME                                                                                                                 VARCHAR2(15)
+ LAST_NAME                                                                                                         NOT NULL VARCHAR2(15)
+ EMAIL                                                                                                             NOT NULL VARCHAR2(10)
+ PHONE_NUMBER                                                                                                               VARCHAR2(20)
+ HIRE_DATE                                                                                                         NOT NULL DATE
+ JOB_ID                                                                                                            NOT NULL VARCHAR2(10)
+ SALARY                                                                                                                     NUMBER(8,2)
+ COMMISSION_PCT                                                                                                             NUMBER(2,2)
+ MANAGER_ID                                                                                                                 NUMBER(6)
+ DEPARTMENT_ID                                                                                                              NUMBER(4)
+
+SQL> SPOOL OFF

@@ -1,0 +1,1023 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM FIRST_NAME , DEPARTMENT_NAME : FOR EMPLOYEE AND HIS/HER MANAGER
+SQL> 
+SQL> SELECT E.FIRST_NAME EMP_NAME , ED.DEPARTMENT_NAME EMP_DNAME ,
+  2         M.FIRST_NAME MGR_NAME , MD.DEPARTMENT_NAME MGR_DNAME
+  3  FROM   EMPLOYEES E
+  4  JOIN   EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN   DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN   DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID;
+
+EMP_NAME   EMP_DNAME                      MGR_NAME   MGR_DNAME                                                                                                                                          
+---------- ------------------------------ ---------- ------------------------------                                                                                                                     
+Pat        Marketing                      Michael    Marketing                                                                                                                                          
+Peter      Shiping                        Kevin      Shiping                                                                                                                                            
+Randall    Shiping                        Kevin      Shiping                                                                                                                                            
+Curtis     Shiping                        Kevin      Shiping                                                                                                                                            
+Trenna     Shiping                        Kevin      Shiping                                                                                                                                            
+Diana      IT                             Alexander  IT                                                                                                                                                 
+Bruce      IT                             Alexander  IT                                                                                                                                                 
+Ellen      Sales                          Eleni      Sales                                                                                                                                              
+Jonathon   Sales                          Eleni      Sales                                                                                                                                              
+Michael    Marketing                      Steven     Executive                                                                                                                                          
+Kevin      Shiping                        Steven     Executive                                                                                                                                          
+Eleni      Sales                          Steven     Executive                                                                                                                                          
+Lex        Executive                      Steven     Executive                                                                                                                                          
+Neena      Executive                      Steven     Executive                                                                                                                                          
+Jennifer   Administration                 Neena      Executive                                                                                                                                          
+Shelley    Accounting                     Neena      Executive                                                                                                                                          
+Alexander  IT                             Lex        Executive                                                                                                                                          
+William    Accounting                     Shelley    Accounting                                                                                                                                         
+
+18 rows selected.
+
+SQL> REM FULLNAME , DEPARTMENT_NAME
+SQL> 
+SQL> SELECT E.FIRST_NAME || ' ' || E.LAST_NAME EMP_FULLNAME , ED.DEPARTMENT_NAME EMP_DNAME ,
+  2         M.FIRST_NAME || ' ' || M.LAST_NAME MGR_FULLNAME , MD.DEPARTMENT_NAME MGR_DNAME
+  3  FROM   EMPLOYEES E
+  4  JOIN   EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN   DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN   DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID;
+
+EMP_FULLNAME          EMP_DNAME                      MGR_FULLNAME          MGR_DNAME                                                                                                                    
+--------------------- ------------------------------ --------------------- ------------------------------                                                                                               
+Pat Fay               Marketing                      Michael Hartstein     Marketing                                                                                                                    
+Peter Vargas          Shiping                        Kevin Mourgos         Shiping                                                                                                                      
+Randall Matos         Shiping                        Kevin Mourgos         Shiping                                                                                                                      
+Curtis Davies         Shiping                        Kevin Mourgos         Shiping                                                                                                                      
+Trenna Rajs           Shiping                        Kevin Mourgos         Shiping                                                                                                                      
+Diana Lorentz         IT                             Alexander Hunold      IT                                                                                                                           
+Bruce Ernst           IT                             Alexander Hunold      IT                                                                                                                           
+Ellen Abel            Sales                          Eleni Zlotkey         Sales                                                                                                                        
+Jonathon Taylor       Sales                          Eleni Zlotkey         Sales                                                                                                                        
+Michael Hartstein     Marketing                      Steven King           Executive                                                                                                                    
+Kevin Mourgos         Shiping                        Steven King           Executive                                                                                                                    
+Eleni Zlotkey         Sales                          Steven King           Executive                                                                                                                    
+Lex De Haan           Executive                      Steven King           Executive                                                                                                                    
+Neena Kochhar         Executive                      Steven King           Executive                                                                                                                    
+Jennifer Whalen       Administration                 Neena Kochhar         Executive                                                                                                                    
+Shelley Higgins       Accounting                     Neena Kochhar         Executive                                                                                                                    
+Alexander Hunold      IT                             Lex De Haan           Executive                                                                                                                    
+William Gietz         Accounting                     Shelley Higgins       Accounting                                                                                                                   
+
+18 rows selected.
+
+SQL> REM LAST_NAME , DEPARTMENT_NAME , CITY
+SQL> 
+SQL> SELECT E.LAST_NAME EMP_NAME , ED.DEPARTMENT_NAME EMP_DNAME , EL.CITY EMP_CITY ,
+  2         M.LAST_NAME MGR_NAME , MD.DEPARTMENT_NAME MGR_DNAME , ML.CITY MGR_CITY
+  3  FROM   EMPLOYEES E
+  4  JOIN   EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN   DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN   DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  7  JOIN   LOCATIONS   EL ON ED.LOCATION_ID  = EL.LOCATION_ID
+  8  JOIN   LOCATIONS   ML ON MD.LOCATION_ID  = ML.LOCATION_ID;
+
+EMP_NAME   EMP_DNAME                      EMP_CITY                       MGR_NAME   MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Lorentz    IT                             Southlake                      Hunold     IT                             Southlake                                                                            
+Ernst      IT                             Southlake                      Hunold     IT                             Southlake                                                                            
+Vargas     Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Matos      Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Davies     Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Rajs       Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Hunold     IT                             Southlake                      De Haan    Executive                      Seattle                                                                              
+Mourgos    Shiping                        South San Francisco            King       Executive                      Seattle                                                                              
+De Haan    Executive                      Seattle                        King       Executive                      Seattle                                                                              
+Kochhar    Executive                      Seattle                        King       Executive                      Seattle                                                                              
+Whalen     Administration                 Seattle                        Kochhar    Executive                      Seattle                                                                              
+Higgins    Accounting                     Seattle                        Kochhar    Executive                      Seattle                                                                              
+Gietz      Accounting                     Seattle                        Higgins    Accounting                     Seattle                                                                              
+Hartstein  Marketing                      Toronto                        King       Executive                      Seattle                                                                              
+Zlotkey    Sales                          Oxford                         King       Executive                      Seattle                                                                              
+Fay        Marketing                      Toronto                        Hartstein  Marketing                      Toronto                                                                              
+Abel       Sales                          Oxford                         Zlotkey    Sales                          Oxford                                                                               
+Taylor     Sales                          Oxford                         Zlotkey    Sales                          Oxford                                                                               
+
+18 rows selected.
+
+SQL> SELECT E.LAST_NAME EMP_NAME , ED.DEPARTMENT_NAME EMP_DNAME , EL.CITY EMP_CITY ,
+  2         M.LAST_NAME MGR_NAME , MD.DEPARTMENT_NAME MGR_DNAME , ML.CITY MGR_CITY
+  3  FROM   EMPLOYEES E
+  4  JOIN   DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  5  JOIN   LOCATIONS   EL ON ED.LOCATION_ID  = EL.LOCATION_ID
+  6  JOIN   EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  7  JOIN   DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  8  JOIN   LOCATIONS   ML ON MD.LOCATION_ID  = ML.LOCATION_ID;
+
+EMP_NAME   EMP_DNAME                      EMP_CITY                       MGR_NAME   MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Lorentz    IT                             Southlake                      Hunold     IT                             Southlake                                                                            
+Ernst      IT                             Southlake                      Hunold     IT                             Southlake                                                                            
+Vargas     Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Matos      Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Davies     Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Rajs       Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Hunold     IT                             Southlake                      De Haan    Executive                      Seattle                                                                              
+Mourgos    Shiping                        South San Francisco            King       Executive                      Seattle                                                                              
+De Haan    Executive                      Seattle                        King       Executive                      Seattle                                                                              
+Kochhar    Executive                      Seattle                        King       Executive                      Seattle                                                                              
+Whalen     Administration                 Seattle                        Kochhar    Executive                      Seattle                                                                              
+Higgins    Accounting                     Seattle                        Kochhar    Executive                      Seattle                                                                              
+Gietz      Accounting                     Seattle                        Higgins    Accounting                     Seattle                                                                              
+Hartstein  Marketing                      Toronto                        King       Executive                      Seattle                                                                              
+Zlotkey    Sales                          Oxford                         King       Executive                      Seattle                                                                              
+Fay        Marketing                      Toronto                        Hartstein  Marketing                      Toronto                                                                              
+Abel       Sales                          Oxford                         Zlotkey    Sales                          Oxford                                                                               
+Taylor     Sales                          Oxford                         Zlotkey    Sales                          Oxford                                                                               
+
+18 rows selected.
+
+SQL> REM E ED EDL EDLC EDLCR
+SQL> 
+SQL> REM E ED EL  EC   ER
+SQL> 
+SQL> REM LAST_NAME , DEPARTMENT_NAME , CITY
+SQL> 
+SQL> SELECL E.LAST_NAME ,M.LAST_NAME,ED.DEPARTMENT_NAME,MD.DEPARTMENT_NAME,EL.CITY ,ML.CITY FROM EMPLOYEES E
+SP2-0734: unknown command beginning "SELECL E.L..." - rest of line ignored.
+SQL> JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+SP2-0734: unknown command beginning "JOIN EMPLO..." - rest of line ignored.
+SQL> JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMANT_ID
+SP2-0734: unknown command beginning "JOIN DEPAR..." - rest of line ignored.
+SQL> JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+SP2-0734: unknown command beginning "JOIN DEPAR..." - rest of line ignored.
+SP2-0044: For a list of known commands enter HELP
+and to leave enter EXIT.
+SQL> JOIN LOCATIONS EL ON ED.LOCATION_ID = EL.LOCATION_ID
+SP2-0734: unknown command beginning "JOIN LOCAT..." - rest of line ignored.
+SQL> JOIN LOCATIONS ML ON MD.LOCATION_ID = ML.LOCATION_ID;
+SP2-0734: unknown command beginning "JOIN LOCAT..." - rest of line ignored.
+SQL> 
+SQL> 
+SQL> SELECT E.LAST_NAME ,M.LAST_NAME,ED.DEPARTMENT_NAME,MD.DEPARTMENT_NAME,EL.CITY ,ML.CITY FROM EMPLOYEES E
+  2  JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  3  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMANT_ID
+  4  JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  5  JOIN LOCATIONS EL ON ED.LOCATION_ID = EL.LOCATION_ID
+  6  JOIN LOCATIONS ML ON MD.LOCATION_ID = ML.LOCATION_ID;
+JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMANT_ID
+                                         *
+ERROR at line 3:
+ORA-00904: "ED"."DEPARTMANT_ID": invalid identifier 
+
+
+SQL> SELECT E.LAST_NAME ,M.LAST_NAME,ED.DEPARTMENT_NAME,MD.DEPARTMENT_NAME,EL.CITY ,ML.CITY FROM EMPLOYEES E
+  2  JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  3  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  4  JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  5  JOIN LOCATIONS EL ON ED.LOCATION_ID = EL.LOCATION_ID
+  6  JOIN LOCATIONS ML ON MD.LOCATION_ID = ML.LOCATION_ID;
+
+LAST_NAME  LAST_NAME  DEPARTMENT_NAME                DEPARTMENT_NAME                CITY                           CITY                                                                                 
+---------- ---------- ------------------------------ ------------------------------ ------------------------------ ------------------------------                                                       
+Lorentz    Hunold     IT                             IT                             Southlake                      Southlake                                                                            
+Ernst      Hunold     IT                             IT                             Southlake                      Southlake                                                                            
+Vargas     Mourgos    Shiping                        Shiping                        South San Francisco            South San Francisco                                                                  
+Matos      Mourgos    Shiping                        Shiping                        South San Francisco            South San Francisco                                                                  
+Davies     Mourgos    Shiping                        Shiping                        South San Francisco            South San Francisco                                                                  
+Rajs       Mourgos    Shiping                        Shiping                        South San Francisco            South San Francisco                                                                  
+Hunold     De Haan    IT                             Executive                      Southlake                      Seattle                                                                              
+Mourgos    King       Shiping                        Executive                      South San Francisco            Seattle                                                                              
+De Haan    King       Executive                      Executive                      Seattle                        Seattle                                                                              
+Kochhar    King       Executive                      Executive                      Seattle                        Seattle                                                                              
+Whalen     Kochhar    Administration                 Executive                      Seattle                        Seattle                                                                              
+Higgins    Kochhar    Accounting                     Executive                      Seattle                        Seattle                                                                              
+Gietz      Higgins    Accounting                     Accounting                     Seattle                        Seattle                                                                              
+Hartstein  King       Marketing                      Executive                      Toronto                        Seattle                                                                              
+Zlotkey    King       Sales                          Executive                      Oxford                         Seattle                                                                              
+Fay        Hartstein  Marketing                      Marketing                      Toronto                        Toronto                                                                              
+Abel       Zlotkey    Sales                          Sales                          Oxford                         Oxford                                                                               
+Taylor     Zlotkey    Sales                          Sales                          Oxford                         Oxford                                                                               
+
+18 rows selected.
+
+SQL> SELECT E.LAST_NAME EMP_LAST_NAME , ED.DEPARTMENT_NAME EMP_DNAME , EL.CITY EMP_CITY ,
+  2         M.LAST_NAME MGR_LAST_NAME , MD.DEPARTMENT_NAME MGR_DNAME , ML.CITY MGR_CITY
+  3  FROM EMPLOYEES E
+  4  JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  7  JOIN LOCATIONS   EL ON EL.LOCATION_ID  = EL.LOCATION_ID
+  8  JOIN LOCATIONS   ML ON ML.LOCATION_ID  = ML.LOCATION_ID ;
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Whalen     Administration                 Southlake                      Kochhar    Executive                      Southlake                                                                            
+Hartstein  Marketing                      Southlake                      King       Executive                      Southlake                                                                            
+Fay        Marketing                      Southlake                      Hartstein  Marketing                      Southlake                                                                            
+Mourgos    Shiping                        Southlake                      King       Executive                      Southlake                                                                            
+Rajs       Shiping                        Southlake                      Mourgos    Shiping                        Southlake                                                                            
+Davies     Shiping                        Southlake                      Mourgos    Shiping                        Southlake                                                                            
+Matos      Shiping                        Southlake                      Mourgos    Shiping                        Southlake                                                                            
+Vargas     Shiping                        Southlake                      Mourgos    Shiping                        Southlake                                                                            
+Hunold     IT                             Southlake                      De Haan    Executive                      Southlake                                                                            
+Ernst      IT                             Southlake                      Hunold     IT                             Southlake                                                                            
+Lorentz    IT                             Southlake                      Hunold     IT                             Southlake                                                                            
+Zlotkey    Sales                          Southlake                      King       Executive                      Southlake                                                                            
+Abel       Sales                          Southlake                      Zlotkey    Sales                          Southlake                                                                            
+Taylor     Sales                          Southlake                      Zlotkey    Sales                          Southlake                                                                            
+Kochhar    Executive                      Southlake                      King       Executive                      Southlake                                                                            
+De Haan    Executive                      Southlake                      King       Executive                      Southlake                                                                            
+Higgins    Accounting                     Southlake                      Kochhar    Executive                      Southlake                                                                            
+Gietz      Accounting                     Southlake                      Higgins    Accounting                     Southlake                                                                            
+Whalen     Administration                 Southlake                      Kochhar    Executive                      South San Francisco                                                                  
+Hartstein  Marketing                      Southlake                      King       Executive                      South San Francisco                                                                  
+Fay        Marketing                      Southlake                      Hartstein  Marketing                      South San Francisco                                                                  
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Mourgos    Shiping                        Southlake                      King       Executive                      South San Francisco                                                                  
+Rajs       Shiping                        Southlake                      Mourgos    Shiping                        South San Francisco                                                                  
+Davies     Shiping                        Southlake                      Mourgos    Shiping                        South San Francisco                                                                  
+Matos      Shiping                        Southlake                      Mourgos    Shiping                        South San Francisco                                                                  
+Vargas     Shiping                        Southlake                      Mourgos    Shiping                        South San Francisco                                                                  
+Hunold     IT                             Southlake                      De Haan    Executive                      South San Francisco                                                                  
+Ernst      IT                             Southlake                      Hunold     IT                             South San Francisco                                                                  
+Lorentz    IT                             Southlake                      Hunold     IT                             South San Francisco                                                                  
+Zlotkey    Sales                          Southlake                      King       Executive                      South San Francisco                                                                  
+Abel       Sales                          Southlake                      Zlotkey    Sales                          South San Francisco                                                                  
+Taylor     Sales                          Southlake                      Zlotkey    Sales                          South San Francisco                                                                  
+Kochhar    Executive                      Southlake                      King       Executive                      South San Francisco                                                                  
+De Haan    Executive                      Southlake                      King       Executive                      South San Francisco                                                                  
+Higgins    Accounting                     Southlake                      Kochhar    Executive                      South San Francisco                                                                  
+Gietz      Accounting                     Southlake                      Higgins    Accounting                     South San Francisco                                                                  
+Whalen     Administration                 Southlake                      Kochhar    Executive                      Seattle                                                                              
+Hartstein  Marketing                      Southlake                      King       Executive                      Seattle                                                                              
+Fay        Marketing                      Southlake                      Hartstein  Marketing                      Seattle                                                                              
+Mourgos    Shiping                        Southlake                      King       Executive                      Seattle                                                                              
+Rajs       Shiping                        Southlake                      Mourgos    Shiping                        Seattle                                                                              
+Davies     Shiping                        Southlake                      Mourgos    Shiping                        Seattle                                                                              
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Matos      Shiping                        Southlake                      Mourgos    Shiping                        Seattle                                                                              
+Vargas     Shiping                        Southlake                      Mourgos    Shiping                        Seattle                                                                              
+Hunold     IT                             Southlake                      De Haan    Executive                      Seattle                                                                              
+Ernst      IT                             Southlake                      Hunold     IT                             Seattle                                                                              
+Lorentz    IT                             Southlake                      Hunold     IT                             Seattle                                                                              
+Zlotkey    Sales                          Southlake                      King       Executive                      Seattle                                                                              
+Abel       Sales                          Southlake                      Zlotkey    Sales                          Seattle                                                                              
+Taylor     Sales                          Southlake                      Zlotkey    Sales                          Seattle                                                                              
+Kochhar    Executive                      Southlake                      King       Executive                      Seattle                                                                              
+De Haan    Executive                      Southlake                      King       Executive                      Seattle                                                                              
+Higgins    Accounting                     Southlake                      Kochhar    Executive                      Seattle                                                                              
+Gietz      Accounting                     Southlake                      Higgins    Accounting                     Seattle                                                                              
+Whalen     Administration                 Southlake                      Kochhar    Executive                      Toronto                                                                              
+Hartstein  Marketing                      Southlake                      King       Executive                      Toronto                                                                              
+Fay        Marketing                      Southlake                      Hartstein  Marketing                      Toronto                                                                              
+Mourgos    Shiping                        Southlake                      King       Executive                      Toronto                                                                              
+Rajs       Shiping                        Southlake                      Mourgos    Shiping                        Toronto                                                                              
+Davies     Shiping                        Southlake                      Mourgos    Shiping                        Toronto                                                                              
+Matos      Shiping                        Southlake                      Mourgos    Shiping                        Toronto                                                                              
+Vargas     Shiping                        Southlake                      Mourgos    Shiping                        Toronto                                                                              
+Hunold     IT                             Southlake                      De Haan    Executive                      Toronto                                                                              
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Ernst      IT                             Southlake                      Hunold     IT                             Toronto                                                                              
+Lorentz    IT                             Southlake                      Hunold     IT                             Toronto                                                                              
+Zlotkey    Sales                          Southlake                      King       Executive                      Toronto                                                                              
+Abel       Sales                          Southlake                      Zlotkey    Sales                          Toronto                                                                              
+Taylor     Sales                          Southlake                      Zlotkey    Sales                          Toronto                                                                              
+Kochhar    Executive                      Southlake                      King       Executive                      Toronto                                                                              
+De Haan    Executive                      Southlake                      King       Executive                      Toronto                                                                              
+Higgins    Accounting                     Southlake                      Kochhar    Executive                      Toronto                                                                              
+Gietz      Accounting                     Southlake                      Higgins    Accounting                     Toronto                                                                              
+Whalen     Administration                 Southlake                      Kochhar    Executive                      Oxford                                                                               
+Hartstein  Marketing                      Southlake                      King       Executive                      Oxford                                                                               
+Fay        Marketing                      Southlake                      Hartstein  Marketing                      Oxford                                                                               
+Mourgos    Shiping                        Southlake                      King       Executive                      Oxford                                                                               
+Rajs       Shiping                        Southlake                      Mourgos    Shiping                        Oxford                                                                               
+Davies     Shiping                        Southlake                      Mourgos    Shiping                        Oxford                                                                               
+Matos      Shiping                        Southlake                      Mourgos    Shiping                        Oxford                                                                               
+Vargas     Shiping                        Southlake                      Mourgos    Shiping                        Oxford                                                                               
+Hunold     IT                             Southlake                      De Haan    Executive                      Oxford                                                                               
+Ernst      IT                             Southlake                      Hunold     IT                             Oxford                                                                               
+Lorentz    IT                             Southlake                      Hunold     IT                             Oxford                                                                               
+Zlotkey    Sales                          Southlake                      King       Executive                      Oxford                                                                               
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Abel       Sales                          Southlake                      Zlotkey    Sales                          Oxford                                                                               
+Taylor     Sales                          Southlake                      Zlotkey    Sales                          Oxford                                                                               
+Kochhar    Executive                      Southlake                      King       Executive                      Oxford                                                                               
+De Haan    Executive                      Southlake                      King       Executive                      Oxford                                                                               
+Higgins    Accounting                     Southlake                      Kochhar    Executive                      Oxford                                                                               
+Gietz      Accounting                     Southlake                      Higgins    Accounting                     Oxford                                                                               
+Whalen     Administration                 South San Francisco            Kochhar    Executive                      Southlake                                                                            
+Hartstein  Marketing                      South San Francisco            King       Executive                      Southlake                                                                            
+Fay        Marketing                      South San Francisco            Hartstein  Marketing                      Southlake                                                                            
+Mourgos    Shiping                        South San Francisco            King       Executive                      Southlake                                                                            
+Rajs       Shiping                        South San Francisco            Mourgos    Shiping                        Southlake                                                                            
+Davies     Shiping                        South San Francisco            Mourgos    Shiping                        Southlake                                                                            
+Matos      Shiping                        South San Francisco            Mourgos    Shiping                        Southlake                                                                            
+Vargas     Shiping                        South San Francisco            Mourgos    Shiping                        Southlake                                                                            
+Hunold     IT                             South San Francisco            De Haan    Executive                      Southlake                                                                            
+Ernst      IT                             South San Francisco            Hunold     IT                             Southlake                                                                            
+Lorentz    IT                             South San Francisco            Hunold     IT                             Southlake                                                                            
+Zlotkey    Sales                          South San Francisco            King       Executive                      Southlake                                                                            
+Abel       Sales                          South San Francisco            Zlotkey    Sales                          Southlake                                                                            
+Taylor     Sales                          South San Francisco            Zlotkey    Sales                          Southlake                                                                            
+Kochhar    Executive                      South San Francisco            King       Executive                      Southlake                                                                            
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+De Haan    Executive                      South San Francisco            King       Executive                      Southlake                                                                            
+Higgins    Accounting                     South San Francisco            Kochhar    Executive                      Southlake                                                                            
+Gietz      Accounting                     South San Francisco            Higgins    Accounting                     Southlake                                                                            
+Whalen     Administration                 South San Francisco            Kochhar    Executive                      South San Francisco                                                                  
+Hartstein  Marketing                      South San Francisco            King       Executive                      South San Francisco                                                                  
+Fay        Marketing                      South San Francisco            Hartstein  Marketing                      South San Francisco                                                                  
+Mourgos    Shiping                        South San Francisco            King       Executive                      South San Francisco                                                                  
+Rajs       Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Davies     Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Matos      Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Vargas     Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Hunold     IT                             South San Francisco            De Haan    Executive                      South San Francisco                                                                  
+Ernst      IT                             South San Francisco            Hunold     IT                             South San Francisco                                                                  
+Lorentz    IT                             South San Francisco            Hunold     IT                             South San Francisco                                                                  
+Zlotkey    Sales                          South San Francisco            King       Executive                      South San Francisco                                                                  
+Abel       Sales                          South San Francisco            Zlotkey    Sales                          South San Francisco                                                                  
+Taylor     Sales                          South San Francisco            Zlotkey    Sales                          South San Francisco                                                                  
+Kochhar    Executive                      South San Francisco            King       Executive                      South San Francisco                                                                  
+De Haan    Executive                      South San Francisco            King       Executive                      South San Francisco                                                                  
+Higgins    Accounting                     South San Francisco            Kochhar    Executive                      South San Francisco                                                                  
+Gietz      Accounting                     South San Francisco            Higgins    Accounting                     South San Francisco                                                                  
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Whalen     Administration                 South San Francisco            Kochhar    Executive                      Seattle                                                                              
+Hartstein  Marketing                      South San Francisco            King       Executive                      Seattle                                                                              
+Fay        Marketing                      South San Francisco            Hartstein  Marketing                      Seattle                                                                              
+Mourgos    Shiping                        South San Francisco            King       Executive                      Seattle                                                                              
+Rajs       Shiping                        South San Francisco            Mourgos    Shiping                        Seattle                                                                              
+Davies     Shiping                        South San Francisco            Mourgos    Shiping                        Seattle                                                                              
+Matos      Shiping                        South San Francisco            Mourgos    Shiping                        Seattle                                                                              
+Vargas     Shiping                        South San Francisco            Mourgos    Shiping                        Seattle                                                                              
+Hunold     IT                             South San Francisco            De Haan    Executive                      Seattle                                                                              
+Ernst      IT                             South San Francisco            Hunold     IT                             Seattle                                                                              
+Lorentz    IT                             South San Francisco            Hunold     IT                             Seattle                                                                              
+Zlotkey    Sales                          South San Francisco            King       Executive                      Seattle                                                                              
+Abel       Sales                          South San Francisco            Zlotkey    Sales                          Seattle                                                                              
+Taylor     Sales                          South San Francisco            Zlotkey    Sales                          Seattle                                                                              
+Kochhar    Executive                      South San Francisco            King       Executive                      Seattle                                                                              
+De Haan    Executive                      South San Francisco            King       Executive                      Seattle                                                                              
+Higgins    Accounting                     South San Francisco            Kochhar    Executive                      Seattle                                                                              
+Gietz      Accounting                     South San Francisco            Higgins    Accounting                     Seattle                                                                              
+Whalen     Administration                 South San Francisco            Kochhar    Executive                      Toronto                                                                              
+Hartstein  Marketing                      South San Francisco            King       Executive                      Toronto                                                                              
+Fay        Marketing                      South San Francisco            Hartstein  Marketing                      Toronto                                                                              
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Mourgos    Shiping                        South San Francisco            King       Executive                      Toronto                                                                              
+Rajs       Shiping                        South San Francisco            Mourgos    Shiping                        Toronto                                                                              
+Davies     Shiping                        South San Francisco            Mourgos    Shiping                        Toronto                                                                              
+Matos      Shiping                        South San Francisco            Mourgos    Shiping                        Toronto                                                                              
+Vargas     Shiping                        South San Francisco            Mourgos    Shiping                        Toronto                                                                              
+Hunold     IT                             South San Francisco            De Haan    Executive                      Toronto                                                                              
+Ernst      IT                             South San Francisco            Hunold     IT                             Toronto                                                                              
+Lorentz    IT                             South San Francisco            Hunold     IT                             Toronto                                                                              
+Zlotkey    Sales                          South San Francisco            King       Executive                      Toronto                                                                              
+Abel       Sales                          South San Francisco            Zlotkey    Sales                          Toronto                                                                              
+Taylor     Sales                          South San Francisco            Zlotkey    Sales                          Toronto                                                                              
+Kochhar    Executive                      South San Francisco            King       Executive                      Toronto                                                                              
+De Haan    Executive                      South San Francisco            King       Executive                      Toronto                                                                              
+Higgins    Accounting                     South San Francisco            Kochhar    Executive                      Toronto                                                                              
+Gietz      Accounting                     South San Francisco            Higgins    Accounting                     Toronto                                                                              
+Whalen     Administration                 South San Francisco            Kochhar    Executive                      Oxford                                                                               
+Hartstein  Marketing                      South San Francisco            King       Executive                      Oxford                                                                               
+Fay        Marketing                      South San Francisco            Hartstein  Marketing                      Oxford                                                                               
+Mourgos    Shiping                        South San Francisco            King       Executive                      Oxford                                                                               
+Rajs       Shiping                        South San Francisco            Mourgos    Shiping                        Oxford                                                                               
+Davies     Shiping                        South San Francisco            Mourgos    Shiping                        Oxford                                                                               
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Matos      Shiping                        South San Francisco            Mourgos    Shiping                        Oxford                                                                               
+Vargas     Shiping                        South San Francisco            Mourgos    Shiping                        Oxford                                                                               
+Hunold     IT                             South San Francisco            De Haan    Executive                      Oxford                                                                               
+Ernst      IT                             South San Francisco            Hunold     IT                             Oxford                                                                               
+Lorentz    IT                             South San Francisco            Hunold     IT                             Oxford                                                                               
+Zlotkey    Sales                          South San Francisco            King       Executive                      Oxford                                                                               
+Abel       Sales                          South San Francisco            Zlotkey    Sales                          Oxford                                                                               
+Taylor     Sales                          South San Francisco            Zlotkey    Sales                          Oxford                                                                               
+Kochhar    Executive                      South San Francisco            King       Executive                      Oxford                                                                               
+De Haan    Executive                      South San Francisco            King       Executive                      Oxford                                                                               
+Higgins    Accounting                     South San Francisco            Kochhar    Executive                      Oxford                                                                               
+Gietz      Accounting                     South San Francisco            Higgins    Accounting                     Oxford                                                                               
+Whalen     Administration                 Seattle                        Kochhar    Executive                      Southlake                                                                            
+Hartstein  Marketing                      Seattle                        King       Executive                      Southlake                                                                            
+Fay        Marketing                      Seattle                        Hartstein  Marketing                      Southlake                                                                            
+Mourgos    Shiping                        Seattle                        King       Executive                      Southlake                                                                            
+Rajs       Shiping                        Seattle                        Mourgos    Shiping                        Southlake                                                                            
+Davies     Shiping                        Seattle                        Mourgos    Shiping                        Southlake                                                                            
+Matos      Shiping                        Seattle                        Mourgos    Shiping                        Southlake                                                                            
+Vargas     Shiping                        Seattle                        Mourgos    Shiping                        Southlake                                                                            
+Hunold     IT                             Seattle                        De Haan    Executive                      Southlake                                                                            
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Ernst      IT                             Seattle                        Hunold     IT                             Southlake                                                                            
+Lorentz    IT                             Seattle                        Hunold     IT                             Southlake                                                                            
+Zlotkey    Sales                          Seattle                        King       Executive                      Southlake                                                                            
+Abel       Sales                          Seattle                        Zlotkey    Sales                          Southlake                                                                            
+Taylor     Sales                          Seattle                        Zlotkey    Sales                          Southlake                                                                            
+Kochhar    Executive                      Seattle                        King       Executive                      Southlake                                                                            
+De Haan    Executive                      Seattle                        King       Executive                      Southlake                                                                            
+Higgins    Accounting                     Seattle                        Kochhar    Executive                      Southlake                                                                            
+Gietz      Accounting                     Seattle                        Higgins    Accounting                     Southlake                                                                            
+Whalen     Administration                 Seattle                        Kochhar    Executive                      South San Francisco                                                                  
+Hartstein  Marketing                      Seattle                        King       Executive                      South San Francisco                                                                  
+Fay        Marketing                      Seattle                        Hartstein  Marketing                      South San Francisco                                                                  
+Mourgos    Shiping                        Seattle                        King       Executive                      South San Francisco                                                                  
+Rajs       Shiping                        Seattle                        Mourgos    Shiping                        South San Francisco                                                                  
+Davies     Shiping                        Seattle                        Mourgos    Shiping                        South San Francisco                                                                  
+Matos      Shiping                        Seattle                        Mourgos    Shiping                        South San Francisco                                                                  
+Vargas     Shiping                        Seattle                        Mourgos    Shiping                        South San Francisco                                                                  
+Hunold     IT                             Seattle                        De Haan    Executive                      South San Francisco                                                                  
+Ernst      IT                             Seattle                        Hunold     IT                             South San Francisco                                                                  
+Lorentz    IT                             Seattle                        Hunold     IT                             South San Francisco                                                                  
+Zlotkey    Sales                          Seattle                        King       Executive                      South San Francisco                                                                  
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Abel       Sales                          Seattle                        Zlotkey    Sales                          South San Francisco                                                                  
+Taylor     Sales                          Seattle                        Zlotkey    Sales                          South San Francisco                                                                  
+Kochhar    Executive                      Seattle                        King       Executive                      South San Francisco                                                                  
+De Haan    Executive                      Seattle                        King       Executive                      South San Francisco                                                                  
+Higgins    Accounting                     Seattle                        Kochhar    Executive                      South San Francisco                                                                  
+Gietz      Accounting                     Seattle                        Higgins    Accounting                     South San Francisco                                                                  
+Whalen     Administration                 Seattle                        Kochhar    Executive                      Seattle                                                                              
+Hartstein  Marketing                      Seattle                        King       Executive                      Seattle                                                                              
+Fay        Marketing                      Seattle                        Hartstein  Marketing                      Seattle                                                                              
+Mourgos    Shiping                        Seattle                        King       Executive                      Seattle                                                                              
+Rajs       Shiping                        Seattle                        Mourgos    Shiping                        Seattle                                                                              
+Davies     Shiping                        Seattle                        Mourgos    Shiping                        Seattle                                                                              
+Matos      Shiping                        Seattle                        Mourgos    Shiping                        Seattle                                                                              
+Vargas     Shiping                        Seattle                        Mourgos    Shiping                        Seattle                                                                              
+Hunold     IT                             Seattle                        De Haan    Executive                      Seattle                                                                              
+Ernst      IT                             Seattle                        Hunold     IT                             Seattle                                                                              
+Lorentz    IT                             Seattle                        Hunold     IT                             Seattle                                                                              
+Zlotkey    Sales                          Seattle                        King       Executive                      Seattle                                                                              
+Abel       Sales                          Seattle                        Zlotkey    Sales                          Seattle                                                                              
+Taylor     Sales                          Seattle                        Zlotkey    Sales                          Seattle                                                                              
+Kochhar    Executive                      Seattle                        King       Executive                      Seattle                                                                              
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+De Haan    Executive                      Seattle                        King       Executive                      Seattle                                                                              
+Higgins    Accounting                     Seattle                        Kochhar    Executive                      Seattle                                                                              
+Gietz      Accounting                     Seattle                        Higgins    Accounting                     Seattle                                                                              
+Whalen     Administration                 Seattle                        Kochhar    Executive                      Toronto                                                                              
+Hartstein  Marketing                      Seattle                        King       Executive                      Toronto                                                                              
+Fay        Marketing                      Seattle                        Hartstein  Marketing                      Toronto                                                                              
+Mourgos    Shiping                        Seattle                        King       Executive                      Toronto                                                                              
+Rajs       Shiping                        Seattle                        Mourgos    Shiping                        Toronto                                                                              
+Davies     Shiping                        Seattle                        Mourgos    Shiping                        Toronto                                                                              
+Matos      Shiping                        Seattle                        Mourgos    Shiping                        Toronto                                                                              
+Vargas     Shiping                        Seattle                        Mourgos    Shiping                        Toronto                                                                              
+Hunold     IT                             Seattle                        De Haan    Executive                      Toronto                                                                              
+Ernst      IT                             Seattle                        Hunold     IT                             Toronto                                                                              
+Lorentz    IT                             Seattle                        Hunold     IT                             Toronto                                                                              
+Zlotkey    Sales                          Seattle                        King       Executive                      Toronto                                                                              
+Abel       Sales                          Seattle                        Zlotkey    Sales                          Toronto                                                                              
+Taylor     Sales                          Seattle                        Zlotkey    Sales                          Toronto                                                                              
+Kochhar    Executive                      Seattle                        King       Executive                      Toronto                                                                              
+De Haan    Executive                      Seattle                        King       Executive                      Toronto                                                                              
+Higgins    Accounting                     Seattle                        Kochhar    Executive                      Toronto                                                                              
+Gietz      Accounting                     Seattle                        Higgins    Accounting                     Toronto                                                                              
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Whalen     Administration                 Seattle                        Kochhar    Executive                      Oxford                                                                               
+Hartstein  Marketing                      Seattle                        King       Executive                      Oxford                                                                               
+Fay        Marketing                      Seattle                        Hartstein  Marketing                      Oxford                                                                               
+Mourgos    Shiping                        Seattle                        King       Executive                      Oxford                                                                               
+Rajs       Shiping                        Seattle                        Mourgos    Shiping                        Oxford                                                                               
+Davies     Shiping                        Seattle                        Mourgos    Shiping                        Oxford                                                                               
+Matos      Shiping                        Seattle                        Mourgos    Shiping                        Oxford                                                                               
+Vargas     Shiping                        Seattle                        Mourgos    Shiping                        Oxford                                                                               
+Hunold     IT                             Seattle                        De Haan    Executive                      Oxford                                                                               
+Ernst      IT                             Seattle                        Hunold     IT                             Oxford                                                                               
+Lorentz    IT                             Seattle                        Hunold     IT                             Oxford                                                                               
+Zlotkey    Sales                          Seattle                        King       Executive                      Oxford                                                                               
+Abel       Sales                          Seattle                        Zlotkey    Sales                          Oxford                                                                               
+Taylor     Sales                          Seattle                        Zlotkey    Sales                          Oxford                                                                               
+Kochhar    Executive                      Seattle                        King       Executive                      Oxford                                                                               
+De Haan    Executive                      Seattle                        King       Executive                      Oxford                                                                               
+Higgins    Accounting                     Seattle                        Kochhar    Executive                      Oxford                                                                               
+Gietz      Accounting                     Seattle                        Higgins    Accounting                     Oxford                                                                               
+Whalen     Administration                 Toronto                        Kochhar    Executive                      Southlake                                                                            
+Hartstein  Marketing                      Toronto                        King       Executive                      Southlake                                                                            
+Fay        Marketing                      Toronto                        Hartstein  Marketing                      Southlake                                                                            
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Mourgos    Shiping                        Toronto                        King       Executive                      Southlake                                                                            
+Rajs       Shiping                        Toronto                        Mourgos    Shiping                        Southlake                                                                            
+Davies     Shiping                        Toronto                        Mourgos    Shiping                        Southlake                                                                            
+Matos      Shiping                        Toronto                        Mourgos    Shiping                        Southlake                                                                            
+Vargas     Shiping                        Toronto                        Mourgos    Shiping                        Southlake                                                                            
+Hunold     IT                             Toronto                        De Haan    Executive                      Southlake                                                                            
+Ernst      IT                             Toronto                        Hunold     IT                             Southlake                                                                            
+Lorentz    IT                             Toronto                        Hunold     IT                             Southlake                                                                            
+Zlotkey    Sales                          Toronto                        King       Executive                      Southlake                                                                            
+Abel       Sales                          Toronto                        Zlotkey    Sales                          Southlake                                                                            
+Taylor     Sales                          Toronto                        Zlotkey    Sales                          Southlake                                                                            
+Kochhar    Executive                      Toronto                        King       Executive                      Southlake                                                                            
+De Haan    Executive                      Toronto                        King       Executive                      Southlake                                                                            
+Higgins    Accounting                     Toronto                        Kochhar    Executive                      Southlake                                                                            
+Gietz      Accounting                     Toronto                        Higgins    Accounting                     Southlake                                                                            
+Whalen     Administration                 Toronto                        Kochhar    Executive                      South San Francisco                                                                  
+Hartstein  Marketing                      Toronto                        King       Executive                      South San Francisco                                                                  
+Fay        Marketing                      Toronto                        Hartstein  Marketing                      South San Francisco                                                                  
+Mourgos    Shiping                        Toronto                        King       Executive                      South San Francisco                                                                  
+Rajs       Shiping                        Toronto                        Mourgos    Shiping                        South San Francisco                                                                  
+Davies     Shiping                        Toronto                        Mourgos    Shiping                        South San Francisco                                                                  
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Matos      Shiping                        Toronto                        Mourgos    Shiping                        South San Francisco                                                                  
+Vargas     Shiping                        Toronto                        Mourgos    Shiping                        South San Francisco                                                                  
+Hunold     IT                             Toronto                        De Haan    Executive                      South San Francisco                                                                  
+Ernst      IT                             Toronto                        Hunold     IT                             South San Francisco                                                                  
+Lorentz    IT                             Toronto                        Hunold     IT                             South San Francisco                                                                  
+Zlotkey    Sales                          Toronto                        King       Executive                      South San Francisco                                                                  
+Abel       Sales                          Toronto                        Zlotkey    Sales                          South San Francisco                                                                  
+Taylor     Sales                          Toronto                        Zlotkey    Sales                          South San Francisco                                                                  
+Kochhar    Executive                      Toronto                        King       Executive                      South San Francisco                                                                  
+De Haan    Executive                      Toronto                        King       Executive                      South San Francisco                                                                  
+Higgins    Accounting                     Toronto                        Kochhar    Executive                      South San Francisco                                                                  
+Gietz      Accounting                     Toronto                        Higgins    Accounting                     South San Francisco                                                                  
+Whalen     Administration                 Toronto                        Kochhar    Executive                      Seattle                                                                              
+Hartstein  Marketing                      Toronto                        King       Executive                      Seattle                                                                              
+Fay        Marketing                      Toronto                        Hartstein  Marketing                      Seattle                                                                              
+Mourgos    Shiping                        Toronto                        King       Executive                      Seattle                                                                              
+Rajs       Shiping                        Toronto                        Mourgos    Shiping                        Seattle                                                                              
+Davies     Shiping                        Toronto                        Mourgos    Shiping                        Seattle                                                                              
+Matos      Shiping                        Toronto                        Mourgos    Shiping                        Seattle                                                                              
+Vargas     Shiping                        Toronto                        Mourgos    Shiping                        Seattle                                                                              
+Hunold     IT                             Toronto                        De Haan    Executive                      Seattle                                                                              
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Ernst      IT                             Toronto                        Hunold     IT                             Seattle                                                                              
+Lorentz    IT                             Toronto                        Hunold     IT                             Seattle                                                                              
+Zlotkey    Sales                          Toronto                        King       Executive                      Seattle                                                                              
+Abel       Sales                          Toronto                        Zlotkey    Sales                          Seattle                                                                              
+Taylor     Sales                          Toronto                        Zlotkey    Sales                          Seattle                                                                              
+Kochhar    Executive                      Toronto                        King       Executive                      Seattle                                                                              
+De Haan    Executive                      Toronto                        King       Executive                      Seattle                                                                              
+Higgins    Accounting                     Toronto                        Kochhar    Executive                      Seattle                                                                              
+Gietz      Accounting                     Toronto                        Higgins    Accounting                     Seattle                                                                              
+Whalen     Administration                 Toronto                        Kochhar    Executive                      Toronto                                                                              
+Hartstein  Marketing                      Toronto                        King       Executive                      Toronto                                                                              
+Fay        Marketing                      Toronto                        Hartstein  Marketing                      Toronto                                                                              
+Mourgos    Shiping                        Toronto                        King       Executive                      Toronto                                                                              
+Rajs       Shiping                        Toronto                        Mourgos    Shiping                        Toronto                                                                              
+Davies     Shiping                        Toronto                        Mourgos    Shiping                        Toronto                                                                              
+Matos      Shiping                        Toronto                        Mourgos    Shiping                        Toronto                                                                              
+Vargas     Shiping                        Toronto                        Mourgos    Shiping                        Toronto                                                                              
+Hunold     IT                             Toronto                        De Haan    Executive                      Toronto                                                                              
+Ernst      IT                             Toronto                        Hunold     IT                             Toronto                                                                              
+Lorentz    IT                             Toronto                        Hunold     IT                             Toronto                                                                              
+Zlotkey    Sales                          Toronto                        King       Executive                      Toronto                                                                              
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Abel       Sales                          Toronto                        Zlotkey    Sales                          Toronto                                                                              
+Taylor     Sales                          Toronto                        Zlotkey    Sales                          Toronto                                                                              
+Kochhar    Executive                      Toronto                        King       Executive                      Toronto                                                                              
+De Haan    Executive                      Toronto                        King       Executive                      Toronto                                                                              
+Higgins    Accounting                     Toronto                        Kochhar    Executive                      Toronto                                                                              
+Gietz      Accounting                     Toronto                        Higgins    Accounting                     Toronto                                                                              
+Whalen     Administration                 Toronto                        Kochhar    Executive                      Oxford                                                                               
+Hartstein  Marketing                      Toronto                        King       Executive                      Oxford                                                                               
+Fay        Marketing                      Toronto                        Hartstein  Marketing                      Oxford                                                                               
+Mourgos    Shiping                        Toronto                        King       Executive                      Oxford                                                                               
+Rajs       Shiping                        Toronto                        Mourgos    Shiping                        Oxford                                                                               
+Davies     Shiping                        Toronto                        Mourgos    Shiping                        Oxford                                                                               
+Matos      Shiping                        Toronto                        Mourgos    Shiping                        Oxford                                                                               
+Vargas     Shiping                        Toronto                        Mourgos    Shiping                        Oxford                                                                               
+Hunold     IT                             Toronto                        De Haan    Executive                      Oxford                                                                               
+Ernst      IT                             Toronto                        Hunold     IT                             Oxford                                                                               
+Lorentz    IT                             Toronto                        Hunold     IT                             Oxford                                                                               
+Zlotkey    Sales                          Toronto                        King       Executive                      Oxford                                                                               
+Abel       Sales                          Toronto                        Zlotkey    Sales                          Oxford                                                                               
+Taylor     Sales                          Toronto                        Zlotkey    Sales                          Oxford                                                                               
+Kochhar    Executive                      Toronto                        King       Executive                      Oxford                                                                               
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+De Haan    Executive                      Toronto                        King       Executive                      Oxford                                                                               
+Higgins    Accounting                     Toronto                        Kochhar    Executive                      Oxford                                                                               
+Gietz      Accounting                     Toronto                        Higgins    Accounting                     Oxford                                                                               
+Whalen     Administration                 Oxford                         Kochhar    Executive                      Southlake                                                                            
+Hartstein  Marketing                      Oxford                         King       Executive                      Southlake                                                                            
+Fay        Marketing                      Oxford                         Hartstein  Marketing                      Southlake                                                                            
+Mourgos    Shiping                        Oxford                         King       Executive                      Southlake                                                                            
+Rajs       Shiping                        Oxford                         Mourgos    Shiping                        Southlake                                                                            
+Davies     Shiping                        Oxford                         Mourgos    Shiping                        Southlake                                                                            
+Matos      Shiping                        Oxford                         Mourgos    Shiping                        Southlake                                                                            
+Vargas     Shiping                        Oxford                         Mourgos    Shiping                        Southlake                                                                            
+Hunold     IT                             Oxford                         De Haan    Executive                      Southlake                                                                            
+Ernst      IT                             Oxford                         Hunold     IT                             Southlake                                                                            
+Lorentz    IT                             Oxford                         Hunold     IT                             Southlake                                                                            
+Zlotkey    Sales                          Oxford                         King       Executive                      Southlake                                                                            
+Abel       Sales                          Oxford                         Zlotkey    Sales                          Southlake                                                                            
+Taylor     Sales                          Oxford                         Zlotkey    Sales                          Southlake                                                                            
+Kochhar    Executive                      Oxford                         King       Executive                      Southlake                                                                            
+De Haan    Executive                      Oxford                         King       Executive                      Southlake                                                                            
+Higgins    Accounting                     Oxford                         Kochhar    Executive                      Southlake                                                                            
+Gietz      Accounting                     Oxford                         Higgins    Accounting                     Southlake                                                                            
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Whalen     Administration                 Oxford                         Kochhar    Executive                      South San Francisco                                                                  
+Hartstein  Marketing                      Oxford                         King       Executive                      South San Francisco                                                                  
+Fay        Marketing                      Oxford                         Hartstein  Marketing                      South San Francisco                                                                  
+Mourgos    Shiping                        Oxford                         King       Executive                      South San Francisco                                                                  
+Rajs       Shiping                        Oxford                         Mourgos    Shiping                        South San Francisco                                                                  
+Davies     Shiping                        Oxford                         Mourgos    Shiping                        South San Francisco                                                                  
+Matos      Shiping                        Oxford                         Mourgos    Shiping                        South San Francisco                                                                  
+Vargas     Shiping                        Oxford                         Mourgos    Shiping                        South San Francisco                                                                  
+Hunold     IT                             Oxford                         De Haan    Executive                      South San Francisco                                                                  
+Ernst      IT                             Oxford                         Hunold     IT                             South San Francisco                                                                  
+Lorentz    IT                             Oxford                         Hunold     IT                             South San Francisco                                                                  
+Zlotkey    Sales                          Oxford                         King       Executive                      South San Francisco                                                                  
+Abel       Sales                          Oxford                         Zlotkey    Sales                          South San Francisco                                                                  
+Taylor     Sales                          Oxford                         Zlotkey    Sales                          South San Francisco                                                                  
+Kochhar    Executive                      Oxford                         King       Executive                      South San Francisco                                                                  
+De Haan    Executive                      Oxford                         King       Executive                      South San Francisco                                                                  
+Higgins    Accounting                     Oxford                         Kochhar    Executive                      South San Francisco                                                                  
+Gietz      Accounting                     Oxford                         Higgins    Accounting                     South San Francisco                                                                  
+Whalen     Administration                 Oxford                         Kochhar    Executive                      Seattle                                                                              
+Hartstein  Marketing                      Oxford                         King       Executive                      Seattle                                                                              
+Fay        Marketing                      Oxford                         Hartstein  Marketing                      Seattle                                                                              
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Mourgos    Shiping                        Oxford                         King       Executive                      Seattle                                                                              
+Rajs       Shiping                        Oxford                         Mourgos    Shiping                        Seattle                                                                              
+Davies     Shiping                        Oxford                         Mourgos    Shiping                        Seattle                                                                              
+Matos      Shiping                        Oxford                         Mourgos    Shiping                        Seattle                                                                              
+Vargas     Shiping                        Oxford                         Mourgos    Shiping                        Seattle                                                                              
+Hunold     IT                             Oxford                         De Haan    Executive                      Seattle                                                                              
+Ernst      IT                             Oxford                         Hunold     IT                             Seattle                                                                              
+Lorentz    IT                             Oxford                         Hunold     IT                             Seattle                                                                              
+Zlotkey    Sales                          Oxford                         King       Executive                      Seattle                                                                              
+Abel       Sales                          Oxford                         Zlotkey    Sales                          Seattle                                                                              
+Taylor     Sales                          Oxford                         Zlotkey    Sales                          Seattle                                                                              
+Kochhar    Executive                      Oxford                         King       Executive                      Seattle                                                                              
+De Haan    Executive                      Oxford                         King       Executive                      Seattle                                                                              
+Higgins    Accounting                     Oxford                         Kochhar    Executive                      Seattle                                                                              
+Gietz      Accounting                     Oxford                         Higgins    Accounting                     Seattle                                                                              
+Whalen     Administration                 Oxford                         Kochhar    Executive                      Toronto                                                                              
+Hartstein  Marketing                      Oxford                         King       Executive                      Toronto                                                                              
+Fay        Marketing                      Oxford                         Hartstein  Marketing                      Toronto                                                                              
+Mourgos    Shiping                        Oxford                         King       Executive                      Toronto                                                                              
+Rajs       Shiping                        Oxford                         Mourgos    Shiping                        Toronto                                                                              
+Davies     Shiping                        Oxford                         Mourgos    Shiping                        Toronto                                                                              
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Matos      Shiping                        Oxford                         Mourgos    Shiping                        Toronto                                                                              
+Vargas     Shiping                        Oxford                         Mourgos    Shiping                        Toronto                                                                              
+Hunold     IT                             Oxford                         De Haan    Executive                      Toronto                                                                              
+Ernst      IT                             Oxford                         Hunold     IT                             Toronto                                                                              
+Lorentz    IT                             Oxford                         Hunold     IT                             Toronto                                                                              
+Zlotkey    Sales                          Oxford                         King       Executive                      Toronto                                                                              
+Abel       Sales                          Oxford                         Zlotkey    Sales                          Toronto                                                                              
+Taylor     Sales                          Oxford                         Zlotkey    Sales                          Toronto                                                                              
+Kochhar    Executive                      Oxford                         King       Executive                      Toronto                                                                              
+De Haan    Executive                      Oxford                         King       Executive                      Toronto                                                                              
+Higgins    Accounting                     Oxford                         Kochhar    Executive                      Toronto                                                                              
+Gietz      Accounting                     Oxford                         Higgins    Accounting                     Toronto                                                                              
+Whalen     Administration                 Oxford                         Kochhar    Executive                      Oxford                                                                               
+Hartstein  Marketing                      Oxford                         King       Executive                      Oxford                                                                               
+Fay        Marketing                      Oxford                         Hartstein  Marketing                      Oxford                                                                               
+Mourgos    Shiping                        Oxford                         King       Executive                      Oxford                                                                               
+Rajs       Shiping                        Oxford                         Mourgos    Shiping                        Oxford                                                                               
+Davies     Shiping                        Oxford                         Mourgos    Shiping                        Oxford                                                                               
+Matos      Shiping                        Oxford                         Mourgos    Shiping                        Oxford                                                                               
+Vargas     Shiping                        Oxford                         Mourgos    Shiping                        Oxford                                                                               
+Hunold     IT                             Oxford                         De Haan    Executive                      Oxford                                                                               
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Ernst      IT                             Oxford                         Hunold     IT                             Oxford                                                                               
+Lorentz    IT                             Oxford                         Hunold     IT                             Oxford                                                                               
+Zlotkey    Sales                          Oxford                         King       Executive                      Oxford                                                                               
+Abel       Sales                          Oxford                         Zlotkey    Sales                          Oxford                                                                               
+Taylor     Sales                          Oxford                         Zlotkey    Sales                          Oxford                                                                               
+Kochhar    Executive                      Oxford                         King       Executive                      Oxford                                                                               
+De Haan    Executive                      Oxford                         King       Executive                      Oxford                                                                               
+Higgins    Accounting                     Oxford                         Kochhar    Executive                      Oxford                                                                               
+Gietz      Accounting                     Oxford                         Higgins    Accounting                     Oxford                                                                               
+
+450 rows selected.
+
+SQL> SELECT E.LAST_NAME EMP_NAME, ED.DEPARTMENT_NAME EMP_DNAME, EL.CITY EMP_CITY,
+  2         M.LAST_NAME MGR_NAME, MD.DEPARTMENT_NAME MGR_DNAME, ML.CITY MGR_CITY
+  3  FROM EMPLOYEES E
+  4  JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  7  JOIN LOCATIONS EL ON ED.LOCATION_ID = EL.LOCATION_ID
+  8  JOIN LOCATIONS ML ON MD.LOCATION_ID = ML.LOCATION_ID;
+
+EMP_NAME   EMP_DNAME                      EMP_CITY                       MGR_NAME   MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Lorentz    IT                             Southlake                      Hunold     IT                             Southlake                                                                            
+Ernst      IT                             Southlake                      Hunold     IT                             Southlake                                                                            
+Vargas     Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Matos      Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Davies     Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Rajs       Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Hunold     IT                             Southlake                      De Haan    Executive                      Seattle                                                                              
+Mourgos    Shiping                        South San Francisco            King       Executive                      Seattle                                                                              
+De Haan    Executive                      Seattle                        King       Executive                      Seattle                                                                              
+Kochhar    Executive                      Seattle                        King       Executive                      Seattle                                                                              
+Whalen     Administration                 Seattle                        Kochhar    Executive                      Seattle                                                                              
+Higgins    Accounting                     Seattle                        Kochhar    Executive                      Seattle                                                                              
+Gietz      Accounting                     Seattle                        Higgins    Accounting                     Seattle                                                                              
+Hartstein  Marketing                      Toronto                        King       Executive                      Seattle                                                                              
+Zlotkey    Sales                          Oxford                         King       Executive                      Seattle                                                                              
+Fay        Marketing                      Toronto                        Hartstein  Marketing                      Toronto                                                                              
+Abel       Sales                          Oxford                         Zlotkey    Sales                          Oxford                                                                               
+Taylor     Sales                          Oxford                         Zlotkey    Sales                          Oxford                                                                               
+
+18 rows selected.
+
+SQL> SELECT E.LAST_NAME EMP_LAST_NAME , ED.DEPARTMENT_NAME EMP_DNAME , EL.CITY EMP_CITY ,
+  2         M.LAST_NAME MGR_LAST_NAME , MD.DEPARTMENT_NAME MGR_DNAME , ML.CITY MGR_CITY
+  3  FROM EMPLOYEES E
+  4  JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  7  JOIN LOCATIONS   EL ON EL.LOCATION_ID  = EL.LOCATION_ID
+  8  JOIN LOCATIONS   ML ON ML.LOCATION_ID  = ML.LOCATION_ID
+  9  
+SQL> 
+SQL> SELECT E.LAST_NAME EMP_LAST_NAME , ED.DEPARTMENT_NAME EMP_DNAME , EL.CITY EMP_CITY ,
+  2         M.LAST_NAME MGR_LAST_NAME , MD.DEPARTMENT_NAME MGR_DNAME , ML.CITY MGR_CITY
+  3  FROM EMPLOYEES E
+  4  JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  7  JOIN LOCATIONS   EL ON ED.LOCATION_ID  = EL.LOCATION_ID
+  8  JOIN LOCATIONS   ML ON MD.LOCATION_ID  = ML.LOCATION_ID;
+
+EMP_LAST_N EMP_DNAME                      EMP_CITY                       MGR_LAST_N MGR_DNAME                      MGR_CITY                                                                             
+---------- ------------------------------ ------------------------------ ---------- ------------------------------ ------------------------------                                                       
+Lorentz    IT                             Southlake                      Hunold     IT                             Southlake                                                                            
+Ernst      IT                             Southlake                      Hunold     IT                             Southlake                                                                            
+Vargas     Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Matos      Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Davies     Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Rajs       Shiping                        South San Francisco            Mourgos    Shiping                        South San Francisco                                                                  
+Hunold     IT                             Southlake                      De Haan    Executive                      Seattle                                                                              
+Mourgos    Shiping                        South San Francisco            King       Executive                      Seattle                                                                              
+De Haan    Executive                      Seattle                        King       Executive                      Seattle                                                                              
+Kochhar    Executive                      Seattle                        King       Executive                      Seattle                                                                              
+Whalen     Administration                 Seattle                        Kochhar    Executive                      Seattle                                                                              
+Higgins    Accounting                     Seattle                        Kochhar    Executive                      Seattle                                                                              
+Gietz      Accounting                     Seattle                        Higgins    Accounting                     Seattle                                                                              
+Hartstein  Marketing                      Toronto                        King       Executive                      Seattle                                                                              
+Zlotkey    Sales                          Oxford                         King       Executive                      Seattle                                                                              
+Fay        Marketing                      Toronto                        Hartstein  Marketing                      Toronto                                                                              
+Abel       Sales                          Oxford                         Zlotkey    Sales                          Oxford                                                                               
+Taylor     Sales                          Oxford                         Zlotkey    Sales                          Oxford                                                                               
+
+18 rows selected.
+
+SQL> REM FIRST_NAME , DEPARTMENT_NAME , CITY , COUNTRY_NAME
+SQL> 
+SQL> SELECT  SUM(LENGTH(FIRST_NAME || LAST_NAME) - LENGTH(TRANSLATE(UPPER(FIRST_NAME || LAST_NAME),'E',''))) FROM EMPLOYEES;
+
+SUM(LENGTH(FIRST_NAME||LAST_NAME)-LENGTH(TRANSLATE(UPPER(FIRST_NAME||LAST_NAME),'E','')))                                                                                                               
+-----------------------------------------------------------------------------------------                                                                                                               
+                                                                                                                                                                                                        
+
+SQL> SELECT E.FIRST_NAME EMP_NAME, ED.DEPARTMENT_NAME EMP_DNAME , EL.CITY EMP_CITY,EC.COUNTRY_NAME EMP_CON,
+  2   M.FIRST_NAME MGR_NAME, MD.DEPARTMENT_NAME MGR_DNAME, ML.CITY MGR_CITY,MC.COUNTRY_NAME MGR_CONT FROM EMPLOYEES E
+  3   JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  4   JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  5   JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  6   JOIN LOCATIONS EL ON ED.LOCATION_ID = EL.LOCATION_ID
+  7   JOIN LOCATIONS ML ON MD.LOCATION_ID = ML.LOCATION_ID
+  8   JOIN COUNTRIES EC ON EL.COUNTRY_ID=EC.COUNTRY_ID
+  9   JOIN COUNTRIES MC ON ML.COUNTRY_ID=MC.COUNTRY_ID;
+
+EMP_NAME   EMP_DNAME                      EMP_CITY                       EMP_CON                                  MGR_NAME   MGR_DNAME                      MGR_CITY                                    
+---------- ------------------------------ ------------------------------ ---------------------------------------- ---------- ------------------------------ ------------------------------              
+MGR_CONT                                                                                                                                                                                                
+----------------------------------------                                                                                                                                                                
+Michael    Marketing                      Toronto                        Canada                                   Steven     Executive                      Seattle                                     
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Pat        Marketing                      Toronto                        Canada                                   Michael    Marketing                      Toronto                                     
+Canada                                                                                                                                                                                                  
+                                                                                                                                                                                                        
+Eleni      Sales                          Oxford                         United Kingdom                           Steven     Executive                      Seattle                                     
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Ellen      Sales                          Oxford                         United Kingdom                           Eleni      Sales                          Oxford                                      
+United Kingdom                                                                                                                                                                                          
+                                                                                                                                                                                                        
+Jonathon   Sales                          Oxford                         United Kingdom                           Eleni      Sales                          Oxford                                      
+United Kingdom                                                                                                                                                                                          
+                                                                                                                                                                                                        
+Alexander  IT                             Southlake                      United States of America                 Lex        Executive                      Seattle                                     
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Bruce      IT                             Southlake                      United States of America                 Alexander  IT                             Southlake                                   
+
+EMP_NAME   EMP_DNAME                      EMP_CITY                       EMP_CON                                  MGR_NAME   MGR_DNAME                      MGR_CITY                                    
+---------- ------------------------------ ------------------------------ ---------------------------------------- ---------- ------------------------------ ------------------------------              
+MGR_CONT                                                                                                                                                                                                
+----------------------------------------                                                                                                                                                                
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Diana      IT                             Southlake                      United States of America                 Alexander  IT                             Southlake                                   
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Kevin      Shiping                        South San Francisco            United States of America                 Steven     Executive                      Seattle                                     
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Trenna     Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco                         
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Curtis     Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco                         
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Randall    Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco                         
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Peter      Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco                         
+United States of America                                                                                                                                                                                
+
+EMP_NAME   EMP_DNAME                      EMP_CITY                       EMP_CON                                  MGR_NAME   MGR_DNAME                      MGR_CITY                                    
+---------- ------------------------------ ------------------------------ ---------------------------------------- ---------- ------------------------------ ------------------------------              
+MGR_CONT                                                                                                                                                                                                
+----------------------------------------                                                                                                                                                                
+                                                                                                                                                                                                        
+Jennifer   Administration                 Seattle                        United States of America                 Neena      Executive                      Seattle                                     
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Neena      Executive                      Seattle                        United States of America                 Steven     Executive                      Seattle                                     
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Lex        Executive                      Seattle                        United States of America                 Steven     Executive                      Seattle                                     
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+Shelley    Accounting                     Seattle                        United States of America                 Neena      Executive                      Seattle                                     
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+William    Accounting                     Seattle                        United States of America                 Shelley    Accounting                     Seattle                                     
+United States of America                                                                                                                                                                                
+                                                                                                                                                                                                        
+
+18 rows selected.
+
+SQL> SET LINES 500 PAGES 24
+SQL> 
+SQL> R
+  1  SELECT E.FIRST_NAME EMP_NAME, ED.DEPARTMENT_NAME EMP_DNAME , EL.CITY EMP_CITY,EC.COUNTRY_NAME EMP_CON,
+  2   M.FIRST_NAME MGR_NAME, MD.DEPARTMENT_NAME MGR_DNAME, ML.CITY MGR_CITY,MC.COUNTRY_NAME MGR_CONT FROM EMPLOYEES E
+  3   JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  4   JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  5   JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  6   JOIN LOCATIONS EL ON ED.LOCATION_ID = EL.LOCATION_ID
+  7   JOIN LOCATIONS ML ON MD.LOCATION_ID = ML.LOCATION_ID
+  8   JOIN COUNTRIES EC ON EL.COUNTRY_ID=EC.COUNTRY_ID
+  9*  JOIN COUNTRIES MC ON ML.COUNTRY_ID=MC.COUNTRY_ID
+
+EMP_NAME   EMP_DNAME                      EMP_CITY                       EMP_CON                                  MGR_NAME   MGR_DNAME                      MGR_CITY                       MGR_CONT                                                                                                                                                                                                                                                                                                                 
+---------- ------------------------------ ------------------------------ ---------------------------------------- ---------- ------------------------------ ------------------------------ ----------------------------------------                                                                                                                                                                                                                                                                                 
+Michael    Marketing                      Toronto                        Canada                                   Steven     Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Pat        Marketing                      Toronto                        Canada                                   Michael    Marketing                      Toronto                        Canada                                                                                                                                                                                                                                                                                                                   
+Eleni      Sales                          Oxford                         United Kingdom                           Steven     Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Ellen      Sales                          Oxford                         United Kingdom                           Eleni      Sales                          Oxford                         United Kingdom                                                                                                                                                                                                                                                                                                           
+Jonathon   Sales                          Oxford                         United Kingdom                           Eleni      Sales                          Oxford                         United Kingdom                                                                                                                                                                                                                                                                                                           
+Alexander  IT                             Southlake                      United States of America                 Lex        Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Bruce      IT                             Southlake                      United States of America                 Alexander  IT                             Southlake                      United States of America                                                                                                                                                                                                                                                                                                 
+Diana      IT                             Southlake                      United States of America                 Alexander  IT                             Southlake                      United States of America                                                                                                                                                                                                                                                                                                 
+Kevin      Shiping                        South San Francisco            United States of America                 Steven     Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Trenna     Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco            United States of America                                                                                                                                                                                                                                                                                                 
+Curtis     Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco            United States of America                                                                                                                                                                                                                                                                                                 
+Randall    Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco            United States of America                                                                                                                                                                                                                                                                                                 
+Peter      Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco            United States of America                                                                                                                                                                                                                                                                                                 
+Jennifer   Administration                 Seattle                        United States of America                 Neena      Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Neena      Executive                      Seattle                        United States of America                 Steven     Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Lex        Executive                      Seattle                        United States of America                 Steven     Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Shelley    Accounting                     Seattle                        United States of America                 Neena      Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+William    Accounting                     Seattle                        United States of America                 Shelley    Accounting                     Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+
+18 rows selected.
+
+SQL> SELECT E.FIRST_NAME ,ED.DEPARTMENT_NAME ,EL.CITY,EC.COUNTRY_NAME,M.FIRST_NAME , MD.DEPARTMENT_NAME , ML.CITY,MC.COUNTRY_NAME
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES M ON E.MANAGER_ID=M.EMPLOYEE_ID
+  4  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID =ED.DEPARTMENT_ID
+  5  JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID =MD.DEPARTMENT_ID;
+SELECT E.FIRST_NAME ,ED.DEPARTMENT_NAME ,EL.CITY,EC.COUNTRY_NAME,M.FIRST_NAME , MD.DEPARTMENT_NAME , ML.CITY,MC.COUNTRY_NAME
+                                                                                                             *
+ERROR at line 1:
+ORA-00904: "MC"."COUNTRY_NAME": invalid identifier 
+
+
+SQL> JOIN LOCATIONS EL ON ED.LOCATION_ID=EL.LOCATION_ID
+SP2-0734: unknown command beginning "JOIN LOCAT..." - rest of line ignored.
+SQL> JOIN LOCATIONS ML ON MD.LOCATION_ID=ML.LOCATION_ID
+SP2-0734: unknown command beginning "JOIN LOCAT..." - rest of line ignored.
+SQL> JOIN COUNTRIES EC ON EL.COUNTRY_ID=EC.COUNTRY_ID
+SP2-0734: unknown command beginning "JOIN COUNT..." - rest of line ignored.
+SQL> SELECT E.FIRST_NAME EMP_FNAME , ED.DEPARTMENT_NAME EMP_DNAME , EL.CITY EMP_CITY , EC.COUNTRY_NAME EMP_COUNTRY_NAME ,
+  2         M.FIRST_NAME MGR_FNAME , MD.DEPARTMENT_NAME MGR_DNAME , ML.CITY MGR_CITY , MC.COUNTRY_NAME MGR_COUNTRY_NAME
+  3  FROM EMPLOYEES E
+  4  FROM EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN DEPARTMNETS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  7  JOIN LOCATIONS   EL ON ED.LOCATION_ID  = EL.LOCATION_ID
+  8  JOIN LOCATIONS   MD ON MD.LOCATION_ID  = ML.LOCATION_ID
+  9  JOIN COUNTRIES   EC ON EL.COUNTRY_ID  = EC.COUNTRY_ID
+ 10  JOIN COUNTRIES   MC ON ML.COUNTRY_ID  = MC.COUNTRY_ID ;
+FROM EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+*
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> SELECT E.FIRST_NAME EMP_FNAME , ED.DEPARTMENT_NAME EMP_DNAME , EL.CITY EMP_CITY , EC.COUNTRY_NAME EMP_COUNTRY_NAME ,
+  2         M.FIRST_NAME MGR_FNAME , MD.DEPARTMENT_NAME MGR_DNAME , ML.CITY MGR_CITY , MC.COUNTRY_NAME MGR_COUNTRY_NAME
+  3  FROM EMPLOYEES E
+  4  JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN DEPARTMNETS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  7  JOIN LOCATIONS   EL ON ED.LOCATION_ID  = EL.LOCATION_ID
+  8  JOIN LOCATIONS   MD ON MD.LOCATION_ID  = ML.LOCATION_ID
+  9  JOIN COUNTRIES   EC ON EL.COUNTRY_ID  = EC.COUNTRY_ID
+ 10  JOIN COUNTRIES   MC ON ML.COUNTRY_ID  = MC.COUNTRY_ID ;
+JOIN DEPARTMNETS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+     *
+ERROR at line 6:
+ORA-00942: table or view does not exist 
+
+
+SQL> SELECT E.FIRST_NAME EMP_FNAME , ED.DEPARTMENT_NAME EMP_DNAME , EL.CITY EMP_CITY , EC.COUNTRY_NAME EMP_COUNTRY_NAME ,
+  2         M.FIRST_NAME MGR_FNAME , MD.DEPARTMENT_NAME MGR_DNAME , ML.CITY MGR_CITY , MC.COUNTRY_NAME MGR_COUNTRY_NAME
+  3  FROM EMPLOYEES E
+  4  JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  7  JOIN LOCATIONS   EL ON ED.LOCATION_ID  = EL.LOCATION_ID
+  8  JOIN LOCATIONS   MD ON MD.LOCATION_ID  = ML.LOCATION_ID
+  9  JOIN COUNTRIES   EC ON EL.COUNTRY_ID  = EC.COUNTRY_ID
+ 10  JOIN COUNTRIES   MC ON ML.COUNTRY_ID  = MC.COUNTRY_ID ;
+JOIN LOCATIONS   MD ON MD.LOCATION_ID  = ML.LOCATION_ID
+                                         *
+ERROR at line 8:
+ORA-00904: "ML"."LOCATION_ID": invalid identifier 
+
+
+SQL> SELECT E.FIRST_NAME EMP_FNAME , ED.DEPARTMENT_NAME EMP_DNAME , EL.CITY EMP_CITY , EC.COUNTRY_NAME EMP_COUNTRY_NAME ,
+  2         M.FIRST_NAME MGR_FNAME , MD.DEPARTMENT_NAME MGR_DNAME , ML.CITY MGR_CITY , MC.COUNTRY_NAME MGR_COUNTRY_NAME
+  3  FROM EMPLOYEES E
+  4  JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID
+  7  JOIN LOCATIONS   EL ON ED.LOCATION_ID  = EL.LOCATION_ID
+  8  JOIN LOCATIONS   ML ON MD.LOCATION_ID  = ML.LOCATION_ID
+  9  JOIN COUNTRIES   EC ON EL.COUNTRY_ID  = EC.COUNTRY_ID
+ 10  JOIN COUNTRIES   MC ON ML.COUNTRY_ID  = MC.COUNTRY_ID ;
+
+EMP_FNAME  EMP_DNAME                      EMP_CITY                       EMP_COUNTRY_NAME                         MGR_FNAME  MGR_DNAME                      MGR_CITY                       MGR_COUNTRY_NAME                                                                                                                                                                                                                                                                                                         
+---------- ------------------------------ ------------------------------ ---------------------------------------- ---------- ------------------------------ ------------------------------ ----------------------------------------                                                                                                                                                                                                                                                                                 
+Michael    Marketing                      Toronto                        Canada                                   Steven     Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Pat        Marketing                      Toronto                        Canada                                   Michael    Marketing                      Toronto                        Canada                                                                                                                                                                                                                                                                                                                   
+Eleni      Sales                          Oxford                         United Kingdom                           Steven     Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Ellen      Sales                          Oxford                         United Kingdom                           Eleni      Sales                          Oxford                         United Kingdom                                                                                                                                                                                                                                                                                                           
+Jonathon   Sales                          Oxford                         United Kingdom                           Eleni      Sales                          Oxford                         United Kingdom                                                                                                                                                                                                                                                                                                           
+Alexander  IT                             Southlake                      United States of America                 Lex        Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Bruce      IT                             Southlake                      United States of America                 Alexander  IT                             Southlake                      United States of America                                                                                                                                                                                                                                                                                                 
+Diana      IT                             Southlake                      United States of America                 Alexander  IT                             Southlake                      United States of America                                                                                                                                                                                                                                                                                                 
+Kevin      Shiping                        South San Francisco            United States of America                 Steven     Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Trenna     Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco            United States of America                                                                                                                                                                                                                                                                                                 
+Curtis     Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco            United States of America                                                                                                                                                                                                                                                                                                 
+Randall    Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco            United States of America                                                                                                                                                                                                                                                                                                 
+Peter      Shiping                        South San Francisco            United States of America                 Kevin      Shiping                        South San Francisco            United States of America                                                                                                                                                                                                                                                                                                 
+Jennifer   Administration                 Seattle                        United States of America                 Neena      Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Neena      Executive                      Seattle                        United States of America                 Steven     Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Lex        Executive                      Seattle                        United States of America                 Steven     Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+Shelley    Accounting                     Seattle                        United States of America                 Neena      Executive                      Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+William    Accounting                     Seattle                        United States of America                 Shelley    Accounting                     Seattle                        United States of America                                                                                                                                                                                                                                                                                                 
+
+18 rows selected.
+
+SQL> SPOOL OFF

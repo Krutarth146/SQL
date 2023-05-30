@@ -1,0 +1,435 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM DISPLAY TOTAL SALARY AMOUNT PAID BY COMPANY
+SQL> 
+SQL> SELECT SUM(SALARY) FROM EMPLOYEES;
+
+SUM(SALARY)                                                                                                                                                                                             
+-----------                                                                                                                                                                                             
+     175500                                                                                                                                                                                             
+
+SQL> REM DISPLAY TOTAL SALARY AMOUNT PAID TO IT_PROG BY COMPANY
+SQL> 
+SQL> SELECT SUM(SALARY) FROM EMPLOYEES WHERE JOB_ID = 'IT_PROG';
+
+SUM(SALARY)                                                                                                                                                                                             
+-----------                                                                                                                                                                                             
+      19200                                                                                                                                                                                             
+
+SQL> REM DISPLAY TOTAL SALARY AMOUNT PAID TO ST_CLERK BY COMPANY
+SQL> 
+SQL> SELECT SUM(SALARY) FROM EMPLOYEES WHERE JOB_ID = 'ST_CLERK';
+
+SUM(SALARY)                                                                                                                                                                                             
+-----------                                                                                                                                                                                             
+      11700                                                                                                                                                                                             
+
+SQL> REM DISPLAY TOTAL SALARY AMOUNT PAID TO SA_REP BY COMPANY
+SQL> 
+SQL> SELECT SUM(SALARY) FROM EMPLOYEES WHERE JOB_ID = 'SA_REP';
+
+SUM(SALARY)                                                                                                                                                                                             
+-----------                                                                                                                                                                                             
+      26600                                                                                                                                                                                             
+
+SQL> REM JOB_ID   SUM(SALARY)
+SQL> 
+SQL> REM IT_PROG  19200
+SQL> REM ST_CLERK 11700
+SQL> REM SA_REP   26600
+SQL> 
+SQL> 
+SQL> 
+SQL> REM GROUP BY : 1 IT WILL FIND DISTINCT VALUES 2 IT WILL SEPARATE ALL ROWS IN GROUPS 3 IT WILL GENERATE SUMMARY ROW FOR EACH GROUP
+SQL> 
+SQL> SELECT DEPARTMENT_ID , SALARY FROM EMPLOYEES ORDER BY 1,2;
+
+DEPARTMENT_ID     SALARY                                                                                                                                                                                
+------------- ----------                                                                                                                                                                                
+           10       4400                                                                                                                                                                                
+           20       6000                                                                                                                                                                                
+           20      13000                                                                                                                                                                                
+           50       2500                                                                                                                                                                                
+           50       2600                                                                                                                                                                                
+           50       3100                                                                                                                                                                                
+           50       3500                                                                                                                                                                                
+           50       5800                                                                                                                                                                                
+           60       4200                                                                                                                                                                                
+           60       6000                                                                                                                                                                                
+           60       9000                                                                                                                                                                                
+           80       8600                                                                                                                                                                                
+           80      10500                                                                                                                                                                                
+           80      11000                                                                                                                                                                                
+           90      17000                                                                                                                                                                                
+           90      17000                                                                                                                                                                                
+           90      24000                                                                                                                                                                                
+          110       8300                                                                                                                                                                                
+          110      12000                                                                                                                                                                                
+                    7000                                                                                                                                                                                
+
+20 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , MAX(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID ORDER BY 1;
+
+DEPARTMENT_ID MAX(SALARY)                                                                                                                                                                               
+------------- -----------                                                                                                                                                                               
+           10        4400                                                                                                                                                                               
+           20       13000                                                                                                                                                                               
+           50        5800                                                                                                                                                                               
+           60        9000                                                                                                                                                                               
+           80       11000                                                                                                                                                                               
+           90       24000                                                                                                                                                                               
+          110       12000                                                                                                                                                                               
+                     7000                                                                                                                                                                               
+
+8 rows selected.
+
+SQL> REM SUMMARY ITEMS/FUNCTIONS : MIN MAX COUNT SUM AVG
+SQL> 
+SQL> SELECT DEPARTMENT_ID , MAX(SALARY) FROM EMPLOYEES;
+SELECT DEPARTMENT_ID , MAX(SALARY) FROM EMPLOYEES
+       *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> SELECT DEPARTMENT_ID , MAX(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+
+DEPARTMENT_ID MAX(SALARY)                                                                                                                                                                               
+------------- -----------                                                                                                                                                                               
+                     7000                                                                                                                                                                               
+           90       24000                                                                                                                                                                               
+           20       13000                                                                                                                                                                               
+          110       12000                                                                                                                                                                               
+           50        5800                                                                                                                                                                               
+           80       11000                                                                                                                                                                               
+           60        9000                                                                                                                                                                               
+           10        4400                                                                                                                                                                               
+
+8 rows selected.
+
+SQL> SELECT MAX(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID;
+
+MAX(SALARY)                                                                                                                                                                                             
+-----------                                                                                                                                                                                             
+       7000                                                                                                                                                                                             
+      24000                                                                                                                                                                                             
+      13000                                                                                                                                                                                             
+      12000                                                                                                                                                                                             
+       5800                                                                                                                                                                                             
+      11000                                                                                                                                                                                             
+       9000                                                                                                                                                                                             
+       4400                                                                                                                                                                                             
+
+8 rows selected.
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME LAST_NAME  EMAIL      PHONE_NUMBER         HIRE_DATE            JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                    
+----------- ---------- ---------- ---------- -------------------- -------------------- ---------- ---------- -------------- ---------- -------------                                                    
+        100 Steven     King       SKING      515.123.4567         17-JUL-1987 00:00.00 AD_PRES         24000                                      90                                                    
+        101 Neena      Kochhar    NKOCHHAR   515.123.4568         21-SEP-1989 00:00.00 AD_VP           17000                       100            90                                                    
+        102 Lex        De Haan    LDEHAAN    515.123.4569         13-JAN-1993 00:00.00 AD_VP           17000                       100            90                                                    
+        103 Alexander  Hunold     AHUNOLD    590.423.4567         03-JAN-1990 00:00.00 IT_PROG          9000                       102            60                                                    
+        104 Bruce      Ernst      BERNST     590.423.4568         21-MAY-1991 00:00.00 IT_PROG          6000                       103            60                                                    
+        107 Diana      Lorentz    DLORENTZ   590.423.5567         07-FEB-1999 00:00.00 IT_PROG          4200                       103            60                                                    
+        124 Kevin      Mourgos    KMOURGOS   650.123.5234         16-NOV-1999 00:00.00 ST_MAN           5800                       100            50                                                    
+        141 Trenna     Rajs       TRAJS      650.121.8009         17-OCT-1995 00:00.00 ST_CLERK         3500                       124            50                                                    
+        142 Curtis     Davies     CDAVIES    650.121.2994         29-JAN-1997 00:00.00 ST_CLERK         3100                       124            50                                                    
+        143 Randall    Matos      RMATOS     650.121.2874         15-MAR-1998 00:00.00 ST_CLERK         2600                       124            50                                                    
+        144 Peter      Vargas     PVARGAS    650.121.2004         09-JUL-1998 00:00.00 ST_CLERK         2500                       124            50                                                    
+        149 Eleni      Zlotkey    EZLOTKEY   011.44.1344.429018   29-JAN-2000 00:00.00 SA_MAN          10500             .2        100            80                                                    
+        174 Ellen      Abel       EABEL      011.44.1644.429267   11-MAY-1996 00:00.00 SA_REP          11000             .3        149            80                                                    
+        176 Jonathon   Taylor     JTAYLOR    011.44.1644.429265   24-MAR-1998 00:00.00 SA_REP           8600             .3        149            80                                                    
+        178 Kimerely   Grant      KGRANT     011.44.1644.429263   24-MAY-1999 00:00.00 SA_REP           7000            .15        149                                                                  
+        200 Jennifer   Whalen     JWHALEN    515.123.4444         17-SEP-1987 00:00.00 AD_ASST          4400                       101            10                                                    
+        201 Michael    Hartstein  MHARTSTE   515.123.5555         17-FEB-1996 00:00.00 MK_MAN          13000                       100            20                                                    
+        202 Pat        Fay        PFAY       603.123.6666         17-AUG-1997 00:00.00 MK_REP           6000                       201            20                                                    
+        205 Shelley    Higgins    SHIGGINS   515.123.8080         07-JUN-1994 00:00.00 AC_MGR          12000                       101           110                                                    
+        206 William    Gietz      WGIETZ     515.123.8181         07-JUN-1994 00:00.00 AC_ACCOUNT       8300                       205           110                                                    
+
+20 rows selected.
+
+SQL> CONN SCOTT/TIGER
+Connected.
+SQL> 
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME LAST_NAME  EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- ---------- ---------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven     King       SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena      Kochhar    NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex        De Haan    LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander  Hunold     AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce      Ernst      BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana      Lorentz    DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin      Mourgos    KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna     Rajs       TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis     Davies     CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall    Matos      RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter      Vargas     PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni      Zlotkey    EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen      Abel       EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon   Taylor     JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely   Grant      KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer   Whalen     JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael    Hartstein  MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat        Fay        PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley    Higgins    SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William    Gietz      WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> REM DISPLAY DEPARTMENT_ID WISE , MANAGER_ID WISE LOWEST SALARY
+SQL> 
+SQL> SELECT DEPARTMENT_ID , MANAGER_ID , MIN(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID , MANAGER_ID;
+
+DEPARTMENT_ID MANAGER_ID MIN(SALARY)                                                                                                                                                                    
+------------- ---------- -----------                                                                                                                                                                    
+           60        103        4200                                                                                                                                                                    
+           80        149        8600                                                                                                                                                                    
+                     149        7000                                                                                                                                                                    
+           50        100        5800                                                                                                                                                                    
+          110        205        8300                                                                                                                                                                    
+           90        100       17000                                                                                                                                                                    
+           90                  24000                                                                                                                                                                    
+           10        101        4400                                                                                                                                                                    
+           60        102        9000                                                                                                                                                                    
+           50        124        2500                                                                                                                                                                    
+           80        100       10500                                                                                                                                                                    
+           20        100       13000                                                                                                                                                                    
+           20        201        6000                                                                                                                                                                    
+          110        101       12000                                                                                                                                                                    
+
+14 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , MANAGER_ID , MIN(SALARY) FROM EMPLOYEES GROUP BY MANAGER_ID ,  DEPARTMENT_ID;
+
+DEPARTMENT_ID MANAGER_ID MIN(SALARY)                                                                                                                                                                    
+------------- ---------- -----------                                                                                                                                                                    
+           90                  24000                                                                                                                                                                    
+                     149        7000                                                                                                                                                                    
+           90        100       17000                                                                                                                                                                    
+           60        102        9000                                                                                                                                                                    
+           60        103        4200                                                                                                                                                                    
+           50        100        5800                                                                                                                                                                    
+          110        101       12000                                                                                                                                                                    
+          110        205        8300                                                                                                                                                                    
+           80        149        8600                                                                                                                                                                    
+           10        101        4400                                                                                                                                                                    
+           50        124        2500                                                                                                                                                                    
+           80        100       10500                                                                                                                                                                    
+           20        100       13000                                                                                                                                                                    
+           20        201        6000                                                                                                                                                                    
+
+14 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , MIN(SALARY) FROM EMPLOYEES GROUP BY MANAGER_ID ,  DEPARTMENT_ID;
+
+DEPARTMENT_ID MIN(SALARY)                                                                                                                                                                               
+------------- -----------                                                                                                                                                                               
+           90       24000                                                                                                                                                                               
+                     7000                                                                                                                                                                               
+           90       17000                                                                                                                                                                               
+           60        9000                                                                                                                                                                               
+           60        4200                                                                                                                                                                               
+           50        5800                                                                                                                                                                               
+          110       12000                                                                                                                                                                               
+          110        8300                                                                                                                                                                               
+           80        8600                                                                                                                                                                               
+           10        4400                                                                                                                                                                               
+           50        2500                                                                                                                                                                               
+           80       10500                                                                                                                                                                               
+           20       13000                                                                                                                                                                               
+           20        6000                                                                                                                                                                               
+
+14 rows selected.
+
+SQL> REM DISPLAY JOB_ID WISE LOWEST SALARY AND HIGHEST SALARY
+SQL> 
+SQL> SELECT JOB_ID , MIN(SALARY) , MAX(SALARY) FROM EMPLOYEES
+  2  GROUP BY JOB_ID
+  3  ORDER BY 1;
+
+JOB_ID     MIN(SALARY) MAX(SALARY)                                                                                                                                                                      
+---------- ----------- -----------                                                                                                                                                                      
+AC_ACCOUNT        8300        8300                                                                                                                                                                      
+AC_MGR           12000       12000                                                                                                                                                                      
+AD_ASST           4400        4400                                                                                                                                                                      
+AD_PRES          24000       24000                                                                                                                                                                      
+AD_VP            17000       17000                                                                                                                                                                      
+IT_PROG           4200        9000                                                                                                                                                                      
+MK_MAN           13000       13000                                                                                                                                                                      
+MK_REP            6000        6000                                                                                                                                                                      
+SA_MAN           10500       10500                                                                                                                                                                      
+SA_REP            7000       11000                                                                                                                                                                      
+ST_CLERK          2500        3500                                                                                                                                                                      
+ST_MAN            5800        5800                                                                                                                                                                      
+
+12 rows selected.
+
+SQL> REM MANAGER_ID WISE , COUNT OF EMPLOYEES
+SQL> 
+SQL> SELECT MANAGER_ID , COUNT(*) FROM EMPLOYEES GROUP BY MANAGER_ID ORDER BY 1;
+
+MANAGER_ID   COUNT(*)                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+       100          5                                                                                                                                                                                   
+       101          2                                                                                                                                                                                   
+       102          1                                                                                                                                                                                   
+       103          2                                                                                                                                                                                   
+       124          4                                                                                                                                                                                   
+       149          3                                                                                                                                                                                   
+       201          1                                                                                                                                                                                   
+       205          1                                                                                                                                                                                   
+                    1                                                                                                                                                                                   
+
+9 rows selected.
+
+SQL> REM DISPLAY HIRE YEAR WISE , LOWEST SALARY , AVERAGE SALARY , HIGHEST SALARY
+SQL> 
+SQL> SELECT SUBSTR(HIRE_DATE,8) , MIN(SALARY) , AVG(SALARY) , MAX(SALARY)
+  2  FROM EMPLOYEES
+  3  GROUP BY SUBSTR(HIRE_DATE,8);
+
+SUBSTR(HIRE_DATE,8)                          MIN(SALARY) AVG(SALARY) MAX(SALARY)                                                                                                                        
+-------------------------------------------- ----------- ----------- -----------                                                                                                                        
+99                                                  4200  5666.66667        7000                                                                                                                        
+87                                                  4400       14200       24000                                                                                                                        
+93                                                 17000       17000       17000                                                                                                                        
+97                                                  3100        4550        6000                                                                                                                        
+00                                                 10500       10500       10500                                                                                                                        
+89                                                 17000       17000       17000                                                                                                                        
+95                                                  3500        3500        3500                                                                                                                        
+94                                                  8300       10150       12000                                                                                                                        
+98                                                  2500  4566.66667        8600                                                                                                                        
+90                                                  9000        9000        9000                                                                                                                        
+91                                                  6000        6000        6000                                                                                                                        
+96                                                 11000       12000       13000                                                                                                                        
+
+12 rows selected.
+
+SQL> SELECT SUBSTR(HIRE_DATE,8) YEAR, MIN(SALARY) , AVG(SALARY) , MAX(SALARY)
+  2  FROM EMPLOYEES
+  3  GROUP BY SUBSTR(HIRE_DATE,8);
+
+YEAR                                         MIN(SALARY) AVG(SALARY) MAX(SALARY)                                                                                                                        
+-------------------------------------------- ----------- ----------- -----------                                                                                                                        
+99                                                  4200  5666.66667        7000                                                                                                                        
+87                                                  4400       14200       24000                                                                                                                        
+93                                                 17000       17000       17000                                                                                                                        
+97                                                  3100        4550        6000                                                                                                                        
+00                                                 10500       10500       10500                                                                                                                        
+89                                                 17000       17000       17000                                                                                                                        
+95                                                  3500        3500        3500                                                                                                                        
+94                                                  8300       10150       12000                                                                                                                        
+98                                                  2500  4566.66667        8600                                                                                                                        
+90                                                  9000        9000        9000                                                                                                                        
+91                                                  6000        6000        6000                                                                                                                        
+96                                                 11000       12000       13000                                                                                                                        
+
+12 rows selected.
+
+SQL> SELECT SUBSTR(HIRE_DATE,-2) YEAR, MIN(SALARY) , AVG(SALARY) , MAX(SALARY)
+  2  FROM EMPLOYEES
+  3  GROUP BY SUBSTR(HIRE_DATE,8);
+SELECT SUBSTR(HIRE_DATE,-2) YEAR, MIN(SALARY) , AVG(SALARY) , MAX(SALARY)
+              *
+ERROR at line 1:
+ORA-00979: not a GROUP BY expression 
+
+
+SQL> SELECT SUBSTR(HIRE_DATE,8) YEAR, MIN(SALARY) , AVG(SALARY) , MAX(SALARY)
+  2  FROM EMPLOYEES
+  3  GROUP BY SUBSTR(HIRE_DATE,8);
+
+YEAR                                         MIN(SALARY) AVG(SALARY) MAX(SALARY)                                                                                                                        
+-------------------------------------------- ----------- ----------- -----------                                                                                                                        
+99                                                  4200  5666.66667        7000                                                                                                                        
+87                                                  4400       14200       24000                                                                                                                        
+93                                                 17000       17000       17000                                                                                                                        
+97                                                  3100        4550        6000                                                                                                                        
+00                                                 10500       10500       10500                                                                                                                        
+89                                                 17000       17000       17000                                                                                                                        
+95                                                  3500        3500        3500                                                                                                                        
+94                                                  8300       10150       12000                                                                                                                        
+98                                                  2500  4566.66667        8600                                                                                                                        
+90                                                  9000        9000        9000                                                                                                                        
+91                                                  6000        6000        6000                                                                                                                        
+96                                                 11000       12000       13000                                                                                                                        
+
+12 rows selected.
+
+SQL> SELECT SUBSTR(HIRE_DATE,8) YEAR, MIN(SALARY) , AVG(SALARY) , MAX(SALARY)
+  2  FROM EMPLOYEES
+  3  GROUP BY HIRE_DATE;
+
+YEAR                                         MIN(SALARY) AVG(SALARY) MAX(SALARY)                                                                                                                        
+-------------------------------------------- ----------- ----------- -----------                                                                                                                        
+97                                                  3100        3100        3100                                                                                                                        
+98                                                  2500        2500        2500                                                                                                                        
+87                                                 24000       24000       24000                                                                                                                        
+93                                                 17000       17000       17000                                                                                                                        
+99                                                  4200        4200        4200                                                                                                                        
+97                                                  6000        6000        6000                                                                                                                        
+98                                                  2600        2600        2600                                                                                                                        
+94                                                  8300       10150       12000                                                                                                                        
+96                                                 11000       11000       11000                                                                                                                        
+87                                                  4400        4400        4400                                                                                                                        
+96                                                 13000       13000       13000                                                                                                                        
+91                                                  6000        6000        6000                                                                                                                        
+95                                                  3500        3500        3500                                                                                                                        
+98                                                  8600        8600        8600                                                                                                                        
+99                                                  5800        5800        5800                                                                                                                        
+99                                                  7000        7000        7000                                                                                                                        
+89                                                 17000       17000       17000                                                                                                                        
+00                                                 10500       10500       10500                                                                                                                        
+90                                                  9000        9000        9000                                                                                                                        
+
+19 rows selected.
+
+SQL> REM QUARTER WISE , AVERAGE SALARY
+SQL> 
+SQL> SELECT TO_CHAR(HIRE_DATE,'Q') , AVG(SALARY)
+  2  FROM EMPLOYEES
+  3  GROUP BY TO_CHAR(HIRE_DATE,'Q')
+  4  ORDER BY 1;
+
+T AVG(SALARY)                                                                                                                                                                                           
+- -----------                                                                                                                                                                                           
+1        8500                                                                                                                                                                                           
+2        8860                                                                                                                                                                                           
+3       10780                                                                                                                                                                                           
+4        4650                                                                                                                                                                                           
+
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME LAST_NAME  EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- ---------- ---------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven     King       SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena      Kochhar    NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex        De Haan    LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander  Hunold     AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce      Ernst      BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana      Lorentz    DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin      Mourgos    KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna     Rajs       TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis     Davies     CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall    Matos      RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter      Vargas     PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni      Zlotkey    EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen      Abel       EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon   Taylor     JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely   Grant      KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer   Whalen     JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael    Hartstein  MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat        Fay        PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley    Higgins    SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William    Gietz      WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> REM : A-D               E-H               I-N                O-T                  U-Z
+SQL> 
+SQL> 

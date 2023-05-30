@@ -1,0 +1,435 @@
+SQL> 
+SQL> REM SELF JOIN IS CONCEPTUAL/LOGICAL JOIN.
+SQL> 
+SQL> REM SELF JOIN IS NOT SYNTACTICAL JOIN.
+SQL> 
+SQL> SELECT EMPLOYEE_ID , FIRST_NAME , MANAGER_ID FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      MANAGER_ID                                                                                                                                                                  
+----------- --------------- ----------                                                                                                                                                                  
+        100 Steven                                                                                                                                                                                      
+        101 Neena                  100                                                                                                                                                                  
+        102 Lex                    100                                                                                                                                                                  
+        103 Alexander              102                                                                                                                                                                  
+        104 Bruce                  103                                                                                                                                                                  
+        107 Diana                  103                                                                                                                                                                  
+        124 Kevin                  100                                                                                                                                                                  
+        141 Trenna                 124                                                                                                                                                                  
+        142 Curtis                 124                                                                                                                                                                  
+        143 Randall                124                                                                                                                                                                  
+        144 Peter                  124                                                                                                                                                                  
+        149 Eleni                  100                                                                                                                                                                  
+        174 Ellen                  149                                                                                                                                                                  
+        176 Jonathon               149                                                                                                                                                                  
+        178 Kimerely               149                                                                                                                                                                  
+        200 Jennifer               101                                                                                                                                                                  
+        201 Michael                100                                                                                                                                                                  
+        202 Pat                    201                                                                                                                                                                  
+        205 Shelley                101                                                                                                                                                                  
+        206 William                205                                                                                                                                                                  
+
+20 rows selected.
+
+SQL> REM EMPLOYEE_NAME     MANAGER_NAME
+SQL> 
+SQL> REM Shelley           Neena
+SQL> REM William           Shelley
+SQL> 
+SQL> 
+SQL> SELECT FIRST_NAME EMP_NNAME , FIRST_NAME MGR_NAME
+  2  FROM EMPLOYEES
+  3  JOIN EMPLOYEES ON MANAGER_ID = EMPLOYEE_ID;
+JOIN EMPLOYEES ON MANAGER_ID = EMPLOYEE_ID
+                               *
+ERROR at line 3:
+ORA-00918: column ambiguously defined 
+
+
+SQL> SELECT FIRST_NAME EMP_NNAME , FIRST_NAME MGR_NAME
+  2  FROM EMPLOYEES
+  3  JOIN EMPLOYEES ON MANAGER_ID = EMPLOYEES.EMPLOYEE_ID;
+JOIN EMPLOYEES ON MANAGER_ID = EMPLOYEES.EMPLOYEE_ID
+                  *
+ERROR at line 3:
+ORA-00918: column ambiguously defined 
+
+
+SQL> SELECT FIRST_NAME EMP_NNAME , FIRST_NAME MGR_NAME
+  2  FROM EMPLOYEES
+  3  JOIN EMPLOYEES ON EMPLOYEES.MANAGER_ID = EMPLOYEES.EMPLOYEE_ID;
+SELECT FIRST_NAME EMP_NNAME , FIRST_NAME MGR_NAME
+                              *
+ERROR at line 1:
+ORA-00918: column ambiguously defined 
+
+
+SQL> SELECT EMPLOYEES.FIRST_NAME EMP_NNAME , EMPLOYEES.FIRST_NAME MGR_NAME
+  2  FROM EMPLOYEES
+  3  JOIN EMPLOYEES ON EMPLOYEES.MANAGER_ID = EMPLOYEES.EMPLOYEE_ID;
+SELECT EMPLOYEES.FIRST_NAME EMP_NNAME , EMPLOYEES.FIRST_NAME MGR_NAME
+                                        *
+ERROR at line 1:
+ORA-00918: column ambiguously defined 
+
+
+SQL> SELECT E.FIRST_NAME EMP_NNAME , M.FIRST_NAME MGR_NAME
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID;
+
+EMP_NNAME       MGR_NAME                                                                                                                                                                                
+--------------- ---------------                                                                                                                                                                         
+Neena           Steven                                                                                                                                                                                  
+Lex             Steven                                                                                                                                                                                  
+Kevin           Steven                                                                                                                                                                                  
+Eleni           Steven                                                                                                                                                                                  
+Michael         Steven                                                                                                                                                                                  
+Jennifer        Neena                                                                                                                                                                                   
+Shelley         Neena                                                                                                                                                                                   
+Alexander       Lex                                                                                                                                                                                     
+Bruce           Alexander                                                                                                                                                                               
+Diana           Alexander                                                                                                                                                                               
+Trenna          Kevin                                                                                                                                                                                   
+Curtis          Kevin                                                                                                                                                                                   
+Randall         Kevin                                                                                                                                                                                   
+Peter           Kevin                                                                                                                                                                                   
+Ellen           Eleni                                                                                                                                                                                   
+Jonathon        Eleni                                                                                                                                                                                   
+Kimerely        Eleni                                                                                                                                                                                   
+Pat             Michael                                                                                                                                                                                 
+William         Shelley                                                                                                                                                                                 
+
+19 rows selected.
+
+SQL> REM EMPLOYEE AND HIS/HER MANAGER'S : LAST_NAME
+SQL> 
+SQL> SELECT E.LAST_NAME "EMP LAST NAME",M.LAST_NAME "MGR LAST NAME"
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES M ON E.MANAGER_ID=M.EMPLOYEE_ID;
+
+EMP LAST NAME   MGR LAST NAME                                                                                                                                                                           
+--------------- ---------------                                                                                                                                                                         
+Kochhar         King                                                                                                                                                                                    
+De Haan         King                                                                                                                                                                                    
+Mourgos         King                                                                                                                                                                                    
+Zlotkey         King                                                                                                                                                                                    
+Hartstein       King                                                                                                                                                                                    
+Whalen          Kochhar                                                                                                                                                                                 
+Higgins         Kochhar                                                                                                                                                                                 
+Hunold          De Haan                                                                                                                                                                                 
+Ernst           Hunold                                                                                                                                                                                  
+Lorentz         Hunold                                                                                                                                                                                  
+Rajs            Mourgos                                                                                                                                                                                 
+Davies          Mourgos                                                                                                                                                                                 
+Matos           Mourgos                                                                                                                                                                                 
+Vargas          Mourgos                                                                                                                                                                                 
+Abel            Zlotkey                                                                                                                                                                                 
+Taylor          Zlotkey                                                                                                                                                                                 
+Grant           Zlotkey                                                                                                                                                                                 
+Fay             Hartstein                                                                                                                                                                               
+Gietz           Higgins                                                                                                                                                                                 
+
+19 rows selected.
+
+SQL> REM EMP & MGR : FIRST_NAME , SALARY
+SQL> 
+SQL> REM EMP & MGR : FIRST_NAME , SALARY    DIFFERENCE
+SQL> 
+SQL> SELECT E.FIRST_NAME EMP_NAME , E.SALARY EMP_SALARY ,
+  2         M.FIRST_NAME MGR_NAME , M.SALARY MGR_SALARY , M.SALARY - E.SALARY DIFFERENCE
+  3  FROM   EMPLOYEES E
+  4  JOIN   EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID;
+
+EMP_NAME        EMP_SALARY MGR_NAME        MGR_SALARY DIFFERENCE                                                                                                                                        
+--------------- ---------- --------------- ---------- ----------                                                                                                                                        
+Neena                17000 Steven               24000       7000                                                                                                                                        
+Lex                  17000 Steven               24000       7000                                                                                                                                        
+Kevin                 5800 Steven               24000      18200                                                                                                                                        
+Eleni                10500 Steven               24000      13500                                                                                                                                        
+Michael              13000 Steven               24000      11000                                                                                                                                        
+Jennifer              4400 Neena                17000      12600                                                                                                                                        
+Shelley              12000 Neena                17000       5000                                                                                                                                        
+Alexander             9000 Lex                  17000       8000                                                                                                                                        
+Bruce                 6000 Alexander             9000       3000                                                                                                                                        
+Diana                 4200 Alexander             9000       4800                                                                                                                                        
+Trenna                3500 Kevin                 5800       2300                                                                                                                                        
+Curtis                3100 Kevin                 5800       2700                                                                                                                                        
+Randall               2600 Kevin                 5800       3200                                                                                                                                        
+Peter                 2500 Kevin                 5800       3300                                                                                                                                        
+Ellen                11000 Eleni                10500       -500                                                                                                                                        
+Jonathon              8600 Eleni                10500       1900                                                                                                                                        
+Kimerely              7000 Eleni                10500       3500                                                                                                                                        
+Pat                   6000 Michael              13000       7000                                                                                                                                        
+William               8300 Shelley              12000       3700                                                                                                                                        
+
+19 rows selected.
+
+SQL> REM FROM -> WHERE -> GROUP BY -> HAVING -> COLUMN ALIAS -> ORDER BY -> OFFSET -> FETCH -> SELECT
+SQL> 
+SQL> SELECT E.LAST_NAME "EMP LAST NAME",M.LAST_NAME "MGR LAST NAME"
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES M ON E.MANAGER_ID=M.EMPLOYEE_ID;
+
+EMP LAST NAME   MGR LAST NAME                                                                                                                                                                           
+--------------- ---------------                                                                                                                                                                         
+Kochhar         King                                                                                                                                                                                    
+De Haan         King                                                                                                                                                                                    
+Mourgos         King                                                                                                                                                                                    
+Zlotkey         King                                                                                                                                                                                    
+Hartstein       King                                                                                                                                                                                    
+Whalen          Kochhar                                                                                                                                                                                 
+Higgins         Kochhar                                                                                                                                                                                 
+Hunold          De Haan                                                                                                                                                                                 
+Ernst           Hunold                                                                                                                                                                                  
+Lorentz         Hunold                                                                                                                                                                                  
+Rajs            Mourgos                                                                                                                                                                                 
+Davies          Mourgos                                                                                                                                                                                 
+Matos           Mourgos                                                                                                                                                                                 
+Vargas          Mourgos                                                                                                                                                                                 
+Abel            Zlotkey                                                                                                                                                                                 
+Taylor          Zlotkey                                                                                                                                                                                 
+Grant           Zlotkey                                                                                                                                                                                 
+Fay             Hartstein                                                                                                                                                                               
+Gietz           Higgins                                                                                                                                                                                 
+
+19 rows selected.
+
+SQL> SELECT E.LAST_NAME "EMP LAST NAME",M.LAST_NAME "MGR LAST NAME"
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES M ON M.MANAGER_ID=E.EMPLOYEE_ID;
+
+EMP LAST NAME   MGR LAST NAME                                                                                                                                                                           
+--------------- ---------------                                                                                                                                                                         
+King            Kochhar                                                                                                                                                                                 
+King            De Haan                                                                                                                                                                                 
+De Haan         Hunold                                                                                                                                                                                  
+Hunold          Ernst                                                                                                                                                                                   
+Hunold          Lorentz                                                                                                                                                                                 
+King            Mourgos                                                                                                                                                                                 
+Mourgos         Rajs                                                                                                                                                                                    
+Mourgos         Davies                                                                                                                                                                                  
+Mourgos         Matos                                                                                                                                                                                   
+Mourgos         Vargas                                                                                                                                                                                  
+King            Zlotkey                                                                                                                                                                                 
+Zlotkey         Abel                                                                                                                                                                                    
+Zlotkey         Taylor                                                                                                                                                                                  
+Zlotkey         Grant                                                                                                                                                                                   
+Kochhar         Whalen                                                                                                                                                                                  
+King            Hartstein                                                                                                                                                                               
+Hartstein       Fay                                                                                                                                                                                     
+Kochhar         Higgins                                                                                                                                                                                 
+Higgins         Gietz                                                                                                                                                                                   
+
+19 rows selected.
+
+SQL> SELECT M.LAST_NAME "EMP LAST NAME", E.LAST_NAME "MGR LAST NAME"
+  2  FROM EMPLOYEES E
+  3  JOIN EMPLOYEES M ON M.MANAGER_ID=E.EMPLOYEE_ID;
+
+EMP LAST NAME   MGR LAST NAME                                                                                                                                                                           
+--------------- ---------------                                                                                                                                                                         
+Kochhar         King                                                                                                                                                                                    
+De Haan         King                                                                                                                                                                                    
+Hunold          De Haan                                                                                                                                                                                 
+Ernst           Hunold                                                                                                                                                                                  
+Lorentz         Hunold                                                                                                                                                                                  
+Mourgos         King                                                                                                                                                                                    
+Rajs            Mourgos                                                                                                                                                                                 
+Davies          Mourgos                                                                                                                                                                                 
+Matos           Mourgos                                                                                                                                                                                 
+Vargas          Mourgos                                                                                                                                                                                 
+Zlotkey         King                                                                                                                                                                                    
+Abel            Zlotkey                                                                                                                                                                                 
+Taylor          Zlotkey                                                                                                                                                                                 
+Grant           Zlotkey                                                                                                                                                                                 
+Whalen          Kochhar                                                                                                                                                                                 
+Hartstein       King                                                                                                                                                                                    
+Fay             Hartstein                                                                                                                                                                               
+Higgins         Kochhar                                                                                                                                                                                 
+Gietz           Higgins                                                                                                                                                                                 
+
+19 rows selected.
+
+SQL> REM EMP & MGR : FIRST_NAME , HIRE_DATE   DIFFERENCE COMPLETED : DAYS   WEEKS   MONTHS   QUARTERS   YEARS
+SQL> 
+SQL> SELECT E.FIRST_NAME EMP_NAME , E.HIRE_DATE EMP_HD ,
+  2         M.FIRST_NAME MGR_NAME , M.HIRE_DATE MHR_HD ,
+  3         TRUNC(E.HIRE_DATE - M.HIRE_DATE) DAYS_DIFF,
+  4         TRUNC((E.HIRE_DATE - M.HIRE_DATE)/7) WEEKS_DIFF,
+  5         TRUNC(MONTHS_BETWEEN(E.HIRE_DATE , M.HIRE_DATE)) MONTHS_DIFF,
+  6         TRUNC(MONTHS_BETWEEN(E.HIRE_DATE , M.HIRE_DATE)/3) QTRS_DIFF,
+  7         TRUNC(MONTHS_BETWEEN(E.HIRE_DATE , M.HIRE_DATE)/12) YRS_DIFF
+  8  FROM   EMPLOYEES;
+       TRUNC(MONTHS_BETWEEN(E.HIRE_DATE , M.HIRE_DATE)/12) YRS_DIFF
+                                          *
+ERROR at line 7:
+ORA-00904: "M"."HIRE_DATE": invalid identifier 
+
+
+SQL> SELECT E.FIRST_NAME EMP_NAME , E.HIRE_DATE EMP_HD ,
+  2         M.FIRST_NAME MGR_NAME , M.HIRE_DATE MHR_HD ,
+  3         TRUNC(E.HIRE_DATE - M.HIRE_DATE) DAYS_DIFF,
+  4         TRUNC((E.HIRE_DATE - M.HIRE_DATE)/7) WEEKS_DIFF,
+  5         TRUNC(MONTHS_BETWEEN(E.HIRE_DATE , M.HIRE_DATE)) MONTHS_DIFF,
+  6         TRUNC(MONTHS_BETWEEN(E.HIRE_DATE , M.HIRE_DATE)/3) QTRS_DIFF,
+  7         TRUNC(MONTHS_BETWEEN(E.HIRE_DATE , M.HIRE_DATE)/12) YRS_DIFF
+  8  FROM   EMPLOYEES E
+  9  JOIN   EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID;
+
+EMP_NAME        EMP_HD    MGR_NAME        MHR_HD     DAYS_DIFF WEEKS_DIFF MONTHS_DIFF  QTRS_DIFF   YRS_DIFF                                                                                             
+--------------- --------- --------------- --------- ---------- ---------- ----------- ---------- ----------                                                                                             
+Neena           21-SEP-89 Steven          17-JUL-87        797        113          26          8          2                                                                                             
+Lex             13-JAN-93 Steven          17-JUL-87       2007        286          65         21          5                                                                                             
+Kevin           16-NOV-99 Steven          17-JUL-87       4505        643         147         49         12                                                                                             
+Eleni           29-JAN-00 Steven          17-JUL-87       4579        654         150         50         12                                                                                             
+Michael         17-FEB-96 Steven          17-JUL-87       3137        448         103         34          8                                                                                             
+Jennifer        17-SEP-87 Neena           21-SEP-89       -735       -105         -24         -8         -2                                                                                             
+Shelley         07-JUN-94 Neena           21-SEP-89       1720        245          56         18          4                                                                                             
+Alexander       03-JAN-90 Lex             13-JAN-93      -1106       -158         -36        -12         -3                                                                                             
+Bruce           21-MAY-91 Alexander       03-JAN-90        503         71          16          5          1                                                                                             
+Diana           07-FEB-99 Alexander       03-JAN-90       3322        474         109         36          9                                                                                             
+Trenna          17-OCT-95 Kevin           16-NOV-99      -1491       -213         -48        -16         -4                                                                                             
+Curtis          29-JAN-97 Kevin           16-NOV-99      -1021       -145         -33        -11         -2                                                                                             
+Randall         15-MAR-98 Kevin           16-NOV-99       -611        -87         -20         -6         -1                                                                                             
+Peter           09-JUL-98 Kevin           16-NOV-99       -495        -70         -16         -5         -1                                                                                             
+Ellen           11-MAY-96 Eleni           29-JAN-00      -1358       -194         -44        -14         -3                                                                                             
+Jonathon        24-MAR-98 Eleni           29-JAN-00       -676        -96         -22         -7         -1                                                                                             
+Kimerely        24-MAY-99 Eleni           29-JAN-00       -250        -35          -8         -2          0                                                                                             
+Pat             17-AUG-97 Michael         17-FEB-96        547         78          18          6          1                                                                                             
+William         07-JUN-94 Shelley         07-JUN-94          0          0           0          0          0                                                                                             
+
+19 rows selected.
+
+SQL> REM EMP & MGR : FIRST_NAME , DEPARTMENT_NAME
+SQL> 
+SQL> SELECT E.FIRST_NAME EMP_NAME , ED.DEPARTMENT_NAME EMP_DNAME ,
+  2         M.FIRST_NAME MGR_NAME , MD.DEPARTMENT_NAME MGR_DNAME
+  3  FROM   EMPLOYEES
+  4  
+SQL> 
+SQL> SELECT E.FIRST_NAME EMP_NAME , ED.DEPARTMENT_NAME EMP_DNAME ,
+  2         M.FIRST_NAME MGR_NAME , MD.DEPARTMENT_NAME MGR_DNAME
+  3  FROM   EMPLOYEES E
+  4  JOIN   EMPLOYEES M ON E.MANAGER_ID = M. EMPLOYEE_ID
+  5  JOIN   DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN   DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID;
+
+EMP_NAME        EMP_DNAME                      MGR_NAME        MGR_DNAME                                                                                                                                
+--------------- ------------------------------ --------------- ------------------------------                                                                                                           
+Pat             Marketing                      Michael         Marketing                                                                                                                                
+Peter           Shiping                        Kevin           Shiping                                                                                                                                  
+Randall         Shiping                        Kevin           Shiping                                                                                                                                  
+Curtis          Shiping                        Kevin           Shiping                                                                                                                                  
+Trenna          Shiping                        Kevin           Shiping                                                                                                                                  
+Diana           IT                             Alexander       IT                                                                                                                                       
+Bruce           IT                             Alexander       IT                                                                                                                                       
+Ellen           Sales                          Eleni           Sales                                                                                                                                    
+Jonathon        Sales                          Eleni           Sales                                                                                                                                    
+Michael         Marketing                      Steven          Executive                                                                                                                                
+Kevin           Shiping                        Steven          Executive                                                                                                                                
+Eleni           Sales                          Steven          Executive                                                                                                                                
+Lex             Executive                      Steven          Executive                                                                                                                                
+Neena           Executive                      Steven          Executive                                                                                                                                
+Jennifer        Administration                 Neena           Executive                                                                                                                                
+Shelley         Accounting                     Neena           Executive                                                                                                                                
+Alexander       IT                             Lex             Executive                                                                                                                                
+William         Accounting                     Shelley         Accounting                                                                                                                               
+
+18 rows selected.
+
+SQL> REM EMP & MGR : FULLNAME AND DEPARTMENT_NAME
+SQL> 
+SQL> SELECT E.FIRST_NAME || E.LAST_NAME FULL_NAME ,ED.DEPARTMENT_NAME EMP_DNAME ,
+  2  M.FIRST_NAME || M.LAST_NAME FULL_NAME ,MD.DEPARTMENT_NAME MGR_DNAME
+  3  FROM EMPLOYEES E
+  4  JOIN EMPLOYEES M ON E.MANAGER_ID = M.EMPLOYEE_ID
+  5  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID
+  6  JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID ;
+
+FULL_NAME                      EMP_DNAME                      FULL_NAME                      MGR_DNAME                                                                                                  
+------------------------------ ------------------------------ ------------------------------ ------------------------------                                                                             
+PatFay                         Marketing                      MichaelHartstein               Marketing                                                                                                  
+PeterVargas                    Shiping                        KevinMourgos                   Shiping                                                                                                    
+RandallMatos                   Shiping                        KevinMourgos                   Shiping                                                                                                    
+CurtisDavies                   Shiping                        KevinMourgos                   Shiping                                                                                                    
+TrennaRajs                     Shiping                        KevinMourgos                   Shiping                                                                                                    
+DianaLorentz                   IT                             AlexanderHunold                IT                                                                                                         
+BruceErnst                     IT                             AlexanderHunold                IT                                                                                                         
+EllenAbel                      Sales                          EleniZlotkey                   Sales                                                                                                      
+JonathonTaylor                 Sales                          EleniZlotkey                   Sales                                                                                                      
+MichaelHartstein               Marketing                      StevenKing                     Executive                                                                                                  
+KevinMourgos                   Shiping                        StevenKing                     Executive                                                                                                  
+EleniZlotkey                   Sales                          StevenKing                     Executive                                                                                                  
+LexDe Haan                     Executive                      StevenKing                     Executive                                                                                                  
+NeenaKochhar                   Executive                      StevenKing                     Executive                                                                                                  
+JenniferWhalen                 Administration                 NeenaKochhar                   Executive                                                                                                  
+ShelleyHiggins                 Accounting                     NeenaKochhar                   Executive                                                                                                  
+AlexanderHunold                IT                             LexDe Haan                     Executive                                                                                                  
+WilliamGietz                   Accounting                     ShelleyHiggins                 Accounting                                                                                                 
+
+18 rows selected.
+
+SQL> SELECT E.FIRST_NAME||' '||E.LAST_NAME "EMPLOYEE_FULLNAME",
+  2         M.FIRST_NAME||' '||M.LAST_NAME "MANAGER_FULLNAME",
+  3         ED.DEPARTMENT_NAME "EMPLOYEE_DEPARTMENT", MD.DEPARTMENT_NAME "MANAGER_DEPART"
+  4         FROM EMPLOYEES E
+  5         JOIN EMPLOYEES M ON E.MANAGER_ID=M.EMPLOYEE_ID
+  6         JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID = ED.DEPARTMENT_ID JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID = MD.DEPARTMENT_ID;
+
+EMPLOYEE_FULLNAME               MANAGER_FULLNAME                EMPLOYEE_DEPARTMENT            MANAGER_DEPART                                                                                           
+------------------------------- ------------------------------- ------------------------------ ------------------------------                                                                           
+Pat Fay                         Michael Hartstein               Marketing                      Marketing                                                                                                
+Peter Vargas                    Kevin Mourgos                   Shiping                        Shiping                                                                                                  
+Randall Matos                   Kevin Mourgos                   Shiping                        Shiping                                                                                                  
+Curtis Davies                   Kevin Mourgos                   Shiping                        Shiping                                                                                                  
+Trenna Rajs                     Kevin Mourgos                   Shiping                        Shiping                                                                                                  
+Diana Lorentz                   Alexander Hunold                IT                             IT                                                                                                       
+Bruce Ernst                     Alexander Hunold                IT                             IT                                                                                                       
+Ellen Abel                      Eleni Zlotkey                   Sales                          Sales                                                                                                    
+Jonathon Taylor                 Eleni Zlotkey                   Sales                          Sales                                                                                                    
+Michael Hartstein               Steven King                     Marketing                      Executive                                                                                                
+Kevin Mourgos                   Steven King                     Shiping                        Executive                                                                                                
+Eleni Zlotkey                   Steven King                     Sales                          Executive                                                                                                
+Lex De Haan                     Steven King                     Executive                      Executive                                                                                                
+Neena Kochhar                   Steven King                     Executive                      Executive                                                                                                
+Jennifer Whalen                 Neena Kochhar                   Administration                 Executive                                                                                                
+Shelley Higgins                 Neena Kochhar                   Accounting                     Executive                                                                                                
+Alexander Hunold                Lex De Haan                     IT                             Executive                                                                                                
+William Gietz                   Shelley Higgins                 Accounting                     Accounting                                                                                               
+
+18 rows selected.
+
+SQL> REM EMPLOYEE AND HIS/HER MANAGER : FIRST_NAME , DEPARTMENT_NAME , CITY
+SQL> 
+SQL> SELECT E.FIRST_NAME "EMP FIRST NAME", ED.DEPARTMENT_NAME "EMP DEPT NAME", EL.CITY"EMP CITY", M.FIRST_NAME "MGR FIRST NAME",MD.DEPARTMENT_NAME "MGR DEPT NANE",
+  2  ML.CITY "MGR CITY"
+  3  FROM EMPLOYEES E
+  4  JOIN EMPLOYEES M ON E.MANAGER_ID=M.EMPLOYEE_ID
+  5  JOIN DEPARTMENTS ED ON E.DEPARTMENT_ID=ED.DEPARTMENT_ID
+  6  JOIN DEPARTMENTS MD ON M.DEPARTMENT_ID=MD.DEPARTMENT_ID
+  7  JOIN LOCATIONS EL ON ED.LOCATION_ID=EL.LOCATION_ID
+  8  JOIN LOCATIONS ML ON MD.LOCATION_ID=ML.LOCATION_ID;
+
+EMP FIRST NAME  EMP DEPT NAME                  EMP CITY                       MGR FIRST NAME  MGR DEPT NANE                  MGR CITY                                                                   
+--------------- ------------------------------ ------------------------------ --------------- ------------------------------ ------------------------------                                             
+Diana           IT                             Southlake                      Alexander       IT                             Southlake                                                                  
+Bruce           IT                             Southlake                      Alexander       IT                             Southlake                                                                  
+Peter           Shiping                        South San Francisco            Kevin           Shiping                        South San Francisco                                                        
+Randall         Shiping                        South San Francisco            Kevin           Shiping                        South San Francisco                                                        
+Curtis          Shiping                        South San Francisco            Kevin           Shiping                        South San Francisco                                                        
+Trenna          Shiping                        South San Francisco            Kevin           Shiping                        South San Francisco                                                        
+Alexander       IT                             Southlake                      Lex             Executive                      Seattle                                                                    
+Kevin           Shiping                        South San Francisco            Steven          Executive                      Seattle                                                                    
+Lex             Executive                      Seattle                        Steven          Executive                      Seattle                                                                    
+Neena           Executive                      Seattle                        Steven          Executive                      Seattle                                                                    
+Jennifer        Administration                 Seattle                        Neena           Executive                      Seattle                                                                    
+Shelley         Accounting                     Seattle                        Neena           Executive                      Seattle                                                                    
+William         Accounting                     Seattle                        Shelley         Accounting                     Seattle                                                                    
+Michael         Marketing                      Toronto                        Steven          Executive                      Seattle                                                                    
+Eleni           Sales                          Oxford                         Steven          Executive                      Seattle                                                                    
+Pat             Marketing                      Toronto                        Michael         Marketing                      Toronto                                                                    
+Ellen           Sales                          Oxford                         Eleni           Sales                          Oxford                                                                     
+Jonathon        Sales                          Oxford                         Eleni           Sales                          Oxford                                                                     
+
+18 rows selected.
+
+SQL> SPOOL OFF

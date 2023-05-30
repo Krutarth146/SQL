@@ -1,0 +1,315 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM PCM : PIVOTE / CROSS TAB / MATRIX REPORT
+SQL> 
+SQL> SELECT AVG(SALARY) FROM EMPLOYEES;
+
+AVG(SALARY)                                                                                                                                                                                             
+-----------                                                                                                                                                                                             
+       8775                                                                                                                                                                                             
+
+SQL> SELECT AVG(SALARY) FROM EMPLOYEES WHERE DEPARTMENT_ID = 50;
+
+AVG(SALARY)                                                                                                                                                                                             
+-----------                                                                                                                                                                                             
+       3500                                                                                                                                                                                             
+
+SQL> SELECT AVG(SALARY) FROM EMPLOYEES WHERE DEPARTMENT_ID = 20;
+
+AVG(SALARY)                                                                                                                                                                                             
+-----------                                                                                                                                                                                             
+       9500                                                                                                                                                                                             
+
+SQL> SELECT AVG(SALARY) FROM EMPLOYEES WHERE DEPARTMENT_ID = 110;
+
+AVG(SALARY)                                                                                                                                                                                             
+-----------                                                                                                                                                                                             
+      10150                                                                                                                                                                                             
+
+SQL> SELECT DEPARTMENT_ID , AVG(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT_ID ORDER BY 1;
+
+DEPARTMENT_ID AVG(SALARY)                                                                                                                                                                               
+------------- -----------                                                                                                                                                                               
+           10        4400                                                                                                                                                                               
+           20        9500                                                                                                                                                                               
+           50        3500                                                                                                                                                                               
+           60        6400                                                                                                                                                                               
+           80  10033.3333                                                                                                                                                                               
+           90  19333.3333                                                                                                                                                                               
+          110       10150                                                                                                                                                                               
+                     7000                                                                                                                                                                               
+
+8 rows selected.
+
+SQL> SELECT DEPARTMENT_ID , AVG(SALARY) FROM EMPLOYEES WHERE DEPARTMENT_ID = ANY (20 , 50 , 110) GROUP BY DEPARTMENT_ID;
+
+DEPARTMENT_ID AVG(SALARY)                                                                                                                                                                               
+------------- -----------                                                                                                                                                                               
+           20        9500                                                                                                                                                                               
+          110       10150                                                                                                                                                                               
+           50        3500                                                                                                                                                                               
+
+SQL> SELECT DEPARTMENT_ID , AVG(SALARY) FROM EMPLOYEES HAVING DEPARTMENT_ID = ANY (20 , 50 , 110) GROUP BY DEPARTMENT_ID;
+
+DEPARTMENT_ID AVG(SALARY)                                                                                                                                                                               
+------------- -----------                                                                                                                                                                               
+           20        9500                                                                                                                                                                               
+          110       10150                                                                                                                                                                               
+           50        3500                                                                                                                                                                               
+
+SQL> REM DEPT_20_AVG_SAL    DEPT_110_AVG_SAL    DEPT_50_AVG_SAL
+SQL> 
+SQL> REM            9500               10150               3500
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT AVG(DECODE(DEPARTMENT_ID , 20 , SALARY) DEPT_20_AVG_SAL,
+  2         AVG(DECODE(DEPARTMENT_ID , 110 , SALARY) DEPT_110_AVG_SAL,
+  3         AVG(DECODE(DEPARTMENT_ID , 50 , SALARY) DEPT_50_AVG_SAL
+  4  FROM EMPLOYEES;
+SELECT AVG(DECODE(DEPARTMENT_ID , 20 , SALARY) DEPT_20_AVG_SAL,
+                                               *
+ERROR at line 1:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT AVG(DECODE(DEPARTMENT_ID , 20 , SALARY)) DEPT_20_AVG_SAL,
+  2         AVG(DECODE(DEPARTMENT_ID , 110 , SALARY)) DEPT_110_AVG_SAL,
+  3         AVG(DECODE(DEPARTMENT_ID , 50 , SALARY)) DEPT_50_AVG_SAL
+  4  FROM EMPLOYEES;
+
+DEPT_20_AVG_SAL DEPT_110_AVG_SAL DEPT_50_AVG_SAL                                                                                                                                                        
+--------------- ---------------- ---------------                                                                                                                                                        
+           9500            10150            3500                                                                                                                                                        
+
+SQL> SELECT AVG(CASE DEPARTMENT_ID WHEN 20 THEN SALARY END) DEPT_20_AVG_SAL,
+  2         AVG(CASE DEPARTMENT_ID WHEN 110 THEN SALARY END) DEPT_110_AVG_SAL,
+  3         AVG(CASE DEPARTMENT_ID WHEN 50 THEN SALARY END) DEPT_50_AVG_SAL
+  4  FROM EMPLOYEES;
+
+DEPT_20_AVG_SAL DEPT_110_AVG_SAL DEPT_50_AVG_SAL                                                                                                                                                        
+--------------- ---------------- ---------------                                                                                                                                                        
+           9500            10150            3500                                                                                                                                                        
+
+SQL> 
+SQL> SELECT AVG(CASE WHEN DEPARTMENT_ID = 20 THEN SALARY END) DEPT_20_AVG_SAL,
+  2         AVG(CASE WHEN DEPARTMENT_ID = 110 THEN SALARY END) DEPT_110_AVG_SAL,
+  3         AVG(CASE WHEN DEPARTMENT_ID = 50 THEN SALARY END) DEPT_50_AVG_SAL
+  4  FROM EMPLOYEES;
+
+DEPT_20_AVG_SAL DEPT_110_AVG_SAL DEPT_50_AVG_SAL                                                                                                                                                        
+--------------- ---------------- ---------------                                                                                                                                                        
+           9500            10150            3500                                                                                                                                                        
+
+SQL> REM IT_PROG_MIN_SAL    SA_REP_MIN_SAL    ST_CLERK_MIN_SAL
+SQL> 
+SQL> REM DECODE             CASE I            CASE II
+SQL> 
+SQL> SELECT MIN(DECODE(JOB_ID , 'IT_PROG' , SALARY)) IT_PROG_MIN_SAL,
+  2         MIN(CASE JOB_ID WHEN 'SA_REP' THEN SALARY END) SA_REP_MIN_SAL,
+  3         MIN(CASE WHEN JOB_ID = 'ST_CLERK' THEN SALARY END) ST_CLERK_MIN_SAL
+  4  FROM EMPLOYEES;
+
+IT_PROG_MIN_SAL SA_REP_MIN_SAL ST_CLERK_MIN_SAL                                                                                                                                                         
+--------------- -------------- ----------------                                                                                                                                                         
+           4200           7000             2500                                                                                                                                                         
+
+SQL> REM MGR_100_MIN_SAL   MGR_124_AVG_SAL    MGR_149_MAX_SAL
+SQL> 
+SQL> REM DECODE            CASE I             CASE II
+SQL> 
+SQL> SELECT MIN(DECODE(MANAGER_ID,100,SALARY)) MGR_100_MIN_SAL,
+  2         AVG(CASE MANAGER_ID WHEN 100 THEN SALARY END) MGR_124_AVG_SAL,
+  3         MAX(CASE MANAGER_ID WHEN 149 THEN SALARY END) MGR_149_MAX_SAL
+  4  
+SQL> 
+SQL> SELECT MIN(DECODE(MANAGER_ID,100,SALARY)) MGR_100_MIN_SAL,
+  2         AVG(CASE MANAGER_ID WHEN 124 THEN SALARY END) MGR_124_AVG_SAL,
+  3         MAX(CASE MANAGER_ID WHEN 149 THEN SALARY END) MGR_149_MAX_SAL
+  4  FROM EMPLOYEES;
+
+MGR_100_MIN_SAL MGR_124_AVG_SAL MGR_149_MAX_SAL                                                                                                                                                         
+--------------- --------------- ---------------                                                                                                                                                         
+           5800            2925           11000                                                                                                                                                         
+
+SQL> SELECT MIN(DECODE(MANAGER_ID,100,SALARY)) MGR_100_MIN_SAL,
+  2         AVG(CASE MANAGER_ID WHEN 124 THEN SALARY END) MGR_124_AVG_SAL,
+  3         MAX(CASE WHEN MANAGER_ID = 149 THEN SALARY END) MGR_149_MAX_SAL
+  4  FROM EMPLOYEES;
+
+MGR_100_MIN_SAL MGR_124_AVG_SAL MGR_149_MAX_SAL                                                                                                                                                         
+--------------- --------------- ---------------                                                                                                                                                         
+           5800            2925           11000                                                                                                                                                         
+
+SQL> SELECT MIN(DECODE(MANAGER_ID,100,SALARY)) MGR_100_MIN_SAL,
+  2         AVG(CASE MANAGER_ID WHEN 124 THEN SALARY END) MGR_124_AVG_SAL,
+  3         MAX(CASE WHEN MANAGER_ID LIKE 149 THEN SALARY END) MGR_149_MAX_SAL
+  4  FROM EMPLOYEES;
+
+MGR_100_MIN_SAL MGR_124_AVG_SAL MGR_149_MAX_SAL                                                                                                                                                         
+--------------- --------------- ---------------                                                                                                                                                         
+           5800            2925           11000                                                                                                                                                         
+
+SQL> SELECT MIN(DECODE(MANAGER_ID,100,SALARY)) MGR_100_MIN_SAL,
+  2         AVG(CASE MANAGER_ID WHEN 124 THEN SALARY END) MGR_124_AVG_SAL,
+  3         MAX(CASE WHEN MANAGER_ID IN 149 THEN SALARY END) MGR_149_MAX_SAL
+  4  FROM EMPLOYEES;
+
+MGR_100_MIN_SAL MGR_124_AVG_SAL MGR_149_MAX_SAL                                                                                                                                                         
+--------------- --------------- ---------------                                                                                                                                                         
+           5800            2925           11000                                                                                                                                                         
+
+SQL> SELECT MIN(DECODE(MANAGER_ID,100,SALARY)) MGR_100_MIN_SAL,
+  2         AVG(CASE MANAGER_ID WHEN 124 THEN SALARY END) MGR_124_AVG_SAL,
+  3         MAX(CASE WHEN MANAGER_ID = ANY 149 THEN SALARY END) MGR_149_MAX_SAL
+  4  FROM EMPLOYEES;
+
+MGR_100_MIN_SAL MGR_124_AVG_SAL MGR_149_MAX_SAL                                                                                                                                                         
+--------------- --------------- ---------------                                                                                                                                                         
+           5800            2925           11000                                                                                                                                                         
+
+SQL> SELECT MIN(DECODE(MANAGER_ID,100,SALARY)) MGR_100_MIN_SAL,
+  2         AVG(CASE MANAGER_ID WHEN 124 THEN SALARY END) MGR_124_AVG_SAL,
+  3         MAX(CASE WHEN MANAGER_ID = SOME 149 THEN SALARY END) MGR_149_MAX_SAL
+  4  FROM EMPLOYEES;
+
+MGR_100_MIN_SAL MGR_124_AVG_SAL MGR_149_MAX_SAL                                                                                                                                                         
+--------------- --------------- ---------------                                                                                                                                                         
+           5800            2925           11000                                                                                                                                                         
+
+SQL> REM 1994_MIN_SAL    1998_AVG_SAL    1999_MAX_SAL
+SQL> 
+SQL> REM DECODE          CASE I          CASE II
+SQL> 
+SQL> SELECT MIN(DECODE(TO_CHAR(HIRE_DATE,'YYYY'),1994,SALARY)) "1994_MIN_SAL",
+  2         AVG(CASE TO_CHAR (HIRE_DATE,'YYYY') WHEN 1998 THEN SALARY END) "1998_AVG_SAL",
+  3         MAX(CASE WHEN TO_CHAR(HIRE_DATE,'YYYY') =1999  THEN SALARY END) "1999_MAX_SAL"
+  4       FROM EMPLOYEES;
+       AVG(CASE TO_CHAR (HIRE_DATE,'YYYY') WHEN 1998 THEN SALARY END) "1998_AVG_SAL",
+                                                *
+ERROR at line 2:
+ORA-00932: inconsistent datatypes: expected CHAR got NUMBER 
+
+
+SQL> SELECT MIN(DECODE(TO_CHAR(HIRE_DATE,'YYYY'),'1994',SALARY)) "1994_MIN_SAL",
+  2         AVG(CASE TO_CHAR (HIRE_DATE,'YYYY') WHEN '1998' THEN SALARY END) "1998_AVG_SAL",
+  3         MAX(CASE WHEN TO_CHAR(HIRE_DATE,'YYYY') = '1999'  THEN SALARY END) "1999_MAX_SAL"
+  4       FROM EMPLOYEES;
+
+1994_MIN_SAL 1998_AVG_SAL 1999_MAX_SAL                                                                                                                                                                  
+------------ ------------ ------------                                                                                                                                                                  
+        8300   4566.66667         7000                                                                                                                                                                  
+
+SQL> SELECT MIN(DECODE(SUBSTR(HIRE_DATE,-2),'1994',SAL)) 1994_MIN_SAL, AVG(CASE SUBSTR(HIRE_DATE,-2) WHEN '1998' THEN SALARY END) 1998_AVG_SAL ,MAX(CASE WHEN SUBSTR(HIRE_DATE,-2) = '1999' THEN SALARY END) 1999_MAX_SAL FROM EMPLOYEES;
+SELECT MIN(DECODE(SUBSTR(HIRE_DATE,-2),'1994',SAL)) 1994_MIN_SAL, AVG(CASE SUBSTR(HIRE_DATE,-2) WHEN '1998' THEN SALARY END) 1998_AVG_SAL ,MAX(CASE WHEN SUBSTR(HIRE_DATE,-2) = '1999' THEN SALARY END) 1999_MAX_SAL FROM EMPLOYEES
+                                                    *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT MIN(DECODE(SUBSTR(HIRE_DATE,-2),'1994',SAL)) "1994_MIN_SAL", AVG(CASE SUBSTR(HIRE_DATE,-2) WHEN '1998' THEN SALARY END) "1998_AVG_SAL" ,MAX(CASE WHEN SUBSTR(HIRE_DATE,-2) = '1999' THEN SALARY END) "1999_MAX_SAL" FROM EMPLOYEES;
+SELECT MIN(DECODE(SUBSTR(HIRE_DATE,-2),'1994',SAL)) "1994_MIN_SAL", AVG(CASE SUBSTR(HIRE_DATE,-2) WHEN '1998' THEN SALARY END) "1998_AVG_SAL" ,MAX(CASE WHEN SUBSTR(HIRE_DATE,-2) = '1999' THEN SALARY END) "1999_MAX_SAL" FROM EMPLOYEES
+                                              *
+ERROR at line 1:
+ORA-00904: "SAL": invalid identifier 
+
+
+SQL> SELECT MIN(DECODE(SUBSTR(HIRE_DATE,-2),'1994',SALARY)) "1994_MIN_SAL", AVG(CASE SUBSTR(HIRE_DATE,-2) WHEN '1998' THEN SALARY END) "1998_AVG_SAL" ,MAX(CASE WHEN SUBSTR(HIRE_DATE,-2) = '1999' THEN SALARY END) "1999_MAX_SAL" FROM EMPLOYEES;
+
+1994_MIN_SAL 1998_AVG_SAL 1999_MAX_SAL                                                                                                                                                                  
+------------ ------------ ------------                                                                                                                                                                  
+                                                                                                                                                                                                        
+
+SQL> SELECT MIN(DECODE(SUBSTR(HIRE_DATE,-2),'94',SALARY)) "1994_MIN_SAL", AVG(CASE SUBSTR(HIRE_DATE,-2) WHEN '98' THEN SALARY END) "1998_AVG_SAL" ,MAX(CASE WHEN SUBSTR(HIRE_DATE,-2) = '99' THEN SALARY END) "1999_MAX_SAL" FROM EMPLOYEES;
+
+1994_MIN_SAL 1998_AVG_SAL 1999_MAX_SAL                                                                                                                                                                  
+------------ ------------ ------------                                                                                                                                                                  
+        8300   4566.66667         7000                                                                                                                                                                  
+
+SQL> SELECT MIN(DECODE(TO_CHAR(HIRE_DATE,'RRRR'),'1994',SALARY)) "1994_MIN_SALARY",
+  2         AVG(CASE TO_CHAR(HIRE_DATE,'RRRR') WHEN '1998' THEN SALARY END) "1998_AVG_SAL" ,
+  3         MAX(CASE WHEN TO_CHAR(HIRE_DATE,'RRRR')='1999' THEN SALARY END) "1999_MAX_SAL" FROM EMPLOYEES;
+
+1994_MIN_SALARY 1998_AVG_SAL 1999_MAX_SAL                                                                                                                                                               
+--------------- ------------ ------------                                                                                                                                                               
+           8300   4566.66667         7000                                                                                                                                                               
+
+SQL> SELECT DEPARTMENT_ID , MIN(DECODE(TO_CHAR(HIRE_DATE,'RRRR'),'1994',SALARY)) "1994_MIN_SALARY",
+  2         AVG(CASE TO_CHAR(HIRE_DATE,'RRRR') WHEN '1998' THEN SALARY END) "1998_AVG_SAL" ,
+  3         MAX(CASE WHEN TO_CHAR(HIRE_DATE,'RRRR')='1999' THEN SALARY END) "1999_MAX_SAL"
+  4  FROM EMPLOYEES
+  5  GROUP BY DEPARTMENT_ID;
+
+DEPARTMENT_ID 1994_MIN_SALARY 1998_AVG_SAL 1999_MAX_SAL                                                                                                                                                 
+------------- --------------- ------------ ------------                                                                                                                                                 
+                                                   7000                                                                                                                                                 
+           90                                                                                                                                                                                           
+           20                                                                                                                                                                                           
+          110            8300                                                                                                                                                                           
+           50                         2550         5800                                                                                                                                                 
+           80                         8600                                                                                                                                                              
+           60                                      4200                                                                                                                                                 
+           10                                                                                                                                                                                           
+
+8 rows selected.
+
+SQL> REM JOB_ID WISE CNT_1994   CNT_1997   CNT_1998   CNT_1999
+SQL> 
+SQL> SELECT JOB_ID , COUNT(DECODE(TO_CHAR(HIRE_DATE,'RRRR'),'1994','*')) CNT_1994,
+  2                  COUNT(CASE TO_CHAR(HIRE_DATE,'RRRR') WHEN '1997' THEN '*' END) CNT_1997,
+  3                  COUNT(CASE TO_CHAR(HIRE_DATE,'RRRR') WHEN '1998' THEN '*' END) CNT_1998,
+  4                  COUNT(CASE WHEN TO_CHAR(HIRE_DATE,'RRRR') = '1999' THEN '*' END) CNT_1999
+  5  FROM EMPLOYEES
+  6  GROUP BY JOB_ID
+  7  ORDER BY 1;
+
+JOB_ID       CNT_1994   CNT_1997   CNT_1998   CNT_1999                                                                                                                                                  
+---------- ---------- ---------- ---------- ----------                                                                                                                                                  
+AC_ACCOUNT          1          0          0          0                                                                                                                                                  
+AC_MGR              1          0          0          0                                                                                                                                                  
+AD_ASST             0          0          0          0                                                                                                                                                  
+AD_PRES             0          0          0          0                                                                                                                                                  
+AD_VP               0          0          0          0                                                                                                                                                  
+IT_PROG             0          0          0          1                                                                                                                                                  
+MK_MAN              0          0          0          0                                                                                                                                                  
+MK_REP              0          1          0          0                                                                                                                                                  
+SA_MAN              0          0          0          0                                                                                                                                                  
+SA_REP              0          0          1          1                                                                                                                                                  
+ST_CLERK            0          1          2          0                                                                                                                                                  
+ST_MAN              0          0          0          1                                                                                                                                                  
+
+12 rows selected.
+
+SQL> SELECT * FROM EMPLOYEES
+  2  ;
+
+EMPLOYEE_ID FIRST_NAME LAST_NAME  EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                               
+----------- ---------- ---------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                               
+        100 Steven     King       SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                               
+        101 Neena      Kochhar    NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                               
+        102 Lex        De Haan    LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                               
+        103 Alexander  Hunold     AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                               
+        104 Bruce      Ernst      BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                               
+        107 Diana      Lorentz    DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                               
+        124 Kevin      Mourgos    KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                               
+        141 Trenna     Rajs       TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                               
+        142 Curtis     Davies     CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                               
+        143 Randall    Matos      RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                               
+        144 Peter      Vargas     PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                               
+        149 Eleni      Zlotkey    EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                               
+        174 Ellen      Abel       EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                               
+        176 Jonathon   Taylor     JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                               
+        178 Kimerely   Grant      KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                             
+        200 Jennifer   Whalen     JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                               
+        201 Michael    Hartstein  MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                               
+        202 Pat        Fay        PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                               
+        205 Shelley    Higgins    SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                               
+        206 William    Gietz      WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                               
+
+20 rows selected.
+
+SQL> REM HIRE YEAR WISE  50_ST_CLERK_MIN_SAL   60_IT_PROG_AVG_SAL    80_SA_REP_MAX_SAL
+SQL> 
+SQL> SPOOL OFF

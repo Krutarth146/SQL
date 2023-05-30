@@ -1,0 +1,1006 @@
+
+SQL> REM UPPER LOWER INITCAP
+SQL>
+SQL> REM CONCAT LPAD RPAD LTRIM RTRIM TRIM LENGTH TRANSLATE REPLACE SUBSTR INSTR
+SQL>
+SQL> REM NUMBER FUNCTIONS : POWER SQRT  MOD  CEIL FLOOR    TRUNC ROUND
+SQL>
+SQL> REM POWER :
+SQL>
+SQL> SELECT 5 * 5 FROM DUAL;
+
+       5*5
+----------
+        25
+
+SQL> SELECT 5 * 5 * 5 * 5 FROM DUAL;
+
+   5*5*5*5
+----------
+       625
+
+SQL> SELECT 5 * 5 * 5 * 5 * 5 * 5 * 5 FROM DUAL;
+
+5*5*5*5*5*5*5
+-------------
+        78125
+
+SQL> SELECT POWER(5,2) FROM DUAL;
+
+POWER(5,2)
+----------
+        25
+
+SQL> SELECT POWER(5,4) FROM DUAL;
+
+POWER(5,4)
+----------
+       625
+
+SQL> SELECT POWER(5,7) FROM DUAL;
+
+POWER(5,7)
+----------
+     78125
+
+SQL> SELECT POWER(25,1/2) FROM DUAL;
+
+POWER(25,1/2)
+-------------
+            5
+
+SQL> SELECT POWER(125,1/3) FROM DUAL;
+
+POWER(125,1/3)
+--------------
+             5
+
+SQL> SELECT POWER(3125,1/5) FROM DUAL;
+
+POWER(3125,1/5)
+---------------
+              5
+
+SQL> SELECT POWER(78125,1/7) FROM DUAL;
+
+POWER(78125,1/7)
+----------------
+               5
+
+SQL> SELECT POWER(26,1/2) FROM DUAL;
+
+POWER(26,1/2)
+-------------
+   5.09901951
+
+SQL> SELECT POWER(5,1.2) FROM DUAL;
+
+POWER(5,1.2)
+------------
+  6.89864831
+
+SQL> REM SQRT :
+SQL>
+SQL> SELECT POWER(36,1/2) , SQRT(36) FROM DUAL;
+
+POWER(36,1/2)   SQRT(36)
+------------- ----------
+            6          6
+
+SQL> SELECT POWER(27,1/3) , SQRT(SQRT(27)) FROM DUAL;
+
+POWER(27,1/3) SQRT(SQRT(27))
+------------- --------------
+            3     2.27950706
+
+SQL> SELECT POWER(-36,1/2) , SQRT(-36) FROM DUAL;
+SELECT POWER(-36,1/2) , SQRT(-36) FROM DUAL
+             *
+ERROR at line 1:
+ORA-01428: argument '-36' is out of range
+
+
+SQL> REM MOD : REMAINDER
+SQL>
+SQL> REM 14/3 = 2
+SQL>
+SQL> SELECT MOD(14,3) FROM DUAL;
+
+ MOD(14,3)
+----------
+         2
+
+SQL> SELECT MOD(14,4) FROM DUAL;
+
+ MOD(14,4)
+----------
+         2
+
+SQL> SELECT MOD(14,5) FROM DUAL;
+
+ MOD(14,5)
+----------
+         4
+
+SQL> SELECT MOD(14,6) FROM DUAL;
+
+ MOD(14,6)
+----------
+         2
+
+SQL> SELECT MOD(14,7) FROM DUAL;
+
+ MOD(14,7)
+----------
+         0
+
+SQL> SELECT MOD(14,-4) FROM DUAL;
+
+MOD(14,-4)
+----------
+         2
+
+SQL> SELECT MOD(-14,-4) FROM DUAL;
+
+MOD(-14,-4)
+-----------
+         -2
+
+SQL> SELECT MOD(-14,4) FROM DUAL;
+
+MOD(-14,4)
+----------
+        -2
+
+SQL> SELECT MOD(-14.25,4) FROM DUAL;
+
+MOD(-14.25,4)
+-------------
+        -2.25
+
+SQL> REM FLOOR , CEIL :
+SQL>
+SQL> SELECT FLOOR(2) , CEIL(2) FROM DUAL;
+
+  FLOOR(2)    CEIL(2)
+---------- ----------
+         2          2
+
+SQL> SELECT FLOOR(2.1) , CEIL(2.1) FROM DUAL;
+
+FLOOR(2.1)  CEIL(2.1)
+---------- ----------
+         2          3
+
+SQL> SELECT FLOOR(2.9) , CEIL(2.9) FROM DUAL;
+
+FLOOR(2.9)  CEIL(2.9)
+---------- ----------
+         2          3
+
+SQL> SELECT FLOOR(2.000000000000000000000000001) , CEIL(2.000000000000000000000000000001) FROM DUAL;
+
+FLOOR(2.000000000000000000000000001) CEIL(2.000000000000000000000000000001)
+------------------------------------ --------------------------------------
+                                   2                                      3
+
+SQL> SELECT FLOOR(2.) , CEIL(2.) FROM DUAL;
+
+ FLOOR(2.)   CEIL(2.)
+---------- ----------
+         2          2
+
+SQL> SELECT FLOOR(2.0) , CEIL(2.0) FROM DUAL;
+
+FLOOR(2.0)  CEIL(2.0)
+---------- ----------
+         2          2
+
+SQL> SELECT FLOOR(-2.2) , CEIL(-2.2) FROM DUAL;
+
+FLOOR(-2.2) CEIL(-2.2)
+----------- ----------
+         -3         -2
+
+SQL> REM FLOOR : WILL RETURN PREVIOUS INTEGER
+SQL>
+SQL> REM CEIL : WILL RETURN NEXT INTEGER
+SQL>
+SQL> REM TRUNC , ROUND
+SQL>
+SQL> REM TRUNC :
+SQL>
+SQL> SELECT 4861.37 , TRUNC(4861.37) FROM DUAL;
+
+   4861.37 TRUNC(4861.37)
+---------- --------------
+   4861.37           4861
+
+SQL> SELECT 4861.37 , TRUNC(4861.37,0) FROM DUAL;
+
+   4861.37 TRUNC(4861.37,0)
+---------- ----------------
+   4861.37             4861
+
+SQL> SELECT 4861.37 , TRUNC(4861.37,1) FROM DUAL;
+
+   4861.37 TRUNC(4861.37,1)
+---------- ----------------
+   4861.37           4861.3
+
+SQL> SELECT 4861.37 , TRUNC(4861.37,2) FROM DUAL;
+
+   4861.37 TRUNC(4861.37,2)
+---------- ----------------
+   4861.37          4861.37
+
+SQL> SELECT 4861.37 , TRUNC(4861.37,3) FROM DUAL;
+
+   4861.37 TRUNC(4861.37,3)
+---------- ----------------
+   4861.37          4861.37
+
+SQL> SELECT 4861.37 , TRUNC(4861.37,-1) FROM DUAL;
+
+   4861.37 TRUNC(4861.37,-1)
+---------- -----------------
+   4861.37              4860
+
+SQL> SELECT 4861.37 , TRUNC(4861.37,-2) FROM DUAL;
+
+   4861.37 TRUNC(4861.37,-2)
+---------- -----------------
+   4861.37              4800
+
+SQL> SELECT 4861.37 , TRUNC(4861.37,-3) FROM DUAL;
+
+   4861.37 TRUNC(4861.37,-3)
+---------- -----------------
+   4861.37              4000
+
+SQL> SELECT 4861.37 , TRUNC(4861.37,-4) FROM DUAL;
+
+   4861.37 TRUNC(4861.37,-4)
+---------- -----------------
+   4861.37                 0
+
+SQL> SELECT 4861.37 , TRUNC(4861.37,-5) FROM DUAL;
+
+   4861.37 TRUNC(4861.37,-5)
+---------- -----------------
+   4861.37                 0
+
+SQL> REM ROUND :
+SQL>
+SQL> REM DECIMAL NUMBER SYSTEM : BASE : 10 : AVAILABLE DIGITS : 0 1 2 3 4 5 6 7 8 9
+SQL>
+SQL> REM FIRST HALF : 0 1 2 3 4
+SQL>
+SQL> REM SECOND HALF : 5 6 7 8 9
+SQL>
+SQL> REM IF DIGIT TO BE COMPARES FALLS IN FIRST HALF, NO CHANGE
+SQL>
+SQL> REM IF DIGIT TO BE COMPARE FALLS IN SECOND HALF, IT WILL ADD 1 TO PREVIOUS DIGIT
+SQL>
+SQL> SELECT 4861.37 , ROUND(4861.37) FROM DUAL;
+
+   4861.37 ROUND(4861.37)
+---------- --------------
+   4861.37           4861
+
+SQL> SELECT 4861.37 , ROUND(4861.37,0) FROM DUAL;
+
+   4861.37 ROUND(4861.37,0)
+---------- ----------------
+   4861.37             4861
+
+SQL> SELECT 4861.37 , ROUND(4861.37,1) FROM DUAL;
+
+   4861.37 ROUND(4861.37,1)
+---------- ----------------
+   4861.37           4861.4
+
+SQL> SELECT 4861.37 , ROUND(4861.37,2) FROM DUAL;
+
+   4861.37 ROUND(4861.37,2)
+---------- ----------------
+   4861.37          4861.37
+
+SQL> SELECT 4861.37 , ROUND(4861.37,-1) FROM DUAL;
+
+   4861.37 ROUND(4861.37,-1)
+---------- -----------------
+   4861.37              4860
+
+SQL> SELECT 4861.37 , ROUND(4861.37,-2) FROM DUAL;
+
+   4861.37 ROUND(4861.37,-2)
+---------- -----------------
+   4861.37              4900
+
+SQL> SELECT 4861.37 , ROUND(4861.37,-3) FROM DUAL;
+
+   4861.37 ROUND(4861.37,-3)
+---------- -----------------
+   4861.37              5000
+
+SQL> SELECT 4861.37 , ROUND(4861.37,-4) FROM DUAL;
+
+   4861.37 ROUND(4861.37,-4)
+---------- -----------------
+   4861.37                 0
+
+SQL> SELECT 4261.37 , ROUND(4261.37,-3) FROM DUAL;
+
+   4261.37 ROUND(4261.37,-3)
+---------- -----------------
+   4261.37              4000
+
+SQL> SELECT 4961.37 , ROUND(4961.37,-2) FROM DUAL;
+
+   4961.37 ROUND(4961.37,-2)
+---------- -----------------
+   4961.37              5000
+
+SQL> SELECT 9961.37 , ROUND(9961.37,-2) FROM DUAL;
+
+   9961.37 ROUND(9961.37,-2)
+---------- -----------------
+   9961.37             10000
+
+SQL> SELECT TRUNC(67,-2) , ROUND(67,-2) FROM DUAL;
+
+TRUNC(67,-2) ROUND(67,-2)
+------------ ------------
+           0          100
+
+SQL> SELECT 4567.82 , TRUNC(4567.82) FROM DUAL;
+
+   4567.82 TRUNC(4567.82)
+---------- --------------
+   4567.82           4567
+
+SQL> SELECT 4567.82 , TRUNC(4567.82,0) FROM DUAL;
+
+   4567.82 TRUNC(4567.82,0)
+---------- ----------------
+   4567.82             4567
+
+SQL> SELECT 4567.82 , TRUNC(4567.82,1) FROM DUAL;
+
+   4567.82 TRUNC(4567.82,1)
+---------- ----------------
+   4567.82           4567.8
+
+SQL> SELECT 4567.82 , TRUNC(4567.82,2) FROM DUAL;
+
+   4567.82 TRUNC(4567.82,2)
+---------- ----------------
+   4567.82          4567.82
+
+SQL> SELECT 4567.82 , TRUNC(4567.82,-1) FROM DUAL;
+
+   4567.82 TRUNC(4567.82,-1)
+---------- -----------------
+   4567.82              4560
+
+SQL> SELECT 4567.82 , TRUNC(4567.82,-2) FROM DUAL;
+
+   4567.82 TRUNC(4567.82,-2)
+---------- -----------------
+   4567.82              4500
+
+SQL> SELECT 4567.82 , TRUNC(4567.82,-3) FROM DUAL;
+
+   4567.82 TRUNC(4567.82,-3)
+---------- -----------------
+   4567.82              4000
+
+SQL> SELECT 4567.82 , TRUNC(4567.82,-4) FROM DUAL;
+
+   4567.82 TRUNC(4567.82,-4)
+---------- -----------------
+   4567.82                 0
+
+SQL> SELECT 4567.82 , ROUND(4567.82,0) FROM DUAL;
+
+   4567.82 ROUND(4567.82,0)
+---------- ----------------
+   4567.82             4568
+
+SQL> SELECT 4567.82 , ROUND(4567.82,1) FROM DUAL;
+
+   4567.82 ROUND(4567.82,1)
+---------- ----------------
+   4567.82           4567.8
+
+SQL> SELECT 4567.82 , ROUND(4567.82,-1) FROM DUAL;
+
+   4567.82 ROUND(4567.82,-1)
+---------- -----------------
+   4567.82              4570
+
+SQL> SELECT 4567.82 , ROUND(4567.82,-2) FROM DUAL;
+
+   4567.82 ROUND(4567.82,-2)
+---------- -----------------
+   4567.82              4600
+
+SQL> SELECT 4567.82 , ROUND(4567.82,-3) FROM DUAL;
+
+   4567.82 ROUND(4567.82,-3)
+---------- -----------------
+   4567.82              5000
+
+SQL> SELECT 4567.82 , ROUND(4567.82,-4) FROM DUAL;
+
+   4567.82 ROUND(4567.82,-4)
+---------- -----------------
+   4567.82                 0
+
+SQL> SELECT 4567.28 , ROUND(4567.28,1) FROM DUAL;
+
+   4567.28 ROUND(4567.28,1)
+---------- ----------------
+   4567.28           4567.3
+
+SQL> SELECT 4567.98 , ROUND(4567.98,1) FROM DUAL;
+
+   4567.98 ROUND(4567.98,1)
+---------- ----------------
+   4567.98             4568
+
+SQL> SELECT 4950.72 , TRUNC(4950.72,-2) , ROUND(4950.72,-2) FROM DUAL;
+
+   4950.72 TRUNC(4950.72,-2) ROUND(4950.72,-2)
+---------- ----------------- -----------------
+   4950.72              4900              5000
+
+SQL> SELECT 4950.72 , TRUNC(4950.72,-3) , ROUND(4950.72,-3) FROM DUAL;
+
+   4950.72 TRUNC(4950.72,-3) ROUND(4950.72,-3)
+---------- ----------------- -----------------
+   4950.72              4000              5000
+
+SQL> SELECT 5950.72 , TRUNC(5950.72,-3) , ROUND(5950.72,-3) FROM DUAL;
+
+   5950.72 TRUNC(5950.72,-3) ROUND(5950.72,-3)
+---------- ----------------- -----------------
+   5950.72              5000              6000
+
+SQL> SELECT 5950.72 , TRUNC(5950.72,-4) , ROUND(5950.72,-4) FROM DUAL;
+
+   5950.72 TRUNC(5950.72,-4) ROUND(5950.72,-4)
+---------- ----------------- -----------------
+   5950.72                 0             10000
+
+SQL> REM DATE FUNCTIONS : SYSDATE , CURRENT_DATE ADD_MONTHS MONTHS_BETWEEN LAST_DAY NEXT_DAY    TRUNC ROUND
+SQL>
+SQL> REM DATE FUNCTIONS : SYSDATE , CURRENT_DATE , ADD_MONTHS , MONTHS_BETWEEN , LAST_DAY , NEXT_DAY  ,  TRUNC , ROUND
+SQL>
+SQL> REM SYSDATE : SERVER SYSTEM'S DATE AND TIME INFO.
+SQL>
+SQL> REM CURRENT_DATE : CLIENT/CURRENT/LOCAL MACHINE'S DATE AND TIME INFO.
+SQL>
+SQL> SELECT SYSDATE , CURRENT_DATE FROM DUAL;
+
+SYSDATE   CURRENT_D
+--------- ---------
+28-JUL-22 28-JUL-22
+
+SQL> REM DATE DEFAULT FORMAT : DD-MON-RR
+SQL>
+SQL> REM HOW TO GET DEFAULT FORMAT ?
+SQL>
+SQL> COL PARAMETER FORMAT A30
+SQL>
+SQL> COL VALUE FORMAT A30
+SQL>
+SQL> SELECT * FROM NLS_SESSION_PARAMETERS;
+
+PARAMETER                      VALUE
+------------------------------ ------------------------------
+NLS_LANGUAGE                   AMERICAN
+NLS_TERRITORY                  AMERICA
+NLS_CURRENCY                   $
+NLS_ISO_CURRENCY               AMERICA
+NLS_NUMERIC_CHARACTERS         .,
+NLS_CALENDAR                   GREGORIAN
+NLS_DATE_FORMAT                DD-MON-RR
+NLS_DATE_LANGUAGE              AMERICAN
+NLS_SORT                       BINARY
+NLS_TIME_FORMAT                HH.MI.SSXFF AM
+NLS_TIMESTAMP_FORMAT           DD-MON-RR HH.MI.SSXFF AM
+NLS_TIME_TZ_FORMAT             HH.MI.SSXFF AM TZR
+NLS_TIMESTAMP_TZ_FORMAT        DD-MON-RR HH.MI.SSXFF AM TZR
+NLS_DUAL_CURRENCY              $
+NLS_COMP                       BINARY
+NLS_LENGTH_SEMANTICS           BYTE
+NLS_NCHAR_CONV_EXCP            FALSE
+
+17 rows selected.
+
+SQL> REM NLS : NATIONAL LANGUAGE SUPPORT
+SQL>
+SQL> REM HOW TO SET NEW DATE FORMAT ?
+SQL>
+SQL> ALTER SESSION SET NLS_DATE_FORMAT = 'DD-MONTH-RRRR HH:MI.SS AM';
+
+Session altered.
+
+SQL> SELECT * FROM NLS_SESSION_PARAMETERS;
+
+PARAMETER                      VALUE
+------------------------------ ------------------------------
+NLS_LANGUAGE                   AMERICAN
+NLS_TERRITORY                  AMERICA
+NLS_CURRENCY                   $
+NLS_ISO_CURRENCY               AMERICA
+NLS_NUMERIC_CHARACTERS         .,
+NLS_CALENDAR                   GREGORIAN
+NLS_DATE_FORMAT                DD-MONTH-RRRR HH:MI.SS AM
+NLS_DATE_LANGUAGE              AMERICAN
+NLS_SORT                       BINARY
+NLS_TIME_FORMAT                HH.MI.SSXFF AM
+NLS_TIMESTAMP_FORMAT           DD-MON-RR HH.MI.SSXFF AM
+NLS_TIME_TZ_FORMAT             HH.MI.SSXFF AM TZR
+NLS_TIMESTAMP_TZ_FORMAT        DD-MON-RR HH.MI.SSXFF AM TZR
+NLS_DUAL_CURRENCY              $
+NLS_COMP                       BINARY
+NLS_LENGTH_SEMANTICS           BYTE
+NLS_NCHAR_CONV_EXCP            FALSE
+
+17 rows selected.
+
+SQL> SELECT SYSDATE , CURRENT_DATE FROM DUAL;
+
+SYSDATE                       CURRENT_DATE
+----------------------------- -----------------------------
+28-JULY     -2022 05:14.10 PM 28-JULY     -2022 05:14.10 PM
+
+SQL> REM DATE VALUE HAS 7 PARTS/INTERVALS/COMPONENTS
+SQL>
+SQL>
+SQL>
+SQL> SELECT SYSDATE FROM DUAL;
+
+SYSDATE
+-----------------------------
+28-JULY     -2022 05:15.05 PM
+
+SQL> REM CENTURY  YEAR  MONTH  DATE/DAY  HOUR  MINUTE  SECOND
+SQL>
+SQL> REM 20       22    07     28        17    15      05
+SQL>
+SQL>
+SQL>
+SQL>
+SQL> REM DATE ARITHMETIC
+SQL>
+SQL> REM DATE +/- INTERVALS
+SQL>
+SQL> REM DATE - DATE = DAYS
+SQL>
+SQL>
+SQL>
+SQL> SELECT '9-FEB-80' - '1-JUL-72' FROM DUAL;
+SELECT '9-FEB-80' - '1-JUL-72' FROM DUAL
+       *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> SELECT TO_DATE('9-FEB-80') - TO_DATE('1-JUL-72') "AGE DIFF. IN DAYS" FROM DUAL;
+
+AGE DIFF. IN DAYS
+-----------------
+             2779
+
+SQL> SELECT (TO_DATE('9-FEB-80') - TO_DATE('1-JUL-72'))/7 "AGE DIFF. IN WEEKS" FROM DUAL;
+
+AGE DIFF. IN WEEKS
+------------------
+               397
+
+SQL> REM DATE +/- INTERVALS
+SQL>
+SQL> REM CENTURY YEAR MONTH DATE/DAY HOUR(24) MINUTE SECOND
+SQL>
+SQL> SELECT SYSDATE , SYSDATE + 4 , SYSDATE - 2 FROM DUAL;
+
+SYSDATE                       SYSDATE+4                     SYSDATE-2
+----------------------------- ----------------------------- -----------------------------
+28-JULY     -2022 05:24.12 PM 01-AUGUST   -2022 05:24.12 PM 26-JULY     -2022 05:24.12 PM
+
+SQL> REM 1 DAY = 24 HOURS
+SQL>
+SQL> REM /24
+SQL>
+SQL> SELECT SYSDATE , SYSDATE + (4/24) , SYSDATE - (2/24) FROM DUAL;
+
+SYSDATE                       SYSDATE+(4/24)                SYSDATE-(2/24)
+----------------------------- ----------------------------- -----------------------------
+28-JULY     -2022 05:25.26 PM 28-JULY     -2022 09:25.26 PM 28-JULY     -2022 03:25.26 PM
+
+SQL> REM 1 DAY = HOURS
+SQL>
+SQL> REM 1 DAY = 24 HOURS
+SQL>
+SQL> REM 1 DAY = 24 * 60 = 1440 MINUTES
+SQL>
+SQL> SELECT SYSDATE , SYSDATE + (4/(24*60)) , SYSDATE - (2/1440) FROM DUAL;
+
+SYSDATE                       SYSDATE+(4/(24*60))           SYSDATE-(2/1440)
+----------------------------- ----------------------------- -----------------------------
+28-JULY     -2022 05:27.02 PM 28-JULY     -2022 05:31.02 PM 28-JULY     -2022 05:25.02 PM
+
+SQL> REM 1 DAY = 24 * 60 * 60 = 24 * 3600 = 86400 SECONDS
+SQL>
+SQL> SELECT SYSDATE , SYSDATE + (4/(24*60*60)) , SYSDATE - (2/86400) FROM DUAL;
+
+SYSDATE                       SYSDATE+(4/(24*60*60))        SYSDATE-(2/86400)
+----------------------------- ----------------------------- -----------------------------
+28-JULY     -2022 05:28.12 PM 28-JULY     -2022 05:28.16 PM 28-JULY     -2022 05:28.10 PM
+
+SQL> REM 1 DAY = 24 HOURS = 1440 MINTUES = 86400 SECONDS
+SQL>
+SQL> REM ADD 2 DAYS AND 6 HOURS TO SYSDATE
+SQL>
+SQL> SELECT SYSDATE , SYSDATE + 2 + (6/24) FROM DUAL;
+
+SYSDATE                       SYSDATE+2+(6/24)
+----------------------------- -----------------------------
+28-JULY     -2022 05:32.53 PM 30-JULY     -2022 11:32.53 PM
+
+SQL> SELECT SYSDATE , SYSDATE + (54/24) FROM DUAL;
+
+SYSDATE                       SYSDATE+(54/24)
+----------------------------- -----------------------------
+28-JULY     -2022 05:33.21 PM 30-JULY     -2022 11:33.21 PM
+
+SQL> REM DISPLAY SYSDATE AND SYSDATE - 17 DAYS + 48 MINUTES
+SQL>
+SQL> SELECT SYSDATE , SYSDATE - 17 + (48/1440) FROM DUAL;
+
+SYSDATE                       SYSDATE-17+(48/1440)
+----------------------------- -----------------------------
+28-JULY     -2022 05:36.35 PM 11-JULY     -2022 06:24.35 PM
+
+SQL> REM DISPLAY SYSDATE AND ADD 14 HOURS , SUBSTRACT 24 SECONDS
+SQL>
+SQL> REM DISPLAY SYSDATE AND ADD 14 HOURS , SUBTRACT 24 SECONDS
+SQL>
+SQL> SELECT SYSDATE , SYSDATE + (14/24) - (24/86400) FROM DUAL;
+
+SYSDATE                       SYSDATE+(14/24)-(24/86400)
+----------------------------- -----------------------------
+28-JULY     -2022 05:42.28 PM 29-JULY     -2022 07:42.04 AM
+
+SQL> REM DISPLAY LOCAL MACHINE'S DATE AND ADD 2 DAYS , SUBTRACT 3 HOURS , ADD 10 MINUTES , SUBTRACT 15 SECONDS
+SQL>
+SQL> SELECT CURRENT_DATE , CURRENT_DATE + 2 - (3/24) + (10/1440) - (15/86400) FROM DUAL;
+
+CURRENT_DATE                  CURRENT_DATE+2-(3/24)+(10/144
+----------------------------- -----------------------------
+28-JULY     -2022 05:46.21 PM 30-JULY     -2022 02:56.06 PM
+
+SQL> SELECT HIRE_DATE , REPLACE(HIRE_DATE,'SEP','SEPTEMBER') FROM EMPLOYEES;
+
+HIRE_DATE
+-----------------------------
+REPLACE(HIRE_DATE,'SEP','SEPTEMBER')
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+17-JULY     -1987 12:00.00 AM
+17-JULY     -1987 12:00.00 AM
+
+21-SEPTEMBER-1989 12:00.00 AM
+21-SEPTEMBERTEMBER-1989 12:00.00 AM
+
+13-JANUARY  -1993 12:00.00 AM
+13-JANUARY  -1993 12:00.00 AM
+
+03-JANUARY  -1990 12:00.00 AM
+03-JANUARY  -1990 12:00.00 AM
+
+21-MAY      -1991 12:00.00 AM
+21-MAY      -1991 12:00.00 AM
+
+07-FEBRUARY -1999 12:00.00 AM
+07-FEBRUARY -1999 12:00.00 AM
+
+16-NOVEMBER -1999 12:00.00 AM
+
+HIRE_DATE
+-----------------------------
+REPLACE(HIRE_DATE,'SEP','SEPTEMBER')
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+16-NOVEMBER -1999 12:00.00 AM
+
+17-OCTOBER  -1995 12:00.00 AM
+17-OCTOBER  -1995 12:00.00 AM
+
+29-JANUARY  -1997 12:00.00 AM
+29-JANUARY  -1997 12:00.00 AM
+
+15-MARCH    -1998 12:00.00 AM
+15-MARCH    -1998 12:00.00 AM
+
+09-JULY     -1998 12:00.00 AM
+09-JULY     -1998 12:00.00 AM
+
+29-JANUARY  -2000 12:00.00 AM
+29-JANUARY  -2000 12:00.00 AM
+
+11-MAY      -1996 12:00.00 AM
+11-MAY      -1996 12:00.00 AM
+
+HIRE_DATE
+-----------------------------
+REPLACE(HIRE_DATE,'SEP','SEPTEMBER')
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+24-MARCH    -1998 12:00.00 AM
+24-MARCH    -1998 12:00.00 AM
+
+24-MAY      -1999 12:00.00 AM
+24-MAY      -1999 12:00.00 AM
+
+17-SEPTEMBER-1987 12:00.00 AM
+17-SEPTEMBERTEMBER-1987 12:00.00 AM
+
+17-FEBRUARY -1996 12:00.00 AM
+17-FEBRUARY -1996 12:00.00 AM
+
+17-AUGUST   -1997 12:00.00 AM
+17-AUGUST   -1997 12:00.00 AM
+
+07-JUNE     -1994 12:00.00 AM
+07-JUNE     -1994 12:00.00 AM
+
+
+HIRE_DATE
+-----------------------------
+REPLACE(HIRE_DATE,'SEP','SEPTEMBER')
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+07-JUNE     -1994 12:00.00 AM
+07-JUNE     -1994 12:00.00 AM
+
+
+20 rows selected.
+
+SQL> SELECT HIRE_DATE , REPLACE(HIRE_DATE,'SEP','SEPTEMBER') NEW_HD FROM EMPLOYEES;
+
+HIRE_DATE
+-----------------------------
+NEW_HD
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+17-JULY     -1987 12:00.00 AM
+17-JULY     -1987 12:00.00 AM
+
+21-SEPTEMBER-1989 12:00.00 AM
+21-SEPTEMBERTEMBER-1989 12:00.00 AM
+
+13-JANUARY  -1993 12:00.00 AM
+13-JANUARY  -1993 12:00.00 AM
+
+03-JANUARY  -1990 12:00.00 AM
+03-JANUARY  -1990 12:00.00 AM
+
+21-MAY      -1991 12:00.00 AM
+21-MAY      -1991 12:00.00 AM
+
+07-FEBRUARY -1999 12:00.00 AM
+07-FEBRUARY -1999 12:00.00 AM
+
+16-NOVEMBER -1999 12:00.00 AM
+
+HIRE_DATE
+-----------------------------
+NEW_HD
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+16-NOVEMBER -1999 12:00.00 AM
+
+17-OCTOBER  -1995 12:00.00 AM
+17-OCTOBER  -1995 12:00.00 AM
+
+29-JANUARY  -1997 12:00.00 AM
+29-JANUARY  -1997 12:00.00 AM
+
+15-MARCH    -1998 12:00.00 AM
+15-MARCH    -1998 12:00.00 AM
+
+09-JULY     -1998 12:00.00 AM
+09-JULY     -1998 12:00.00 AM
+
+29-JANUARY  -2000 12:00.00 AM
+29-JANUARY  -2000 12:00.00 AM
+
+11-MAY      -1996 12:00.00 AM
+11-MAY      -1996 12:00.00 AM
+
+HIRE_DATE
+-----------------------------
+NEW_HD
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+24-MARCH    -1998 12:00.00 AM
+24-MARCH    -1998 12:00.00 AM
+
+24-MAY      -1999 12:00.00 AM
+24-MAY      -1999 12:00.00 AM
+
+17-SEPTEMBER-1987 12:00.00 AM
+17-SEPTEMBERTEMBER-1987 12:00.00 AM
+
+17-FEBRUARY -1996 12:00.00 AM
+17-FEBRUARY -1996 12:00.00 AM
+
+17-AUGUST   -1997 12:00.00 AM
+17-AUGUST   -1997 12:00.00 AM
+
+07-JUNE     -1994 12:00.00 AM
+07-JUNE     -1994 12:00.00 AM
+
+
+HIRE_DATE
+-----------------------------
+NEW_HD
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+07-JUNE     -1994 12:00.00 AM
+07-JUNE     -1994 12:00.00 AM
+
+
+20 rows selected.
+
+SQL> COL NEW_HD FORMAT A30
+SQL>
+SQL> R
+  1* SELECT HIRE_DATE , REPLACE(HIRE_DATE,'SEP','SEPTEMBER') NEW_HD FROM EMPLOYEES
+
+HIRE_DATE                     NEW_HD
+----------------------------- ------------------------------
+17-JULY     -1987 12:00.00 AM 17-JULY     -1987 12:00.00 AM
+21-SEPTEMBER-1989 12:00.00 AM 21-SEPTEMBERTEMBER-1989 12:00.
+                              00 AM
+
+13-JANUARY  -1993 12:00.00 AM 13-JANUARY  -1993 12:00.00 AM
+03-JANUARY  -1990 12:00.00 AM 03-JANUARY  -1990 12:00.00 AM
+21-MAY      -1991 12:00.00 AM 21-MAY      -1991 12:00.00 AM
+07-FEBRUARY -1999 12:00.00 AM 07-FEBRUARY -1999 12:00.00 AM
+16-NOVEMBER -1999 12:00.00 AM 16-NOVEMBER -1999 12:00.00 AM
+17-OCTOBER  -1995 12:00.00 AM 17-OCTOBER  -1995 12:00.00 AM
+29-JANUARY  -1997 12:00.00 AM 29-JANUARY  -1997 12:00.00 AM
+15-MARCH    -1998 12:00.00 AM 15-MARCH    -1998 12:00.00 AM
+09-JULY     -1998 12:00.00 AM 09-JULY     -1998 12:00.00 AM
+29-JANUARY  -2000 12:00.00 AM 29-JANUARY  -2000 12:00.00 AM
+11-MAY      -1996 12:00.00 AM 11-MAY      -1996 12:00.00 AM
+24-MARCH    -1998 12:00.00 AM 24-MARCH    -1998 12:00.00 AM
+24-MAY      -1999 12:00.00 AM 24-MAY      -1999 12:00.00 AM
+17-SEPTEMBER-1987 12:00.00 AM 17-SEPTEMBERTEMBER-1987 12:00.
+                              00 AM
+
+17-FEBRUARY -1996 12:00.00 AM 17-FEBRUARY -1996 12:00.00 AM
+
+HIRE_DATE                     NEW_HD
+----------------------------- ------------------------------
+17-AUGUST   -1997 12:00.00 AM 17-AUGUST   -1997 12:00.00 AM
+07-JUNE     -1994 12:00.00 AM 07-JUNE     -1994 12:00.00 AM
+07-JUNE     -1994 12:00.00 AM 07-JUNE     -1994 12:00.00 AM
+
+20 rows selected.
+
+SQL> CONN SCOTT/TIGER
+Connected.
+SQL>
+SQL> R
+  1* SELECT HIRE_DATE , REPLACE(HIRE_DATE,'SEP','SEPTEMBER') NEW_HD FROM EMPLOYEES
+
+HIRE_DATE NEW_HD
+--------- ------------------------------
+17-JUL-87 17-JUL-87
+21-SEP-89 21-SEPTEMBER-89
+13-JAN-93 13-JAN-93
+03-JAN-90 03-JAN-90
+21-MAY-91 21-MAY-91
+07-FEB-99 07-FEB-99
+16-NOV-99 16-NOV-99
+17-OCT-95 17-OCT-95
+29-JAN-97 29-JAN-97
+15-MAR-98 15-MAR-98
+09-JUL-98 09-JUL-98
+29-JAN-00 29-JAN-00
+11-MAY-96 11-MAY-96
+24-MAR-98 24-MAR-98
+24-MAY-99 24-MAY-99
+17-SEP-87 17-SEPTEMBER-87
+17-FEB-96 17-FEB-96
+17-AUG-97 17-AUG-97
+07-JUN-94 07-JUN-94
+07-JUN-94 07-JUN-94
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME , LPAD(FIRST_NAME, 15) FROM EMPLOYEES;
+
+FIRST_NAME LPAD(FIRST_NAME,15)
+---------- ------------------------------------------------------------
+Steven              Steven
+Neena                Neena
+Lex                    Lex
+Alexander        Alexander
+Bruce                Bruce
+Diana                Diana
+Kevin                Kevin
+Trenna              Trenna
+Curtis              Curtis
+Randall            Randall
+Peter                Peter
+Eleni                Eleni
+Ellen                Ellen
+Jonathon          Jonathon
+Kimerely          Kimerely
+Jennifer          Jennifer
+Michael            Michael
+Pat                    Pat
+Shelley            Shelley
+William            William
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME,LAST_NAME,(EMAIL),CONCAT(SUBSTR(FIRST_NAME,1,1),UPPER(TRANSLATE(RPAD(LAST_NAME,7),'# ','#'))) EMAIL_NEW FROM EMPLOYEES;
+
+FIRST_NAME LAST_NAME  EMAIL      EMAIL_NEW
+---------- ---------- ---------- --------------------------------
+Steven     King       SKING      SKING
+Neena      Kochhar    NKOCHHAR   NKOCHHAR
+Lex        De Haan    LDEHAAN    LDEHAAN
+Alexander  Hunold     AHUNOLD    AHUNOLD
+Bruce      Ernst      BERNST     BERNST
+Diana      Lorentz    DLORENTZ   DLORENTZ
+Kevin      Mourgos    KMOURGOS   KMOURGOS
+Trenna     Rajs       TRAJS      TRAJS
+Curtis     Davies     CDAVIES    CDAVIES
+Randall    Matos      RMATOS     RMATOS
+Peter      Vargas     PVARGAS    PVARGAS
+Eleni      Zlotkey    EZLOTKEY   EZLOTKEY
+Ellen      Abel       EABEL      EABEL
+Jonathon   Taylor     JTAYLOR    JTAYLOR
+Kimerely   Grant      KGRANT     KGRANT
+Jennifer   Whalen     JWHALEN    JWHALEN
+Michael    Hartstein  MHARTSTE   MHARTSTE
+Pat        Fay        PFAY       PFAY
+Shelley    Higgins    SHIGGINS   SHIGGINS
+William    Gietz      WGIETZ     WGIETZ
+
+20 rows selected.
+
+SQL> SELECT FIRST_NAME,LAST_NAME,(EMAIL),CONCAT(SUBSTR(FIRST_NAME,1,1),UPPER(REPLACE(RPAD(LAST_NAME,7),' '))) EMAIL_NEW FROM EMPLOYEES;
+
+FIRST_NAME LAST_NAME  EMAIL      EMAIL_NEW
+---------- ---------- ---------- --------------------------------
+Steven     King       SKING      SKING
+Neena      Kochhar    NKOCHHAR   NKOCHHAR
+Lex        De Haan    LDEHAAN    LDEHAAN
+Alexander  Hunold     AHUNOLD    AHUNOLD
+Bruce      Ernst      BERNST     BERNST
+Diana      Lorentz    DLORENTZ   DLORENTZ
+Kevin      Mourgos    KMOURGOS   KMOURGOS
+Trenna     Rajs       TRAJS      TRAJS
+Curtis     Davies     CDAVIES    CDAVIES
+Randall    Matos      RMATOS     RMATOS
+Peter      Vargas     PVARGAS    PVARGAS
+Eleni      Zlotkey    EZLOTKEY   EZLOTKEY
+Ellen      Abel       EABEL      EABEL
+Jonathon   Taylor     JTAYLOR    JTAYLOR
+Kimerely   Grant      KGRANT     KGRANT
+Jennifer   Whalen     JWHALEN    JWHALEN
+Michael    Hartstein  MHARTSTE   MHARTSTE
+Pat        Fay        PFAY       PFAY
+Shelley    Higgins    SHIGGINS   SHIGGINS
+William    Gietz      WGIETZ     WGIETZ
+
+20 rows selected.
+
+SQL> SPOOL OFF
+not spooling currently
+SQL>
