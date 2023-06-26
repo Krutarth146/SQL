@@ -1,0 +1,687 @@
+SQL> 
+SQL> CL SCR
+
+SQL> REM UNION ALL : CLUBS ALL ROWS
+SQL> 
+SQL> REM UNION : SORTS ROWS , REMOVES DUPLICATE ROWS
+SQL> 
+SQL> REM INTERSECT : PICKS COMMON ROWS OF BOTH RESULT SETS + SORTS ROWS , REMOVES DUPLICATE ROWS
+SQL> 
+SQL> REM MINUS : REMOVE COMMON ROWS FROM FIRST RESULT SET + SORTS ROWS , REMOVES DUPLICATE ROWS
+SQL> 
+SQL> /*
+SQL> 
+SQL> SELECT ...
+SQL> SET OPERATOR
+SQL> SELECT ...
+SQL> 
+SQL> TOP TO DOWN
+SQL> 
+SQL> */
+SQL> 
+SQL> 
+SQL> /*
+SQL> 
+SQL> SELECT .... SET OPERATOR SELECT ...
+SQL> 
+SQL> LEFT TO RIGHT
+SQL> 
+SQL> */
+SQL> 
+SQL> SELECT JOB FROM MPSEMP;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+PRESIDENT                                                                                                                                                                                               
+MANAGER                                                                                                                                                                                                 
+MANAGER                                                                                                                                                                                                 
+ANALYST                                                                                                                                                                                                 
+MANAGER                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+ANALYST                                                                                                                                                                                                 
+SALESMAN                                                                                                                                                                                                
+CLERK                                                                                                                                                                                                   
+CLERK                                                                                                                                                                                                   
+CLERK                                                                                                                                                                                                   
+
+14 rows selected.
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 10;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+PRESIDENT                                                                                                                                                                                               
+MANAGER                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 20;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+MANAGER                                                                                                                                                                                                 
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 30;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+MANAGER                                                                                                                                                                                                 
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+CLERK                                                                                                                                                                                                   
+
+6 rows selected.
+
+SQL> REM 10 MINUS 20 UNION ALL 30 : COUNT : 7     FR : PRESIDENT   LR : CLERK
+SQL> 
+SQL> REM 10 MINUS 20 UNION 30 : COUNT : 4     FR : CLERK   LR : SALESMAN
+SQL> 
+SQL> REM 10 MINUS 20 INTERSECT 30 : COUNT : 0     FR :    LR :
+SQL> 
+SQL> REM 10 MINUS 20 MINUS 30 : COUNT : 1     FR : PRESIDENT   LR :
+SQL> 
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 10;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+PRESIDENT                                                                                                                                                                                               
+MANAGER                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 20;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+MANAGER                                                                                                                                                                                                 
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 30;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+MANAGER                                                                                                                                                                                                 
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+CLERK                                                                                                                                                                                                   
+
+6 rows selected.
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 10
+  2  UNION ALL
+  3  SELECT JOB FROM MPSEMP WHERE DEPTNO = 20
+  4  UNION
+  5  SELECT JOB FROM MPSEMP WHERE DEPTNO = 30;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+MANAGER                                                                                                                                                                                                 
+PRESIDENT                                                                                                                                                                                               
+SALESMAN                                                                                                                                                                                                
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 10
+  2  UNION ALL
+  3  (SELECT JOB FROM MPSEMP WHERE DEPTNO = 20
+  4  UNION
+  5  SELECT JOB FROM MPSEMP WHERE DEPTNO = 30);
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+PRESIDENT                                                                                                                                                                                               
+MANAGER                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+MANAGER                                                                                                                                                                                                 
+SALESMAN                                                                                                                                                                                                
+
+7 rows selected.
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 10;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+PRESIDENT                                                                                                                                                                                               
+MANAGER                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 20;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+MANAGER                                                                                                                                                                                                 
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 30;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+MANAGER                                                                                                                                                                                                 
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+CLERK                                                                                                                                                                                                   
+
+6 rows selected.
+
+SQL> REM 10 UNION ALL (20 INTERSECT 30) : COUNT : 5  FR : PRESIDENT  LR : MANAGER
+SQL> 
+SQL> REM 10 UNION ALL (20 MINUS 30) : COUNT : 4  FR : PRESIDENT LR : ANALYST
+SQL> 
+SQL> REM 10 UNION (20 UNION ALL 30) : COUNT : 5  FR : ANALYST LR : SALESMAN
+SQL> 
+SQL> REM 10 UNION (20 INTERSECT 30) : COUNT : 3 FR : CLERK LR : PRESIDENT
+SQL> 
+SQL> REM 10 UNION (20 MINUS 30) : COUNT : 4 FR : ANALYST LR : PRESIDENT
+SQL> 
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 10;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+PRESIDENT                                                                                                                                                                                               
+MANAGER                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 20;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+MANAGER                                                                                                                                                                                                 
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 30;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+MANAGER                                                                                                                                                                                                 
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+CLERK                                                                                                                                                                                                   
+
+6 rows selected.
+
+SQL> REM 10 INTERSECT (20 UNION ALL 30) : COUNT : 2 FR : CLERK LR : MANAGER
+SQL> 
+SQL> REM 10 INTERSECT (20 UNION 30) : COUNT : 2 FR : CLERK LR : MANAGER
+SQL> 
+SQL> REM 10 INTERSECT (20 MINUS 30) : COUNT : 0 FR :  LR :
+SQL> 
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 10;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+PRESIDENT                                                                                                                                                                                               
+MANAGER                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 20;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+MANAGER                                                                                                                                                                                                 
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+ANALYST                                                                                                                                                                                                 
+CLERK                                                                                                                                                                                                   
+
+SQL> SELECT JOB FROM MPSEMP WHERE DEPTNO = 30;
+
+JOB                                                                                                                                                                                                     
+----------                                                                                                                                                                                              
+MANAGER                                                                                                                                                                                                 
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+SALESMAN                                                                                                                                                                                                
+CLERK                                                                                                                                                                                                   
+
+6 rows selected.
+
+SQL> REM 10 MINUS (20 UNION ALL 30) : COUNT : 1 FR : PRESIDENT LR :
+SQL> 
+SQL> REM 10 MINUS (20 UNION 30) : COUNT : 1 FR : PRESIDENT LR :
+SQL> 
+SQL> REM 10 MINUS (20 INTERSECT 30) : COUNT : 1 FR : PRESIDENT LR :
+SQL> 
+SQL> REM 10 MINUS (20 MINUS 30) : COUNT : 3 FR : CLERK LR : PRESIDENT
+SQL> 
+SQL> 
+SQL> SELECT * FROM EMPLOYEES;
+
+EMPLOYEE_ID FIRST_NAME      LAST_NAME       EMAIL      PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                                     
+----------- --------------- --------------- ---------- -------------------- --------- ---------- ---------- -------------- ---------- -------------                                                     
+        100 Steven          King            SKING      515.123.4567         17-JUL-87 AD_PRES         24000                                      90                                                     
+        101 Neena           Kochhar         NKOCHHAR   515.123.4568         21-SEP-89 AD_VP           17000                       100            90                                                     
+        102 Lex             De Haan         LDEHAAN    515.123.4569         13-JAN-93 AD_VP           17000                       100            90                                                     
+        103 Alexander       Hunold          AHUNOLD    590.423.4567         03-JAN-90 IT_PROG          9000                       102            60                                                     
+        104 Bruce           Ernst           BERNST     590.423.4568         21-MAY-91 IT_PROG          6000                       103            60                                                     
+        107 Diana           Lorentz         DLORENTZ   590.423.5567         07-FEB-99 IT_PROG          4200                       103            60                                                     
+        124 Kevin           Mourgos         KMOURGOS   650.123.5234         16-NOV-99 ST_MAN           5800                       100            50                                                     
+        141 Trenna          Rajs            TRAJS      650.121.8009         17-OCT-95 ST_CLERK         3500                       124            50                                                     
+        142 Curtis          Davies          CDAVIES    650.121.2994         29-JAN-97 ST_CLERK         3100                       124            50                                                     
+        143 Randall         Matos           RMATOS     650.121.2874         15-MAR-98 ST_CLERK         2600                       124            50                                                     
+        144 Peter           Vargas          PVARGAS    650.121.2004         09-JUL-98 ST_CLERK         2500                       124            50                                                     
+        149 Eleni           Zlotkey         EZLOTKEY   011.44.1344.429018   29-JAN-00 SA_MAN          10500             .2        100            80                                                     
+        174 Ellen           Abel            EABEL      011.44.1644.429267   11-MAY-96 SA_REP          11000             .3        149            80                                                     
+        176 Jonathon        Taylor          JTAYLOR    011.44.1644.429265   24-MAR-98 SA_REP           8600             .3        149            80                                                     
+        178 Kimerely        Grant           KGRANT     011.44.1644.429263   24-MAY-99 SA_REP           7000            .15        149                                                                   
+        200 Jennifer        Whalen          JWHALEN    515.123.4444         17-SEP-87 AD_ASST          4400                       101            10                                                     
+        201 Michael         Hartstein       MHARTSTE   515.123.5555         17-FEB-96 MK_MAN          13000                       100            20                                                     
+        202 Pat             Fay             PFAY       603.123.6666         17-AUG-97 MK_REP           6000                       201            20                                                     
+        205 Shelley         Higgins         SHIGGINS   515.123.8080         07-JUN-94 AC_MGR          12000                       101           110                                                     
+        206 William         Gietz           WGIETZ     515.123.8181         07-JUN-94 AC_ACCOUNT       8300                       205           110                                                     
+
+20 rows selected.
+
+SQL> REM RULES TO BE FOLLOWED WHEN WE USE SET OPERATORS :
+SQL> 
+SQL> REM 1 NUMBER/COUNT OF ITEMS IN ALL SELECT STAEMENT MUST BE SAME/IDENTICAL.
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+  2  UNION ALL
+  3  SELECT DEPARTMENT_NAME , DEPARTMENT_ID FROM DEPARTMENTS;
+
+FIRST_NAME                         SALARY                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Steven                              24000                                                                                                                                                               
+Neena                               17000                                                                                                                                                               
+Lex                                 17000                                                                                                                                                               
+Alexander                            9000                                                                                                                                                               
+Bruce                                6000                                                                                                                                                               
+Diana                                4200                                                                                                                                                               
+Kevin                                5800                                                                                                                                                               
+Trenna                               3500                                                                                                                                                               
+Curtis                               3100                                                                                                                                                               
+Randall                              2600                                                                                                                                                               
+Peter                                2500                                                                                                                                                               
+Eleni                               10500                                                                                                                                                               
+Ellen                               11000                                                                                                                                                               
+Jonathon                             8600                                                                                                                                                               
+Kimerely                             7000                                                                                                                                                               
+Jennifer                             4400                                                                                                                                                               
+Michael                             13000                                                                                                                                                               
+Pat                                  6000                                                                                                                                                               
+Shelley                             12000                                                                                                                                                               
+William                              8300                                                                                                                                                               
+Administration                         10                                                                                                                                                               
+
+FIRST_NAME                         SALARY                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Marketing                              20                                                                                                                                                               
+Shiping                                50                                                                                                                                                               
+IT                                     60                                                                                                                                                               
+Sales                                  80                                                                                                                                                               
+Executive                              90                                                                                                                                                               
+Accounting                            110                                                                                                                                                               
+Contracting                           190                                                                                                                                                               
+
+28 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+  2  UNION ALL
+  3  SELECT DEPARTMENT_NAME FROM DEPARTMENTS;
+SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+*
+ERROR at line 1:
+ORA-01789: query block has incorrect number of result columns 
+
+
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+  2  
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+  2  UNION ALL
+  3  SELECT DEPARTMENT_NAME , NULL FROM DEPARTMENTS;
+
+FIRST_NAME                         SALARY                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Steven                              24000                                                                                                                                                               
+Neena                               17000                                                                                                                                                               
+Lex                                 17000                                                                                                                                                               
+Alexander                            9000                                                                                                                                                               
+Bruce                                6000                                                                                                                                                               
+Diana                                4200                                                                                                                                                               
+Kevin                                5800                                                                                                                                                               
+Trenna                               3500                                                                                                                                                               
+Curtis                               3100                                                                                                                                                               
+Randall                              2600                                                                                                                                                               
+Peter                                2500                                                                                                                                                               
+Eleni                               10500                                                                                                                                                               
+Ellen                               11000                                                                                                                                                               
+Jonathon                             8600                                                                                                                                                               
+Kimerely                             7000                                                                                                                                                               
+Jennifer                             4400                                                                                                                                                               
+Michael                             13000                                                                                                                                                               
+Pat                                  6000                                                                                                                                                               
+Shelley                             12000                                                                                                                                                               
+William                              8300                                                                                                                                                               
+Administration                                                                                                                                                                                          
+
+FIRST_NAME                         SALARY                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Marketing                                                                                                                                                                                               
+Shiping                                                                                                                                                                                                 
+IT                                                                                                                                                                                                      
+Sales                                                                                                                                                                                                   
+Executive                                                                                                                                                                                               
+Accounting                                                                                                                                                                                              
+Contracting                                                                                                                                                                                             
+
+28 rows selected.
+
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+  2  UNION ALL
+  3  SELECT DEPARTMENT_NAME , 420 FROM DEPARTMENTS;
+
+FIRST_NAME                         SALARY                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Steven                              24000                                                                                                                                                               
+Neena                               17000                                                                                                                                                               
+Lex                                 17000                                                                                                                                                               
+Alexander                            9000                                                                                                                                                               
+Bruce                                6000                                                                                                                                                               
+Diana                                4200                                                                                                                                                               
+Kevin                                5800                                                                                                                                                               
+Trenna                               3500                                                                                                                                                               
+Curtis                               3100                                                                                                                                                               
+Randall                              2600                                                                                                                                                               
+Peter                                2500                                                                                                                                                               
+Eleni                               10500                                                                                                                                                               
+Ellen                               11000                                                                                                                                                               
+Jonathon                             8600                                                                                                                                                               
+Kimerely                             7000                                                                                                                                                               
+Jennifer                             4400                                                                                                                                                               
+Michael                             13000                                                                                                                                                               
+Pat                                  6000                                                                                                                                                               
+Shelley                             12000                                                                                                                                                               
+William                              8300                                                                                                                                                               
+Administration                        420                                                                                                                                                               
+
+FIRST_NAME                         SALARY                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Marketing                             420                                                                                                                                                               
+Shiping                               420                                                                                                                                                               
+IT                                    420                                                                                                                                                               
+Sales                                 420                                                                                                                                                               
+Executive                             420                                                                                                                                                               
+Accounting                            420                                                                                                                                                               
+Contracting                           420                                                                                                                                                               
+
+28 rows selected.
+
+SQL> SET LINES 200 PAGES 100
+SQL> 
+SQL> R
+  1  SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+  2  UNION ALL
+  3* SELECT DEPARTMENT_NAME , 420 FROM DEPARTMENTS
+
+FIRST_NAME                         SALARY                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Steven                              24000                                                                                                                                                               
+Neena                               17000                                                                                                                                                               
+Lex                                 17000                                                                                                                                                               
+Alexander                            9000                                                                                                                                                               
+Bruce                                6000                                                                                                                                                               
+Diana                                4200                                                                                                                                                               
+Kevin                                5800                                                                                                                                                               
+Trenna                               3500                                                                                                                                                               
+Curtis                               3100                                                                                                                                                               
+Randall                              2600                                                                                                                                                               
+Peter                                2500                                                                                                                                                               
+Eleni                               10500                                                                                                                                                               
+Ellen                               11000                                                                                                                                                               
+Jonathon                             8600                                                                                                                                                               
+Kimerely                             7000                                                                                                                                                               
+Jennifer                             4400                                                                                                                                                               
+Michael                             13000                                                                                                                                                               
+Pat                                  6000                                                                                                                                                               
+Shelley                             12000                                                                                                                                                               
+William                              8300                                                                                                                                                               
+Administration                        420                                                                                                                                                               
+Marketing                             420                                                                                                                                                               
+Shiping                               420                                                                                                                                                               
+IT                                    420                                                                                                                                                               
+Sales                                 420                                                                                                                                                               
+Executive                             420                                                                                                                                                               
+Accounting                            420                                                                                                                                                               
+Contracting                           420                                                                                                                                                               
+
+28 rows selected.
+
+SQL> REM CORRESPONDING DATA TYPES MUST MATCH, IF NOT, WE MUST USE TO_CHAR.
+SQL> 
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+  2  UNION
+  3  SELECT DEPARTMENT_ID , MANAGER_ID FROM DEPARTMENTS;
+SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+       *
+ERROR at line 1:
+ORA-01790: expression must have same datatype as corresponding expression 
+
+
+SQL> SELECT FIRST_NAME , SALARY FROM EMPLOYEES
+  2  UNION
+  3  SELECT TO_CHAR(DEPARTMENT_ID) , MANAGER_ID FROM DEPARTMENTS;
+
+FIRST_NAME                                   SALARY                                                                                                                                                     
+---------------------------------------- ----------                                                                                                                                                     
+10                                              200                                                                                                                                                     
+110                                             205                                                                                                                                                     
+190                                                                                                                                                                                                     
+20                                              201                                                                                                                                                     
+50                                              124                                                                                                                                                     
+60                                              103                                                                                                                                                     
+80                                              149                                                                                                                                                     
+90                                              100                                                                                                                                                     
+Alexander                                      9000                                                                                                                                                     
+Bruce                                          6000                                                                                                                                                     
+Curtis                                         3100                                                                                                                                                     
+Diana                                          4200                                                                                                                                                     
+Eleni                                         10500                                                                                                                                                     
+Ellen                                         11000                                                                                                                                                     
+Jennifer                                       4400                                                                                                                                                     
+Jonathon                                       8600                                                                                                                                                     
+Kevin                                          5800                                                                                                                                                     
+Kimerely                                       7000                                                                                                                                                     
+Lex                                           17000                                                                                                                                                     
+Michael                                       13000                                                                                                                                                     
+Neena                                         17000                                                                                                                                                     
+Pat                                            6000                                                                                                                                                     
+Peter                                          2500                                                                                                                                                     
+Randall                                        2600                                                                                                                                                     
+Shelley                                       12000                                                                                                                                                     
+Steven                                        24000                                                                                                                                                     
+Trenna                                         3500                                                                                                                                                     
+William                                        8300                                                                                                                                                     
+
+28 rows selected.
+
+SQL> REM FIRST_NAME , HIRE_DATE
+SQL> 
+SQL> REM DEPARTMENT_NAME , MANAGER_ID
+SQL> 
+SQL> SELECT FIRST_NAME , TO_CHAR(HIRE_DATE) FROM EMPLOYEES
+  2  UNION
+  3  SELECT DEPARTMENT_NAME , TO_CHAR(MANAGER_ID) FROM DEPARTMENTS;
+
+FIRST_NAME                     TO_CHAR(HIRE_DATE)                                                                                                                                                       
+------------------------------ ----------------------------------------                                                                                                                                 
+Accounting                     205                                                                                                                                                                      
+Administration                 200                                                                                                                                                                      
+Alexander                      03-JAN-90                                                                                                                                                                
+Bruce                          21-MAY-91                                                                                                                                                                
+Contracting                                                                                                                                                                                             
+Curtis                         29-JAN-97                                                                                                                                                                
+Diana                          07-FEB-99                                                                                                                                                                
+Eleni                          29-JAN-00                                                                                                                                                                
+Ellen                          11-MAY-96                                                                                                                                                                
+Executive                      100                                                                                                                                                                      
+IT                             103                                                                                                                                                                      
+Jennifer                       17-SEP-87                                                                                                                                                                
+Jonathon                       24-MAR-98                                                                                                                                                                
+Kevin                          16-NOV-99                                                                                                                                                                
+Kimerely                       24-MAY-99                                                                                                                                                                
+Lex                            13-JAN-93                                                                                                                                                                
+Marketing                      201                                                                                                                                                                      
+Michael                        17-FEB-96                                                                                                                                                                
+Neena                          21-SEP-89                                                                                                                                                                
+Pat                            17-AUG-97                                                                                                                                                                
+Peter                          09-JUL-98                                                                                                                                                                
+Randall                        15-MAR-98                                                                                                                                                                
+Sales                          149                                                                                                                                                                      
+Shelley                        07-JUN-94                                                                                                                                                                
+Shiping                        124                                                                                                                                                                      
+Steven                         17-JUL-87                                                                                                                                                                
+Trenna                         17-OCT-95                                                                                                                                                                
+William                        07-JUN-94                                                                                                                                                                
+
+28 rows selected.
+
+SQL> REM 3 COLUMN ALIAS OF FIRST QUERY GETS DISPLAYED IN RESULT SET.
+SQL> 
+SQL> SELECT FIRST_NAME "FIRST NAME AND DEPT NAME" , DEPARTMENT_ID FROM EMPLOYEES
+  2  UNION
+  3  SELECT DEPARTMENT_NAME , MANAGER_ID "DEPT ID AND MGR ID" FROM DEPARTMENTS;
+
+FIRST NAME AND DEPT NAME       DEPARTMENT_ID                                                                                                                                                            
+------------------------------ -------------                                                                                                                                                            
+Accounting                               205                                                                                                                                                            
+Administration                           200                                                                                                                                                            
+Alexander                                 60                                                                                                                                                            
+Bruce                                     60                                                                                                                                                            
+Contracting                                                                                                                                                                                             
+Curtis                                    50                                                                                                                                                            
+Diana                                     60                                                                                                                                                            
+Eleni                                     80                                                                                                                                                            
+Ellen                                     80                                                                                                                                                            
+Executive                                100                                                                                                                                                            
+IT                                       103                                                                                                                                                            
+Jennifer                                  10                                                                                                                                                            
+Jonathon                                  80                                                                                                                                                            
+Kevin                                     50                                                                                                                                                            
+Kimerely                                                                                                                                                                                                
+Lex                                       90                                                                                                                                                            
+Marketing                                201                                                                                                                                                            
+Michael                                   20                                                                                                                                                            
+Neena                                     90                                                                                                                                                            
+Pat                                       20                                                                                                                                                            
+Peter                                     50                                                                                                                                                            
+Randall                                   50                                                                                                                                                            
+Sales                                    149                                                                                                                                                            
+Shelley                                  110                                                                                                                                                            
+Shiping                                  124                                                                                                                                                            
+Steven                                    90                                                                                                                                                            
+Trenna                                    50                                                                                                                                                            
+William                                  110                                                                                                                                                            
+
+28 rows selected.
+
+SQL> REM 4 ORDER BY , OFFSET AND FETCH CAN BE USED ONCE PER COMPOUND STATEMENT AND IS PLACED AT THE END OF COMPOUND STATEMENT.
+SQL> 
+SQL> SELECT FIRST_NAME "FIRST NAME AND DEPT NAME" , DEPARTMENT_ID FROM EMPLOYEES
+  2  UNION
+  3  SELECT DEPARTMENT_NAME , MANAGER_ID "DEPT ID AND MGR ID" FROM DEPARTMENTS ORDER BY 2;
+
+FIRST NAME AND DEPT NAME       DEPARTMENT_ID                                                                                                                                                            
+------------------------------ -------------                                                                                                                                                            
+Jennifer                                  10                                                                                                                                                            
+Michael                                   20                                                                                                                                                            
+Pat                                       20                                                                                                                                                            
+Curtis                                    50                                                                                                                                                            
+Kevin                                     50                                                                                                                                                            
+Peter                                     50                                                                                                                                                            
+Randall                                   50                                                                                                                                                            
+Trenna                                    50                                                                                                                                                            
+Alexander                                 60                                                                                                                                                            
+Bruce                                     60                                                                                                                                                            
+Diana                                     60                                                                                                                                                            
+Eleni                                     80                                                                                                                                                            
+Ellen                                     80                                                                                                                                                            
+Jonathon                                  80                                                                                                                                                            
+Lex                                       90                                                                                                                                                            
+Neena                                     90                                                                                                                                                            
+Steven                                    90                                                                                                                                                            
+Executive                                100                                                                                                                                                            
+IT                                       103                                                                                                                                                            
+Shelley                                  110                                                                                                                                                            
+William                                  110                                                                                                                                                            
+Shiping                                  124                                                                                                                                                            
+Sales                                    149                                                                                                                                                            
+Administration                           200                                                                                                                                                            
+Marketing                                201                                                                                                                                                            
+Accounting                               205                                                                                                                                                            
+Contracting                                                                                                                                                                                             
+Kimerely                                                                                                                                                                                                
+
+28 rows selected.
+
+SQL> SELECT FIRST_NAME "FIRST NAME AND DEPT NAME" , DEPARTMENT_ID FROM EMPLOYEES
+  2  UNION
+  3  (SELECT DEPARTMENT_NAME , MANAGER_ID "DEPT ID AND MGR ID" FROM DEPARTMENTS ORDER BY 2);
+(SELECT DEPARTMENT_NAME , MANAGER_ID "DEPT ID AND MGR ID" FROM DEPARTMENTS ORDER BY 2)
+                                                                           *
+ERROR at line 3:
+ORA-00907: missing right parenthesis 
+
+
+SQL> SELECT FIRST_NAME "FIRST NAME AND DEPT NAME" , DEPARTMENT_ID FROM EMPLOYEES
+  2  UNION
+  3  (SELECT DEPARTMENT_NAME , MANAGER_ID "DEPT ID AND MGR ID" FROM DEPARTMENTS) ORDER BY 2;
+
+FIRST NAME AND DEPT NAME       DEPARTMENT_ID                                                                                                                                                            
+------------------------------ -------------                                                                                                                                                            
+Jennifer                                  10                                                                                                                                                            
+Michael                                   20                                                                                                                                                            
+Pat                                       20                                                                                                                                                            
+Curtis                                    50                                                                                                                                                            
+Kevin                                     50                                                                                                                                                            
+Peter                                     50                                                                                                                                                            
+Randall                                   50                                                                                                                                                            
+Trenna                                    50                                                                                                                                                            
+Alexander                                 60                                                                                                                                                            
+Bruce                                     60                                                                                                                                                            
+Diana                                     60                                                                                                                                                            
+Eleni                                     80                                                                                                                                                            
+Ellen                                     80                                                                                                                                                            
+Jonathon                                  80                                                                                                                                                            
+Lex                                       90                                                                                                                                                            
+Neena                                     90                                                                                                                                                            
+Steven                                    90                                                                                                                                                            
+Executive                                100                                                                                                                                                            
+IT                                       103                                                                                                                                                            
+Shelley                                  110                                                                                                                                                            
+William                                  110                                                                                                                                                            
+Shiping                                  124                                                                                                                                                            
+Sales                                    149                                                                                                                                                            
+Administration                           200                                                                                                                                                            
+Marketing                                201                                                                                                                                                            
+Accounting                               205                                                                                                                                                            
+Contracting                                                                                                                                                                                             
+Kimerely                                                                                                                                                                                                
+
+28 rows selected.
+
+SQL> SPOOL OFF
